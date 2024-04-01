@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import GpfIndex from '../components/GPF/index.vue'; 
+import gpfNew from '../components/GPF/new.vue';
 import NotFound from "../components/NotFound.vue";
 
 const routes = [
@@ -10,7 +11,11 @@ const routes = [
     {
         path:'/:pathMatch(.*)*',
         component: NotFound
-    }
+    },
+    {
+        path:'/gpf/new',
+        component:gpfNew
+    },
 ]
 
 const router = createRouter({

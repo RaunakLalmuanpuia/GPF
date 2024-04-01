@@ -10,6 +10,7 @@ class IndividualInfo extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    protected $fillable = ['name', 'phone', 'designation', 'entry_info_id', 'account', 'amount', 'status'];
     public function entryInfo()
     {
         return $this->belongsTo(EntryInfo::class);

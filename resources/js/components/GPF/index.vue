@@ -6,7 +6,7 @@
                 <h2 class="invoice__title">GPF</h2>
             </div>
             <div>
-                <a class="btn btn-secondary">
+                <a class="btn btn-secondary" @click="newGpf()">
                     New GPF
                 </a>
             </div>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="relative">
                     <i class="table--search--input--icon fas fa-search "></i>
-                    <input class="table--search--input" type="text" placeholder="Search GPF">
+                    <input v-model="searchGpf" @keyup="search()" class="table--search--input" type="text" placeholder="Search GPF">
                 </div>
             </div>
 
@@ -60,13 +60,16 @@
             </div>
 
             <!-- item 1 -->
-            <div class="table--items">
-                <a href="#" class="table--items--transactionId">#1</a>
-                <p>#093654</p>
-                <p>#Approved</p>
+            <div class="table--items" v-for="gpf in gpf" :key="gpf.id" v-if="gpf.length > 0">
+                <a href="#" class="table--items--transactionId">#{{ gpf.id }}</a>
+                <p>{{ gpf.file_number }}</p>
+                <p>{{ gpf.status }}</p>
                 <p>Jonathan Yu</p>
-                <p> $ 16,943</p>
-                <p>Jan 18, 9:31am</p>
+                <p> $ {{gpf.amount  }}</p>
+                <p>{{ gpf.date }}</p>
+            </div>
+            <div class="table--items" v-else>
+                <p>No Gpf Found</p>
             </div>
         </div>
         
@@ -75,15 +78,32 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-let gpf = ref();
+const router = useRouter();
+
+let gpf = ref([]);
+let searchGpf = ref([]);
+
 
 onMounted(async () => {
     getGpf()
 })
 
 const getGpf = async () => {
-    let response = await axios.get("/api/get_all_gpf")
-    console.log('response', response);
+    let response = await axios.get("/api/get_entry_info")
+    // console.log('response', response);
+    gpf.value = response.data.entry_info
+}
+
+const search = async() => {
+    let response = await axios.get('/api/search_gpf?s='+searchGpf.value)
+    console.log('response', response.data.entry_info);
+    gpf.value = response.data.entry_info;
+}
+
+const newGpf =async() => {
+    // let form = await axios.get("/api/create_gpf")
+    router.push('/gpf/new')
 }
 </script>

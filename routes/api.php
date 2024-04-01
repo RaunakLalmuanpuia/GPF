@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+use App\Http\Controllers\GpfController;
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/get_entry_info', [GpfController::class , 'get_entry_info']);
+Route::get('/search_gpf', [GpfController::class , 'search_gpf']);
+// Route::get('/create_gpf', [GpfController::class , 'create_gpf']);
+Route::post('/save_gpf', [GPFController::class, 'save_gpf']);
