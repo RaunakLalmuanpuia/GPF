@@ -23,6 +23,6 @@ class EntryInfo extends Model
 
     public function signatory()
     {
-        return $this->hasOne(Signatory::class);
+        return $this->belongsTo(Signatory::class);
     }
 }

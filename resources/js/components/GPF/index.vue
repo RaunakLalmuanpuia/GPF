@@ -11,7 +11,7 @@
                 </a>
             </div>
             <div>
-                <a class="btn btn-secondary">
+                <a class="btn btn-secondary" @click="openModal()">
                     New Signatory
                 </a>
             </div>
@@ -61,10 +61,10 @@
 
             <!-- item 1 -->
             <div class="table--items" v-for="gpf in gpf" :key="gpf.id" v-if="gpf.length > 0">
-                <a href="#" class="table--items--transactionId">#{{ gpf.id }}</a>
+                <a href="#" @click="onShow(gpf.id)" class="table--items--transactionId">#{{ gpf.id }}</a>
                 <p>{{ gpf.file_number }}</p>
                 <p>{{ gpf.status }}</p>
-                <p>Jonathan Yu</p>
+                <p>{{ gpf.signatory.name }}/{{  gpf.signatory.designation  }}</p>
                 <p> $ {{gpf.amount  }}</p>
                 <p>{{ gpf.date }}</p>
             </div>
@@ -73,6 +73,27 @@
             </div>
         </div>
         
+    </div>
+     <!--==================== add modal items ====================-->
+     <div class="modal main__modal" :class="{show: showModal}">
+        <div class="modal__content">
+            <span class="modal__close btn__close--modal" @click="closeModal()">×</span>
+            <h3 class="modal__title">Add New Signatory</h3>
+            <hr><br>
+            <div class="modal__items">
+                <p class="my-1">Name</p> 
+                <input v-model="name" type="text" class="input"> 
+                <p class="my-1">Designation</p> 
+                <input v-model="designation" type="text" class="input"> 
+            </div>
+            <br><hr>
+            <div class="model__footer">
+                <button @click="closeModal()" class="btn btn-light mr-2 btn__close--modal">
+                    Cancel
+                </button>
+                <button class="btn btn-light btn__close--modal ">Save</button>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -84,6 +105,19 @@ const router = useRouter();
 
 let gpf = ref([]);
 let searchGpf = ref([]);
+
+let name = ref('');
+let designation = ref('');
+
+const showModal = ref(false)
+const hideModal = ref(true)
+
+const openModal = () => {
+  showModal.value = !showModal.value
+}
+const closeModal = () => {
+    hideModal.value = !hideModal.value
+}
 
 
 onMounted(async () => {
@@ -106,4 +140,9 @@ const newGpf =async() => {
     // let form = await axios.get("/api/create_gpf")
     router.push('/gpf/new')
 }
+
+const onShow = (id) => {
+    router.push('/gpf/show/'+id);
+}
+
 </script>

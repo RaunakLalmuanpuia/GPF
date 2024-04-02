@@ -13,6 +13,6 @@ class Signatory extends Model
 
     public function entryInfo()
     {
-        return $this->belongsTo(EntryInfo::class);
+        return $this->hasOne(EntryInfo::class);
     }
 }

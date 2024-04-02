@@ -19,8 +19,20 @@
                 <div>
                     <p class="my-1">Date</p> 
                     <input v-model="date" type="text" class="input">  <!---->
-                    <!-- <p class="my-1">Signatory</p> 
-                    <input v-model="signatory" type="text" class="input">  -->
+                    <p class="my-1">Signatory</p> 
+                   
+                    <div>
+                      <select v-model="selectedSignatory" class="input dropdown">
+                        <option disabled value="">Select a signatory</option>
+                        <option v-for="(item, i) in signatory" :key="item.id" :value="item.id">
+                          {{ i+1 }}. {{ item.name }} {{ item.designation }}
+                        </option>
+                      </select>
+                      <!-- <button @click="addSignatory(selectedSignatory)" class="add-button">
+                        +
+                      </button> -->
+                    </div>
+                      
                 </div>
                 <div>
                     <p class="my-1">Amount</p> 
@@ -46,64 +58,40 @@
                 </div>
     
                 <div class="table">
-      <div class="table--heading2">
-        <!-- Heading columns -->
-      </div>
+                  <div class="table--heading2">
+                    <!-- Heading columns -->
+                  </div>
       <!-- Loop through individualInfoLines and render each line -->
-      <div v-for="(individualInfo, index) in individualInfoLines" :key="index" class="table--items2">
-        <!-- Individual info input fields -->
-        <!-- Use v-model to bind inputs to individualInfo properties -->
-        <!-- Provide a button to remove the line -->
-        <input v-model="individualInfo.name" type="text" class="input">
-        <p>
-          <input v-model="individualInfo.designation" type="text" class="input">
-        </p>
-        <p>
-          <input v-model="individualInfo.account" type="text" class="input">
-        </p>
-        <!-- <p>
-     
-          $ {{ individualInfo.amount }}
-        </p> -->
-        <p>
-          <input v-model="individualInfo.amount" type="text" class="input">
-        </p>
-        <p>
-          <input v-model="individualInfo.mobile" type="text" class="input">
-        </p>
-        <p style="color: red; font-size: 24px;cursor: pointer;" @click="removeIndividualInfoLine(index)">
-          &times;
-        </p>
-      </div>
-                 </div>
- 
+                  <div v-for="(individualInfo, index) in individualInfoLines" :key="index" class="table--items2">
+                    <!-- Individual info input fields -->
+                    <!-- Use v-model to bind inputs to individualInfo properties -->
+                    <!-- Provide a button to remove the line -->
+                    <input v-model="individualInfo.name" type="text" class="input">
+                    <p>
+                      <input v-model="individualInfo.designation" type="text" class="input">
+                    </p>
+                    <p>
+                      <input v-model="individualInfo.account" type="text" class="input">
+                    </p>
+                    <!-- <p>
+                
+                      $ {{ individualInfo.amount }}
+                    </p> -->
+                    <p>
+                      <input v-model="individualInfo.amount" type="text" class="input">
+                    </p>
+                    <p>
+                      <input v-model="individualInfo.mobile" type="text" class="input">
+                    </p>
+                    <p style="color: red; font-size: 24px;cursor: pointer;" @click="removeIndividualInfoLine(index)">
+                      &times;
+                    </p>
+                  </div>
+               </div>
                 <div style="padding: 10px 30px !important;">
                     <button class="btn btn-sm btn__open--modal" @click="addNewIndividualInfoLine">Add New Individual</button>
                 </div>
             </div>
-
-            <!-- <div class="table__footer">
-                <div class="document-footer" >
-                    <p>Terms and Conditions</p>
-                    <textarea cols="50" rows="7" class="textarea" ></textarea>
-                </div>
-                <div>
-                    <div class="table__footer--subtotal">
-                        <p>Sub Total</p>
-                        <span>$ 1000</span>
-                    </div>
-                    <div class="table__footer--discount">
-                        <p>Discount</p>
-                        <input type="text" class="input">
-                    </div>
-                    <div class="table__footer--total">
-                        <p>Grand Total</p>
-                        <span>$ 1200</span>
-                    </div>
-                </div>
-            </div> -->
-
-           
         </div>
        
         <div class="card__header" style="margin-top: 40px;">
@@ -119,44 +107,37 @@
         
     </div>
 
-    <div class="modal main__modal ">
-        <div class="modal__content">
-            <span class="modal__close btn__close--modal">×</span>
-            <h3 class="modal__title">Add Item</h3>
-            <hr><br>
-            <div class="modal__items">
-                <select class="input my-1">
-                    <option value="None">None</option>
-                    <option value="None">LBC Padala</option>
-                </select>
-            </div>
-            <br><hr>
-            <div class="model__footer">
-                <button class="btn btn-light mr-2 btn__close--modal">
-                    Cancel
-                </button>
-                <button @click="saveEntry()" class="btn btn-light btn__close--modal ">Save</button>
-            </div>
-        </div>
-    </div>
+    
+    
+    <br><br><br>
     
    
 
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 
 // let form = ref([]);
 let fileNumber = ref('');
 let date = ref('');
-let signatory = ref('');
+let signatory = ref([]);
 let amount = ref('');
 let status = ref('');
-
 let individualInfoLines = ref([]);
+
+let selectedSignatory = ref('');
+
+
+
+
+onMounted(async () => {
+  getsignatory()
+})
+
+
 
 // Function to add a new individual info line
 const addNewIndividualInfoLine = () => {
@@ -171,34 +152,18 @@ const removeIndividualInfoLine = (index) => {
 };
 
 // Function to save the entry and related individual info
-// const saveEntry = async () => {
-//   // Save the entry info first
-//   const entryInfoResponse = await axios.post('api/save_entry', {
-//     // Include entry info data here
-//   });
-//   const entryInfoId = entryInfoResponse.data.id;
 
-//   // Save individual info for each line
-//   for (const individualInfo of individualInfoLines.value) {
-//     await axios.post('api/save_individual_info', {
-//       entry_info_id: entryInfoId,
-//       // Include individual info data here
-//     });
-//   }
-
-//   // Clear the temporary array after saving
-//   individualInfoLines.value = [];
-// };
 const saveEntry = async () => {
+  console.log(selectedSignatory.value)
   try {
     // Prepare data for entry_info
     const entryInfoData = {
       file_number: fileNumber.value,
       date: date.value,
-    //   signatory: signatory.value,
       amount: amount.value,
       status: status.value,
       individual_infos: individualInfoLines.value,
+      selectedSignatory: selectedSignatory.value,
     };
     axios.post('/api/save_gpf', entryInfoData);
     router.push('/')
@@ -206,7 +171,7 @@ const saveEntry = async () => {
 
     fileNumber.value = ''; // Clear the fields after successful save
     date.value = '';
-    signatory.value = '';
+    selectedSignatory.value = '';
     amount.value = '';
     status.value = '';
     individualInfoLines.value = [];
@@ -215,12 +180,12 @@ const saveEntry = async () => {
   }
 };
 
-// onMounted(async () => {
-//     // indexForm()
-// })
+//get signatory
+const getsignatory = async  () => {
+  let response = await axios.get('/api/signatory')
+  // console.log('signatory', response)
+  signatory.value = response.data.signatory
+}
 
-// const indexForm = async() => {
-//     let response = await axios.get('api/create_gpf')
-//     console.log('form', response.data);
-// }
+
 </script>

@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\EntryInfo;
+use App\Models\Signatory;
 
 class GpfController extends Controller
 {
     //
     public function get_entry_info(){
         $entry_info = EntryInfo::with(['individualInfos','template'])->orderBy('id', 'DESC')->get();
-
+        $entry_info->load('signatory');
         return response()->json([
             'entry_info' => $entry_info
         ],200);
@@ -73,6 +74,7 @@ class GpfController extends Controller
     //     return response()->json($entryInfo, 201);
     // }
     public function save_gpf(Request $request){
+        // dd($request->selectedSignatory);
         try {
             // Access data directly from the request
             $fileNumber = $request->input('file_number');
@@ -80,13 +82,15 @@ class GpfController extends Controller
             $amount = $request->input('amount');
             $status = $request->input('status');
             $individualInfos = $request->input('individual_infos');
-    
+            $signatory_id = $request->input('selectedSignatory');
+            // return $signatory_id;
             // Create a new entry info
             $entryInfo = EntryInfo::create([
                 'file_number' => $fileNumber,
                 'date' => $date,
                 'amount' => $amount,
                 'status' => $status,
+                'signatory_id' => $signatory_id
             ]);
     
             // Save individual info for each line
@@ -94,9 +98,9 @@ class GpfController extends Controller
                 $entryInfo->individualInfos()->create([
                     'name' => $individualInfoData['name'],
                     'designation' => $individualInfoData['designation'],
-                    'gpf_account' => $individualInfoData['account'],
+                    'account' => $individualInfoData['account'],
                     'amount' => $individualInfoData['amount'],
-                    'mobile' => $individualInfoData['mobile'],
+                    'phone' => $individualInfoData['mobile'],
                 ]);
             }
     
@@ -105,5 +109,19 @@ class GpfController extends Controller
             // Handle any exceptions
             return response()->json(['error' => 'Failed to save GPF entry.'], 500);
         }
+    }
+
+    public function signatory(){
+        $signatory = Signatory::orderBy('id', 'DESC')->get();
+        return response()->json([
+            'signatory' => $signatory
+        ],200);
+    }
+
+    public function show_gpf($id){
+        $entry_info = EntryInfo::with(['individualInfos','template', 'signatory'])->find($id);
+        return response()->json([
+            'entry_info' => $entry_info
+        ],200);
     }
 }

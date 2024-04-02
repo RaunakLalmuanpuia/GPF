@@ -25,3 +25,7 @@ Route::get('/get_entry_info', [GpfController::class , 'get_entry_info']);
 Route::get('/search_gpf', [GpfController::class , 'search_gpf']);
 // Route::get('/create_gpf', [GpfController::class , 'create_gpf']);
 Route::post('/save_gpf', [GPFController::class, 'save_gpf']);
+
+Route::get('/signatory', [GpfController::class , 'signatory']);
+
+Route::get('/show_gpf/{id}', [GpfController::class , 'show_gpf']);
