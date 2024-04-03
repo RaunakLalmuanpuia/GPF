@@ -31,3 +31,8 @@ Route::get('/signatory', [GpfController::class , 'signatory']);
 Route::get('/show_gpf/{id}', [GpfController::class , 'show_gpf']);
 
 Route::get('/edit_gpf/{id}', [GpfController::class , 'edit_gpf']);
+Route::get('/delete_individual/{id}', [GpfController::class , 'delete_individual']);
+
+Route::post('/update_gpf/{id}', [GpfController::class , 'update_gpf']);
+
+Route::get('/delete_gpf/{id}', [GpfController::class , 'delete_gpf']);

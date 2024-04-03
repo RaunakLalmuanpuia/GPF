@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\EntryInfo;
+use App\Models\IndividualInfo;
 use App\Models\Signatory;
 
 class GpfController extends Controller
@@ -106,4 +107,77 @@ class GpfController extends Controller
             'entry_info' => $entry_info
         ],200);
     }
+    public function delete_individual($id){
+        // dd($id);
+        $individualInfo = IndividualInfo::findOrFail($id);
+        $individualInfo->delete();
+
+    }
+
+    public function update_gpf(Request $request, $id){
+        info($request);
+        try {
+            // Find the entry info by ID
+            $entry_info = EntryInfo::findOrFail($id);
+    
+            // Update the entry info attributes
+            $entry_info->update([
+                'file_number' => $request->input('file_number'),
+                'date' => $request->input('date'),
+                'amount' => $request->input('amount'),
+                'status' => $request->input('status'),
+                'signatory_id' => $request->input('selectedSignatory'),
+                'from_designation' => $request->input('designation'),
+                'from_deparment' => $request->input('department'),
+                'gpf_name' => $request->input('name')
+            ]);
+    
+            // Update or create individual info for each line
+            $individualInfos = $request->input('individual_infos');
+            foreach ($individualInfos as $individualInfoData) {
+                // Check if the 'id' key is present in the individual info data array
+                if (isset($individualInfoData['id'])) {
+                    // Find individual info by ID or create new if not found
+                    $individual_info = IndividualInfo::updateOrCreate(
+                        ['id' => $individualInfoData['id']], // Use 'id' as the unique identifier
+                        [
+                            'name' => $individualInfoData['name'],
+                            'designation' => $individualInfoData['designation'],
+                            'account' => $individualInfoData['account'],
+                            'amount' => $individualInfoData['amount'],
+                            'phone' => $individualInfoData['phone'], // Fix the key name here
+                            'status' => $individualInfoData['status'],
+                        ]
+                    );
+                } else {
+                    // If 'id' is not present, create a new entry in the database
+                    $individual_info = IndividualInfo::create([
+                        'name' => $individualInfoData['name'],
+                        'designation' => $individualInfoData['designation'],
+                        'account' => $individualInfoData['account'],
+                        'amount' => $individualInfoData['amount'],
+                        'phone' => $individualInfoData['phone'], // Fix the key name here
+                        'status' => $individualInfoData['status'],
+                    ]);
+                }
+            
+                // Associate individual info with the entry info
+                $entry_info->individualInfos()->save($individual_info);
+            }
+    
+            return response()->json($entry_info, 200);
+        } catch (\Exception $e) {
+            // Handle any exceptions
+            info($e);
+            return response()->json(['error' => 'Failed to update GPF entry.'], 500);
+        }
+    }
+
+    public function delete_gpf($id){
+        $entry_info = EntryInfo::findOrFail($id);
+        $entry_info->individualInfos()->delete();
+        $entry_info->template()->delete();
+        $entry_info->delete();
+    }
+    
 }

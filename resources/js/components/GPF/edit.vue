@@ -11,7 +11,7 @@
                 
             </div>
         </div>
-        <p>{{ form }}</p>
+        <!-- <p>{{ form }}</p> -->
         <div class="card__content">
             <div class="card__content--header">
                 <div>
@@ -25,6 +25,7 @@
                 <div>
                     <p class="my-1">Date</p> 
                     <input v-model="form.date" type="text" class="input">  <!---->
+                    
                     <p class="my-1">Signatory</p> 
                     <div>
                       <select v-model="form.signatory_id" class="input dropdown">
@@ -72,7 +73,7 @@
                       <input v-model="individualInfo.amount" type="text" class="input" placeholder="Enter Amount">
                       <input v-model="individualInfo.phone" type="text" class="input" placeholder="Enter Mobile">
                       <input v-model="individualInfo.status" type="text" class="input" placeholder="Enter Status">
-                      <button class="remove-button" @click="removeIndividualInfoLine(index)">Remove</button>
+                      <button class="remove-button" @click="deleteIndividual(individualInfo.id, index)">Remove</button>
                   </div>
               </div>
 
@@ -88,7 +89,7 @@
                 
             </div>
             <div>
-                <a @click="saveEntry()" class="btn btn-secondary">
+                <a @click="onEdit(form.id)" class="btn btn-secondary">
                     Save
                 </a>
             </div>
@@ -103,10 +104,10 @@
 <script setup>
 
 import { onMounted, ref } from 'vue';
-
+import { useRouter } from 'vue-router';
+const router = useRouter();
 let signatory = ref([]);
-let individualInfoLines = ref([]);
-let selectedSignatory = ref('');
+
 
 let form = ref({
     id: ''
@@ -134,18 +135,48 @@ const addNewIndividualInfoLine = () => {
         designation: '',
         account: '',
         amount: '',
-        mobile: '',
+        phone: '',
         status: ''
     });
 };
-const removeIndividualInfoLine = (index) => {
-    form.value.individual_infos.splice(index, 1);
-};
+
 
 const getGpf = async () => {
     let response = await axios.get(`/api/edit_gpf/${props.id}`)
     console.log('form', response.data.entry_info);
     form.value = response.data.entry_info
+}
+
+const deleteIndividual = (id, i) => {
+    // form.value.individual_infos.split(i,1)
+    form.value.individual_infos.splice(i, 1); // Remove 1 element at index i
+    if( id != undefined){
+        axios.get('/api/delete_individual/' +id)
+    }
+}
+
+const onEdit = (id) => {
+    // if(form.value.individual_infos.length>=1){
+    //     alert(JSON.stringify(form.value))
+    // }
+    try {
+    // Prepare data for entry_info
+    const entryInfoData = {
+      file_number: form.value.file_number,
+      date: form.value.date,
+      amount: form.value.amount,
+      status: form.value.status,
+      individual_infos: form.value.individual_infos,
+      selectedSignatory: form.value.signatory_id,
+      department: form.value.from_deparment,
+      designation: form.value.from_designation,
+      name: form.value.gpf_name
+    };
+    axios.post(`/api/update_gpf/${form.value.id}`, entryInfoData);
+    router.push('/')
+  } catch (error) {
+    console.error('Error:', error);
+  }
 }
 </script>
 

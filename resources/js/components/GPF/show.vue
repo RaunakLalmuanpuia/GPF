@@ -2,7 +2,7 @@
     <div class="container">
              <!--==================== SHOW GPF ====================-->
         <div class="invoices">
-            
+            {{ form.signatory}}
             <div class="card__header">
                 <div>
                     <h2 class="invoice__title">GPF Account</h2>
@@ -20,6 +20,7 @@
                     <p style="padding-left: 10px;">Status:{{ form.status }} </p>
 
                     <p style="padding-left: 10px;">Amount: Rs{{ form.amount }} </p>
+                    <!-- <p style="padding-left: 10px;">Signatory: {{ form.signatory.name }}/{{ form.signatory.designation }} </p> -->
                 </div>
                     <div>
                         <p style="padding-left: 10px;">Name: {{ form.gpf_name }} </p>
@@ -46,7 +47,7 @@
                         </li>
                         <li>
                             <!-- Select Btn Option -->
-                            <button class="selectBtnFlat ">
+                            <button class="selectBtnFlat " @click="deleteGpf(form.id)">
                                 <i class=" fas fa-pencil-alt"></i>
                                 Delete
                             </button>
@@ -153,6 +154,11 @@ const print = () => {
 
 const onEdit = (id) => {
     router.push('/gpf/edit/' + id)
+}
+
+const deleteGpf = (id) => {
+    axios.get('/api/delete_gpf/'+id)
+    router.push('/')
 }
 
 </script>
