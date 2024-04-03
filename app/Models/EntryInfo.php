@@ -10,7 +10,7 @@ class EntryInfo extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable = ['file_number','status', 'amount', 'date', 'signatory_id'];
+    protected $fillable = ['file_number','status', 'amount', 'date', 'signatory_id', 'from_designation', 'gpf_name', 'from_deparment'];
     public function individualInfos()
     {
         return $this->hasMany(IndividualInfo::class);

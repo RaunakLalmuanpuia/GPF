@@ -13,10 +13,19 @@
             </div>
             <div>
                 <div class="card__header--title ">
-                    <h1 class="mr-2">{{ form.file_number }}</h1>
-                    <p>{{ form.date }} </p>
+                    <h1 class="mr-2">File Number: {{ form.file_number }}</h1>
+                    <p>Date: {{ form.date }} </p>
+                    
+
+                    <p style="padding-left: 10px;">Status:{{ form.status }} </p>
+
+                    <p style="padding-left: 10px;">Amount: Rs{{ form.amount }} </p>
                 </div>
-        
+                    <div>
+                        <p style="padding-left: 10px;">Name: {{ form.gpf_name }} </p>
+                        <p style="padding-left: 10px;">Department: {{ form.from_deparment }} </p>
+                        <p style="padding-left: 10px;">Designation: {{ form.from_designation }} </p>
+                    </div>
                 <div>
                     <ul  class="card__header-list">
                         <li>
@@ -29,7 +38,7 @@
                         </li>
                         <li>
                             <!-- Select Btn Option -->
-                            <button class="selectBtnFlat">
+                            <button class="selectBtnFlat" @click="onEdit(form.id)">
                                 <i class=" fas fa-reply"></i>
                                 Edit
                             </button>
@@ -59,57 +68,32 @@
                 </div>
 
                 
-                <!-- <div class="invoice__header--item">
-                    <div>
-                        <h2>Invoice To:</h2>
-                        <p>Customer 1</p>
-                    </div>
-                    <div>
-                            <div class="invoice__header--item1">
-                                <p>Invoice#</p>
-                                <span>#1200</span>
-                            </div>
-                            <div class="invoice__header--item2">
-                                <p>Date</p>
-                                <span>12/12/2022</span>
-                            </div>
-                            <div class="invoice__header--item2">
-                                <p>Due Date</p>
-                                <span>12/12/2022</span>
-                            </div>
-                            <div class="invoice__header--item2">
-                                <p>Reference</p>
-                                <span>1045</span>
-                            </div>
-                        
-                    </div>
-                </div> -->
 
-                <div class="table py1" style="padding-top: 20px;">
-
-                    <div class="table--heading3">
-                        <p>#</p>
-                        <p>Name</p>
-                        <p>Phone</p>
-                        <p>Designation</p>
-                        <p>account</p>
-                        <p>Amount</p>
-                    </div>
-        
-                    <!-- item 1 -->
-                    <div class="table--items3" v-for="(item, i) in form.individual_infos" :key="item.id">
-                        <p>{{ i+1 }}</p>
-                        <p>{{ item.name }}</p>
-                        <p>{{ item.phone }}</p>
-                        <p>{{ item.designation }}</p>
-                        <p>{{ item.account }}</p>
-                        <p>${{ item.amount }}</p>
-
-                        
-                    </div>
-                   
-                </div>
-
+            
+                <table style="padding-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Designation</th>
+                            <th>Phone</th>
+                            <th>Account</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, i) in form.individual_infos" :key="item.id">
+                            <td>{{ i+1 }}</td>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.designation }}</td>
+                            <td>{{ item.phone }}</td>
+                            <td>{{ item.account }}</td>
+                            <td>${{ item.amount }}</td>
+                            <td>{{ item.status }}</td>
+                        </tr>
+                    </tbody>
+                </table>
                 
 
                 
@@ -136,7 +120,9 @@
 
 <script setup>
 import { onMounted,ref } from 'vue';
-import { routerKey } from 'vue-router';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 
 
@@ -163,4 +149,63 @@ const print = () => {
     window.print()
     router.push('/').catch(() => {})
 }
+
+
+const onEdit = (id) => {
+    router.push('/gpf/edit/' + id)
+}
+
 </script>
+
+<style>
+    /* Table styles */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    /* Responsive table */
+    @media screen and (max-width: 600px) {
+        table {
+            border: 0;
+        }
+
+        table thead th {
+            display: none;
+        }
+
+        table tr {
+            border-bottom: 3px solid #ddd;
+            display: block;
+            margin-bottom: .625em;
+        }
+
+        table td {
+            display: block;
+            text-align: right;
+            border-bottom: 1px dotted #ccc;
+        }
+
+        table td::before {
+            content: attr(data-label);
+            float: left;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    }
+</style>

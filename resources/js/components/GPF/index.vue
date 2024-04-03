@@ -18,26 +18,6 @@
         </div>
 
         <div class="table card__content">
-            <div class="table--filter">
-                <span class="table--filter--collapseBtn ">
-                    <i class="fas fa-ellipsis-h"></i>
-                </span>
-                <div class="table--filter--listWrapper">
-                    <ul class="table--filter--list">
-                        <li>
-                            <p class="table--filter--link table--filter--link--active">
-                                All
-                            </p>
-                        </li>
-                        <li>
-                            <p class="table--filter--link ">
-                                Paid/?
-                            </p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
             <div class="table--search">
                 <div class="table--search--wrapper">
                     <select class="table--search--select" name="" id="">
@@ -53,6 +33,9 @@
             <div class="table--heading">
                 <p>ID</p>
                 <p>File Number</p>
+                <p>Name</p>
+                <p>Department</p>
+                <p>Designation</p>
                 <p>Status</p>
                 <p>Signatory</p>
                 <p>Amount</p>
@@ -63,6 +46,9 @@
             <div class="table--items" v-for="gpf in gpf" :key="gpf.id" v-if="gpf.length > 0">
                 <a href="#" @click="onShow(gpf.id)" class="table--items--transactionId">#{{ gpf.id }}</a>
                 <p>{{ gpf.file_number }}</p>
+                <p>{{ gpf.gpf_name }}</p>
+                <p>{{ gpf.from_deparment }}</p>
+                <p>{{ gpf.from_designation }}</p>
                 <p>{{ gpf.status }}</p>
                 <p>{{ gpf.signatory.name }}/{{  gpf.signatory.designation  }}</p>
                 <p> $ {{gpf.amount  }}</p>
@@ -110,13 +96,12 @@ let name = ref('');
 let designation = ref('');
 
 const showModal = ref(false)
-const hideModal = ref(true)
 
 const openModal = () => {
-  showModal.value = !showModal.value
+  showModal.value = true
 }
 const closeModal = () => {
-    hideModal.value = !hideModal.value
+    showModal.value = false
 }
 
 

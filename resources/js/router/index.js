@@ -3,7 +3,7 @@ import GpfIndex from '../components/GPF/index.vue';
 import gpfNew from '../components/GPF/new.vue';
 import GpfShow from '../components/GPF/show.vue';
 import NotFound from "../components/NotFound.vue";
-
+import GpfEdit from "../components/GPF/edit.vue";
 
 const routes = [
     {
@@ -23,6 +23,11 @@ const routes = [
         component:GpfShow,
         props:true
     },
+    {
+        path:'/gpf/edit/:id',
+        component:GpfEdit,
+        props:true
+    },
 ]
 
 const router = createRouter({
@@ -31,3 +36,4 @@ const router = createRouter({
 })
 
 export default router
+

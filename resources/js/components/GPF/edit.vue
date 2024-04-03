@@ -1,38 +1,40 @@
 <template>
-     <div class="invoices">
+    <div class="container">
+             <!--==================== EDIT INVOICE ====================-->
+             <div class="invoices">
         
         <div class="card__header">
             <div>
-                <h2 class="invoice__title">New GPF</h2>
+                <h2 class="invoice__title">Edit GPF</h2>
             </div>
             <div>
                 
             </div>
         </div>
-
+        <p>{{ form }}</p>
         <div class="card__content">
             <div class="card__content--header">
                 <div>
                     <p class="my-1">File Number</p>
-                    <input v-model="fileNumber" type="text" class="input"> 
+                    <input v-model="form.file_number" type="text" class="input"> 
                     <p class="my-1">Department</p>
-                    <input v-model="department" type="text" class="input"> 
+                    <input v-model="form.from_deparment" type="text" class="input"> 
                     <p class="my-1">Designation</p>
-                    <input v-model="designation" type="text" class="input"> 
+                    <input v-model="form.from_designation" type="text" class="input"> 
                 </div>
                 <div>
                     <p class="my-1">Date</p> 
-                    <input v-model="date" type="text" class="input">  <!---->
+                    <input v-model="form.date" type="text" class="input">  <!---->
                     <p class="my-1">Signatory</p> 
                     <div>
-                      <select v-model="selectedSignatory" class="input dropdown">
-                        <option disabled value="">Select a signatory</option>
+                      <select v-model="form.signatory_id" class="input dropdown">
+                        <option disabled value="">Select a Signatory</option>
                         <option v-for="(item, i) in signatory" :key="item.id" :value="item.id">
                           {{ i+1 }}. {{ item.name }} {{ item.designation }}
                         </option>
                       </select>
                       <p class="my-1">Name of Fund</p>
-                      <input v-model="name" type="text" class="input"> 
+                      <input v-model="form.gpf_name" type="text" class="input"> 
                       <!-- <button @click="addSignatory(selectedSignatory)" class="add-button">
                         +
                       </button> -->
@@ -41,9 +43,9 @@
                 </div>
                 <div>
                     <p class="my-1">Amount</p> 
-                    <input v-model="amount" type="text" class="input"> 
+                    <input v-model="form.amount" type="text" class="input"> 
                     <p class="my-1">Status</p> 
-                    <input v-model="status" type="text" class="input"> 
+                    <input v-model="form.status" type="text" class="input"> 
                    
                 </div>
             </div>
@@ -59,16 +61,16 @@
                   <p>Status</p>
               </div>
 
-              <div class="individual-info-container">
+              <div v-if="form.individual_infos" class="individual-info-container">
                   <!-- Loop through individualInfoLines and render each line -->
-                  <div v-for="(individualInfo, index) in individualInfoLines" :key="index" class="individual-info-line">
+                  <div v-for="(individualInfo, index) in form.individual_infos" :key="index" class="individual-info-line">
                       <!-- Individual info input fields -->
                       <!-- Use v-model to bind inputs to individualInfo properties -->
                       <input v-model="individualInfo.name" type="text" class="input" placeholder="Enter Name">
                       <input v-model="individualInfo.designation" type="text" class="input" placeholder="Enter Designation">
                       <input v-model="individualInfo.account" type="text" class="input" placeholder="Enter GPF Account">
                       <input v-model="individualInfo.amount" type="text" class="input" placeholder="Enter Amount">
-                      <input v-model="individualInfo.mobile" type="text" class="input" placeholder="Enter Mobile">
+                      <input v-model="individualInfo.phone" type="text" class="input" placeholder="Enter Mobile">
                       <input v-model="individualInfo.status" type="text" class="input" placeholder="Enter Status">
                       <button class="remove-button" @click="removeIndividualInfoLine(index)">Remove</button>
                   </div>
@@ -94,99 +96,57 @@
         
     </div>
 
-    
-    
-    <br><br><br>
-    
-   
-
+        <!-- <iframe width="500" height="250" src="https://www.youtube.com/embed/_EQuJYqK2oc" title="Laravel 10 and Vuejs 3 - Simple Invoice Application - Edit and Delete Invoice." frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> -->
+    </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-const router = useRouter();
 
-// let form = ref([]);
-let fileNumber = ref('');
-let date = ref('');
+import { onMounted, ref } from 'vue';
+
 let signatory = ref([]);
-let amount = ref('');
-let status = ref('');
-let department = ref('');
-let designation = ref('');
-let name = ref('');
 let individualInfoLines = ref([]);
-
 let selectedSignatory = ref('');
 
-
-
-
-onMounted(async () => {
-  getsignatory()
+let form = ref({
+    id: ''
 })
 
+const props = defineProps({
+    id:{
+        type:String,
+        default:''
+    }
+})
+onMounted(async () =>{
+    getGpf()
+    getsignatory()
+})
 
-
-// Function to add a new individual info line
-const addNewIndividualInfoLine = () => {
-  // Add a new line to the temporary array
-  individualInfoLines.value.push({});
-};
-
-// Function to remove an individual info line
-const removeIndividualInfoLine = (index) => {
-  // Remove the line from the temporary array
-  individualInfoLines.value.splice(index, 1);
-};
-
-// Function to save the entry and related individual info
-
-const saveEntry = async () => {
-  console.log(selectedSignatory.value)
-  try {
-    // Prepare data for entry_info
-    const entryInfoData = {
-      file_number: fileNumber.value,
-      date: date.value,
-      amount: amount.value,
-      status: status.value,
-      individual_infos: individualInfoLines.value,
-      selectedSignatory: selectedSignatory.value,
-      department: department.value,
-      designation: designation.value,
-      name: name.value
-
-
-    };
-    axios.post('/api/save_gpf', entryInfoData);
-    router.push('/')
-    // console.log('Response:', response.data);
-
-    fileNumber.value = ''; // Clear the fields after successful save
-    date.value = '';
-    selectedSignatory.value = '';
-    amount.value = '';
-    status.value = '';
-    selectedSignatory.value = '';
-    department.value = '';
-    name.value = '';
-    // alert('saved Succesfully');
-    individualInfoLines.value = [];
-  } catch (error) {
-    console.error('Error:', error);
-  }
-};
-
-//get signatory
 const getsignatory = async  () => {
   let response = await axios.get('/api/signatory')
   // console.log('signatory', response)
   signatory.value = response.data.signatory
 }
+const addNewIndividualInfoLine = () => {
+    form.value.individual_infos.push({
+        name: '',
+        designation: '',
+        account: '',
+        amount: '',
+        mobile: '',
+        status: ''
+    });
+};
+const removeIndividualInfoLine = (index) => {
+    form.value.individual_infos.splice(index, 1);
+};
 
-
+const getGpf = async () => {
+    let response = await axios.get(`/api/edit_gpf/${props.id}`)
+    console.log('form', response.data.entry_info);
+    form.value = response.data.entry_info
+}
 </script>
 
 <style scoped>

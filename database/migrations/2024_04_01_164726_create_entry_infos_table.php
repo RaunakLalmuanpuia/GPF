@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('amount')->nullable();
             $table->string('date')->nullable();
             
-            $table->unsignedBigInteger('signatory_id')->unique()->nullable();
+            $table->unsignedBigInteger('signatory_id')->nullable();
             $table->foreign('signatory_id')->references('id')->on('signatories');
 
             $table->string('param1')->nullable();

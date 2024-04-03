@@ -20,8 +20,14 @@ class GpfController extends Controller
     public function search_gpf(Request $request){
         $search = $request->get('s');
         if($search!=null){
-            $entry_info = EntryInfo::with(['individualInfos','template'])
+            $entry_info = EntryInfo::with(['individualInfos','template','signatory'])
             ->where('status','LIKE', "%$search%")
+            ->orWhere('file_number','LIKE', "%$search%")
+            ->orWhere('amount','LIKE', "%$search%")
+            ->orWhere('date','LIKE', "%$search%")
+            ->orWhere('from_designation','LIKE', "%$search%")
+            ->orWhere('from_deparment','LIKE', "%$search%")
+            ->orWhere('gpf_name','LIKE', "%$search%")
             ->get();
 
             return response()->json([
@@ -32,49 +38,9 @@ class GpfController extends Controller
         }
     }
 
-    // public function save_gpf(Request $request){
-    //     // dd($request);
-    //      // Validate the request data
-    //      $validatedData = $request->validate([
-    //         'file_number' => 'required',
-    //         'date' => 'required|date',
-    //         // 'signatory' => 'required',
-    //         'amount' => 'required|numeric',
-    //         'status' => 'required',
-    //         // 'reference' => 'nullable|string',
-    //         'individual_infos' => 'required|array',
-    //         'individual_infos.*.name' => 'required|string',
-    //         'individual_infos.*.designation' => 'required|string',
-    //         'individual_infos.*.gpf_account' => 'required|string',
-    //         'individual_infos.*.amount' => 'required|numeric',
-    //         'individual_infos.*.mobile' => 'required|string',
-    //     ]);
-
-    //     // Create a new entry info
-    //     $entryInfo = EntryInfo::create([
-    //         'file_number' => $validatedData['file_number'],
-    //         'date' => $validatedData['date'],
-    //         // 'signatory' => $validatedData['signatory'],
-    //         'amount' => $validatedData['amount'],
-    //         'status' => $validatedData['status'],
-    //         // 'reference' => $validatedData['reference'],
-    //     ]);
-
-    //     // Save individual info for each line
-    //     foreach ($validatedData['individual_infos'] as $individualInfoData) {
-    //         $entryInfo->individualInfos()->create([
-    //             'name' => $individualInfoData['name'],
-    //             'designation' => $individualInfoData['designation'],
-    //             'gpf_account' => $individualInfoData['gpf_account'],
-    //             'amount' => $individualInfoData['amount'],
-    //             'mobile' => $individualInfoData['mobile'],
-    //         ]);
-    //     }
-
-    //     return response()->json($entryInfo, 201);
-    // }
+   
     public function save_gpf(Request $request){
-        // dd($request->selectedSignatory);
+        // dd($request);
         try {
             // Access data directly from the request
             $fileNumber = $request->input('file_number');
@@ -83,15 +49,22 @@ class GpfController extends Controller
             $status = $request->input('status');
             $individualInfos = $request->input('individual_infos');
             $signatory_id = $request->input('selectedSignatory');
-            // return $signatory_id;
+            $department = $request->input('department');
+            $designation = $request->input('designation');
+            $name = $request->input('name');
+
             // Create a new entry info
             $entryInfo = EntryInfo::create([
                 'file_number' => $fileNumber,
                 'date' => $date,
                 'amount' => $amount,
                 'status' => $status,
-                'signatory_id' => $signatory_id
+                'signatory_id' => $signatory_id,
+                'from_designation' => $designation,
+                'from_deparment' => $department,
+                'gpf_name' => $name
             ]);
+            
     
             // Save individual info for each line
             foreach ($individualInfos as $individualInfoData) {
@@ -101,12 +74,14 @@ class GpfController extends Controller
                     'account' => $individualInfoData['account'],
                     'amount' => $individualInfoData['amount'],
                     'phone' => $individualInfoData['mobile'],
+                    'status' => $individualInfoData['status'],
                 ]);
             }
     
             return response()->json($entryInfo, 201);
         } catch (\Exception $e) {
             // Handle any exceptions
+            info($e);
             return response()->json(['error' => 'Failed to save GPF entry.'], 500);
         }
     }
@@ -119,6 +94,13 @@ class GpfController extends Controller
     }
 
     public function show_gpf($id){
+        $entry_info = EntryInfo::with(['individualInfos','template', 'signatory'])->find($id);
+        return response()->json([
+            'entry_info' => $entry_info
+        ],200);
+    }
+    
+    public function edit_gpf($id){
         $entry_info = EntryInfo::with(['individualInfos','template', 'signatory'])->find($id);
         return response()->json([
             'entry_info' => $entry_info
