@@ -143,7 +143,7 @@ const addNewIndividualInfoLine = () => {
 
 const getGpf = async () => {
     let response = await axios.get(`/api/edit_gpf/${props.id}`)
-    console.log('form', response.data.entry_info);
+    // console.log('form', response.data.entry_info);
     form.value = response.data.entry_info
 }
 

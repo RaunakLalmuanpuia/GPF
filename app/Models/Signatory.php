@@ -10,7 +10,7 @@ class Signatory extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
+    protected $fillable = ['name','designation'];
     public function entryInfo()
     {
         return $this->hasOne(EntryInfo::class);

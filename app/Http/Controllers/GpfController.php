@@ -22,6 +22,10 @@ class GpfController extends Controller
         $search = $request->get('s');
         if($search!=null){
             $entry_info = EntryInfo::with(['individualInfos','template','signatory'])
+            ->whereHas('signatory', function ($query) use ($search) {
+                $query->where('name', 'LIKE', "%$search%")
+                      ->orWhere('designation', 'LIKE', "%$search%");
+            })
             ->where('status','LIKE', "%$search%")
             ->orWhere('file_number','LIKE', "%$search%")
             ->orWhere('amount','LIKE', "%$search%")
@@ -115,7 +119,7 @@ class GpfController extends Controller
     }
 
     public function update_gpf(Request $request, $id){
-        info($request);
+        // info($request);
         try {
             // Find the entry info by ID
             $entry_info = EntryInfo::findOrFail($id);
@@ -179,5 +183,18 @@ class GpfController extends Controller
         $entry_info->template()->delete();
         $entry_info->delete();
     }
-    
+    public function delete_signatory($id){
+        $signatory = Signatory::findOrfail($id);
+        $signatory->delete();
+
+    }
+    public function save_signatory(Request $request){
+        // dd('save');
+        $signatory = Signatory::create([
+            'name' => $request->name,
+            'designation' => $request->designation,
+        ]);
+        $signatory->save();
+
+    }
 }

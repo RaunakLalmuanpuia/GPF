@@ -73,11 +73,17 @@
                 <input v-model="designation" type="text" class="input"> 
             </div>
             <br><hr>
+            <ul>
+            <li v-for="(item, i) in signatory" :key="item.id" :value="item.id">
+                {{ i+1 }}. {{ item.name }} /{{ item.designation }}
+                <button style="margin-left: 100px;" @click="deletesignatory(item.id)">Delete</button>
+            </li>
+            </ul>
             <div class="model__footer">
                 <button @click="closeModal()" class="btn btn-light mr-2 btn__close--modal">
                     Cancel
                 </button>
-                <button class="btn btn-light btn__close--modal ">Save</button>
+                <button class="btn btn-light btn__close--modal" @click="addSignatory()">Save</button>
             </div>
         </div>
     </div>
@@ -95,6 +101,7 @@ let searchGpf = ref([]);
 let name = ref('');
 let designation = ref('');
 
+let signatory = ref([]);
 const showModal = ref(false)
 
 const openModal = () => {
@@ -107,6 +114,7 @@ const closeModal = () => {
 
 onMounted(async () => {
     getGpf()
+    getsignatory()
 })
 
 const getGpf = async () => {
@@ -117,17 +125,49 @@ const getGpf = async () => {
 
 const search = async() => {
     let response = await axios.get('/api/search_gpf?s='+searchGpf.value)
-    console.log('response', response.data.entry_info);
+    // console.log('response', response.data.entry_info);
     gpf.value = response.data.entry_info;
 }
 
 const newGpf =async() => {
-    // let form = await axios.get("/api/create_gpf")
     router.push('/gpf/new')
 }
 
 const onShow = (id) => {
     router.push('/gpf/show/'+id);
 }
+//get signatory
+const getsignatory = async  () => {
+  let response = await axios.get('/api/signatory')
+  // console.log('signatory', response)
+  signatory.value = response.data.signatory
+}
 
+const deletesignatory = (id) => {
+    axios.get('/api/delete_signatory/'+id)
+    signatory.value = signatory.value.filter(item => item.id !== id);
+}
+
+// const addSignatory = () => {
+//      axios.post('/api/save_signatory', {
+//         name: name.value,
+//         designation: designation.value
+//     })
+//     //closeModal()
+// }
+const addSignatory = async () => {
+    try {
+        await axios.post('/api/save_signatory', {
+            name: name.value,
+            designation: designation.value
+        });
+        name.value = ''; // Clear the fields after successful save
+        designation.value = '';
+        getsignatory(); // Fetch signatories after saving
+        // closeModal(); // Close modal after successful save
+    } catch (error) {
+        console.error('Error saving signatory:', error);
+        // Handle error here
+    }
+}
 </script>

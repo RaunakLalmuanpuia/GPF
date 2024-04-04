@@ -144,7 +144,7 @@ const removeIndividualInfoLine = (index) => {
 // Function to save the entry and related individual info
 
 const saveEntry = async () => {
-  console.log(selectedSignatory.value)
+  // console.log(selectedSignatory.value)
   try {
     // Prepare data for entry_info
     const entryInfoData = {
