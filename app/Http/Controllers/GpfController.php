@@ -12,8 +12,11 @@ class GpfController extends Controller
 {
     //
     public function get_entry_info(){
-        $entry_info = EntryInfo::with(['individualInfos','template'])->orderBy('id', 'DESC')->get();
-        $entry_info->load('signatory');
+        $entry_info = EntryInfo::with(['individualInfos', 'template', 'signatory' => function ($query) {
+            $query->withTrashed();
+        }])
+        ->orderBy('id', 'DESC')
+        ->get();
         return response()->json([
             'entry_info' => $entry_info
         ],200);
@@ -21,19 +24,26 @@ class GpfController extends Controller
     public function search_gpf(Request $request){
         $search = $request->get('s');
         if($search!=null){
-            $entry_info = EntryInfo::with(['individualInfos','template','signatory'])
-            ->whereHas('signatory', function ($query) use ($search) {
-                $query->where('name', 'LIKE', "%$search%")
-                      ->orWhere('designation', 'LIKE', "%$search%");
-            })
-            ->where('status','LIKE', "%$search%")
-            ->orWhere('file_number','LIKE', "%$search%")
-            ->orWhere('amount','LIKE', "%$search%")
-            ->orWhere('date','LIKE', "%$search%")
-            ->orWhere('from_designation','LIKE', "%$search%")
-            ->orWhere('from_deparment','LIKE', "%$search%")
-            ->orWhere('gpf_name','LIKE', "%$search%")
-            ->get();
+            try {
+                $entry_info = EntryInfo::with(['individualInfos', 'template', 'signatory' => function ($query) {
+                    $query->withTrashed();
+                }])
+                ->orWhereHas('signatory', function ($query) use ($search) {
+                    $query->where('name', 'LIKE', "%$search%");
+                        //   ->orWhere('designation', 'LIKE', "%$search%");
+                })
+                ->where('status','LIKE', "%$search%")
+                ->orWhere('file_number','LIKE', "%$search%")
+                ->orWhere('amount','LIKE', "%$search%")
+                ->orWhere('date','LIKE', "%$search%")
+                ->orWhere('from_designation','LIKE', "%$search%")
+                ->orWhere('from_deparment','LIKE', "%$search%")
+                ->orWhere('gpf_name','LIKE', "%$search%")
+                ->get();
+            } catch (\Throwable $th) {
+                //throw $th;
+                info($th);
+            }
 
             return response()->json([
                 'entry_info' => $entry_info
@@ -42,7 +52,6 @@ class GpfController extends Controller
             return $this->get_entry_info();
         }
     }
-
    
     public function save_gpf(Request $request){
         // dd($request);
@@ -99,14 +108,18 @@ class GpfController extends Controller
     }
 
     public function show_gpf($id){
-        $entry_info = EntryInfo::with(['individualInfos','template', 'signatory'])->find($id);
+        $entry_info = EntryInfo::with(['individualInfos', 'template', 'signatory' => function ($query) {
+            $query->withTrashed();
+        }])->find($id);
         return response()->json([
             'entry_info' => $entry_info
         ],200);
     }
     
     public function edit_gpf($id){
-        $entry_info = EntryInfo::with(['individualInfos','template', 'signatory'])->find($id);
+        $entry_info = EntryInfo::with(['individualInfos', 'template', 'signatory' => function ($query) {
+            $query->withTrashed();
+        }])->find($id);
         return response()->json([
             'entry_info' => $entry_info
         ],200);

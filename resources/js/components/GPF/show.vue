@@ -2,7 +2,7 @@
     <div class="container">
              <!--==================== SHOW GPF ====================-->
         <div class="invoices">
-            {{ form.signatory}}
+            <!-- {{ form.signatory}} -->
             <div class="card__header">
                 <div>
                     <h2 class="invoice__title">GPF Account</h2>
@@ -20,12 +20,15 @@
                     <p style="padding-left: 10px;">Status:{{ form.status }} </p>
 
                     <p style="padding-left: 10px;">Amount: Rs{{ form.amount }} </p>
-                    <!-- <p style="padding-left: 10px;">Signatory: {{ form.signatory.name }}/{{ form.signatory.designation }} </p> -->
+                   
                 </div>
                     <div>
                         <p style="padding-left: 10px;">Name: {{ form.gpf_name }} </p>
                         <p style="padding-left: 10px;">Department: {{ form.from_deparment }} </p>
                         <p style="padding-left: 10px;">Designation: {{ form.from_designation }} </p>
+                        
+                        <p style="padding-left: 10px;" v-if="form.signatory">Signatory: {{ form.signatory.name }} / {{ form.signatory.designation }}</p>
+
                     </div>
                 <div>
                     <ul  class="card__header-list">
@@ -125,8 +128,6 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-
-
 let form = ref({id:''})
 
 const props = defineProps({
@@ -137,10 +138,10 @@ const props = defineProps({
 })
 
 onMounted(async () =>{
-    getInvoice()
+    getGpf()
 })
 
-const getInvoice = async () => {
+const getGpf = async () => {
     let response = await axios.get(`/api/show_gpf/${props.id}`)
     // console.log('form', response.data.entry_info)
     form.value = response.data.entry_info

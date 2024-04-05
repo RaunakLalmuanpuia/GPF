@@ -28,10 +28,11 @@
                     
                     <p class="my-1">Signatory</p> 
                     <div>
+                    <p v-if="form.signatory">{{ form.signatory.name }} / {{ form.signatory.designation }} </p>
                       <select v-model="form.signatory_id" class="input dropdown">
                         <option disabled value="">Select a Signatory</option>
-                        <option v-for="(item, i) in signatory" :key="item.id" :value="item.id">
-                          {{ i+1 }}. {{ item.name }} {{ item.designation }}
+                        <option v-for="(item, i) in signatory" :key="item.id" :value="item.id" :selected="item.id === form.signatory.name">
+                          {{ i+1 }}. {{ item.name }} {{ item.designation }} {{ item.deleted_at ? '(Deleted)' : '' }}
                         </option>
                       </select>
                       <p class="my-1">Name of Fund</p>

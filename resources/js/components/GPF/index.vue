@@ -16,7 +16,7 @@
                 </a>
             </div>
         </div>
-
+<!-- {{ gpf }} -->
         <div class="table card__content">
             <div class="table--search">
                 <div class="table--search--wrapper">
@@ -42,7 +42,7 @@
                 <p>Date</p>
             </div>
 
-            <!-- item 1 -->
+            
             <div class="table--items" v-for="gpf in gpf" :key="gpf.id" v-if="gpf.length > 0">
                 <a href="#" @click="onShow(gpf.id)" class="table--items--transactionId">#{{ gpf.id }}</a>
                 <p>{{ gpf.file_number }}</p>
@@ -147,7 +147,7 @@ const deletesignatory = (id) => {
     axios.get('/api/delete_signatory/'+id)
     signatory.value = signatory.value.filter(item => item.id !== id);
 }
-
+// console.log('Search parameter:', searchGpf.value);
 // const addSignatory = () => {
 //      axios.post('/api/save_signatory', {
 //         name: name.value,
