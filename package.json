@@ -6,12 +6,16 @@
         "build": "vite build"
     },
     "devDependencies": {
+        "@quasar/vite-plugin": "^1.6.0",
         "@vitejs/plugin-vue": "^5.0.4",
         "axios": "^1.6.4",
         "laravel-vite-plugin": "^1.0.0",
+        "sass": "^1.74.1",
         "vite": "^5.0.0"
     },
     "dependencies": {
+        "@quasar/extras": "^1.16.11",
+        "quasar": "^2.15.2",
         "vue": "^3.4.21",
         "vue-loader": "^17.4.2",
         "vue-router": "^4.3.0"
