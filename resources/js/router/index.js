@@ -4,6 +4,7 @@ import gpfNew from '../components/GPF/new.vue';
 import GpfShow from '../components/GPF/show.vue';
 import NotFound from "../components/NotFound.vue";
 import GpfEdit from "../components/GPF/edit.vue";
+import GpfPrint from "../components/GPF/print.vue";
 
 const routes = [
     {
@@ -26,6 +27,11 @@ const routes = [
     {
         path:'/gpf/edit/:id',
         component:GpfEdit,
+        props:true
+    },
+    {
+        path:'/gpf/print/:id',
+        component:GpfPrint,
         props:true
     },
 ]

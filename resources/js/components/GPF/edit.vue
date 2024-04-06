@@ -87,7 +87,7 @@
        
         <div class="card__header" style="margin-top: 40px;">
             <div>
-                
+                <a class="btn btn-secondary" @click="OnPrint(form.id)">Print</a>
             </div>
             <div>
                 <a @click="onEdit(form.id)" class="btn btn-secondary">
@@ -120,6 +120,7 @@ const props = defineProps({
         default:''
     }
 })
+
 onMounted(async () =>{
     getGpf()
     getsignatory()
@@ -179,7 +180,13 @@ const onEdit = (id) => {
     console.error('Error:', error);
   }
 }
+
+const OnPrint = (id) => {
+    router.push('/gpf/print/'+id);
+}
 </script>
+
+
 
 <style scoped>
 .container {
