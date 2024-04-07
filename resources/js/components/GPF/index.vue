@@ -1,19 +1,15 @@
 <template>
-    <div class="invoices">
+    <div>
         
-        <div class="card__header">
+        <div>
             <div>
-                <h2 class="invoice__title">GPF</h2>
+                <h2>GPF</h2>
             </div>
             <div>
-                <a class="btn btn-secondary" @click="newGpf()">
-                    New GPF
-                </a>
+                <q-btn @click="newGpf()" color="white" text-color="black" label="New GPF"/>
             </div>
             <div>
-                <a class="btn btn-secondary" @click="openModal()">
-                    New Signatory
-                </a>
+                <q-btn @click="openModal()" color="white" text-color="black" label="New Signatory"/>
             </div>
         </div>
 <!-- {{ gpf }} -->
@@ -61,7 +57,57 @@
         
     </div>
      <!--==================== add modal items ====================-->
-     <div class="modal main__modal" :class="{show: showModal}">
+
+     <q-dialog v-model="showModal">
+      <q-card class="my-card">
+        <q-card-section>
+            <div>
+            <q-btn @click="closeModal()" v-close-popup flat color="primary" round icon="close" />
+            <!-- <span class="modal__close btn__close--modal" @click="closeModal()">×</span> -->
+            <h3 class="modal__title">Add New Signatory</h3>
+            <hr><br>
+            <div class="modal__items">
+                <p class="my-1">Name</p> 
+                <input v-model="name" type="text" class="input"> 
+                <p class="my-1">Designation</p> 
+                <input v-model="designation" type="text" class="input"> 
+            </div>
+            <br><hr>
+            <ul>
+            <li v-for="(item, i) in signatory" :key="item.id" :value="item.id">
+                {{ i+1 }}. {{ item.name }} /{{ item.designation }}
+                <button style="margin-left: 100px;" @click="deletesignatory(item.id)">Delete</button>
+            </li>
+            </ul>
+            <div class="model__footer">
+                <button @click="closeModal()" class="btn btn-light mr-2 btn__close--modal">
+                    Cancel
+                </button>
+                <button class="btn btn-light btn__close--modal" @click="addSignatory()">Save</button>
+            </div>
+        </div>
+        </q-card-section>
+<!-- 
+        <q-card-section class="q-pt-none">
+          <div class="text-subtitle1">
+            $・Italian, Cafe
+          </div>
+          <div class="text-caption text-grey">
+            Small plates, salads & sandwiches in an intimate setting.
+          </div>
+        </q-card-section> -->
+
+        <q-separator />
+
+        <!-- <q-card-actions align="right">
+          <q-btn v-close-popup flat color="primary" label="Reserve" />
+          <q-btn v-close-popup flat color="primary" round icon="event" />
+        </q-card-actions> -->
+      </q-card>
+    </q-dialog>
+
+ <!--==================== add modal items ====================-->
+     <!-- <div class="modal main__modal" :class="{show: showModal}">
         <div class="modal__content">
             <span class="modal__close btn__close--modal" @click="closeModal()">×</span>
             <h3 class="modal__title">Add New Signatory</h3>
@@ -86,7 +132,7 @@
                 <button class="btn btn-light btn__close--modal" @click="addSignatory()">Save</button>
             </div>
         </div>
-    </div>
+    </div> -->
 </template>
 
 <script setup>

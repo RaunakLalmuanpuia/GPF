@@ -175,7 +175,8 @@ const onEdit = (id) => {
       name: form.value.gpf_name
     };
     axios.post(`/api/update_gpf/${form.value.id}`, entryInfoData);
-    router.push('/')
+    router.push(router.currentRoute.value.path)
+    alert('success');
   } catch (error) {
     console.error('Error:', error);
   }
