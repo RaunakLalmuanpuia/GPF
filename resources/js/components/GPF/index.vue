@@ -5,55 +5,57 @@
             <div>
                 <h2>GPF</h2>
             </div>
-            <div>
+            <!-- <div>
                 <q-btn @click="newGpf()" color="white" text-color="black" label="New GPF"/>
-            </div>
+            </div> -->
             <div>
                 <q-btn @click="openModal()" color="white" text-color="black" label="New Signatory"/>
             </div>
         </div>
-<!-- {{ gpf }} -->
-        <div class="table card__content">
-            <div class="table--search">
-                <div class="table--search--wrapper">
-                    <select class="table--search--select" name="" id="">
-                        <option value="">Filter</option>
-                    </select>
-                </div>
-                <div class="relative">
-                    <i class="table--search--input--icon fas fa-search "></i>
-                    <input v-model="searchGpf" @keyup="search()" class="table--search--input" type="text" placeholder="Search GPF">
-                </div>
-            </div>
 
-            <div class="table--heading">
-                <p>ID</p>
-                <p>File Number</p>
-                <p>Name</p>
-                <p>Department</p>
-                <p>Designation</p>
-                <p>Status</p>
-                <p>Signatory</p>
-                <p>Amount</p>
-                <p>Date</p>
-            </div>
+        <div class="relative">
+                    <!-- <input v-model="searchGpf" @keyup="search()" class="table--search--input" type="text" placeholder="Search GPF"> -->
+                    <q-input outlined v-model="searchGpf" @keyup="search()" type="text" placeholder="Search GPF" />
+         </div>
+<!-- {{ gpf }} -->
+        
 
             
-            <div class="table--items" v-for="gpf in gpf" :key="gpf.id" v-if="gpf.length > 0">
-                <a href="#" @click="onShow(gpf.id)" class="table--items--transactionId">#{{ gpf.id }}</a>
-                <p>{{ gpf.file_number }}</p>
-                <p>{{ gpf.gpf_name }}</p>
-                <p>{{ gpf.from_deparment }}</p>
-                <p>{{ gpf.from_designation }}</p>
-                <p>{{ gpf.status }}</p>
-                <p>{{ gpf.signatory.name }}/{{  gpf.signatory.designation  }}</p>
-                <p> $ {{gpf.amount  }}</p>
-                <p>{{ gpf.date }}</p>
-            </div>
-            <div class="table--items" v-else>
-                <p>No Gpf Found</p>
-            </div>
-        </div>
+        
+
+        <q-table
+            :rows="gpf"
+            :columns="columns"
+            row-key="id"
+            class="q-mt-md"
+            >
+            <template v-slot:top>
+                <q-toolbar>
+                <q-space />
+                <q-btn @click="newGpf()" label="Create New" color="primary" />
+                </q-toolbar>
+            </template>
+
+            <template v-slot:body="props">
+                <q-tr :props="props">
+                <q-td key="id">
+                    <a href="#" @click="onShow(props.row.id)">{{ props.row.id }}</a></q-td>
+                <q-td key="file_number">{{ props.row.file_number }}</q-td>
+                <q-td key="gpf_name">{{ props.row.gpf_name }}</q-td>
+                <q-td key="from_deparment">{{ props.row.from_deparment }}</q-td>
+                <q-td key="from_designation">{{ props.row.from_designation }}</q-td>
+                <!-- <q-td key="status">{{ props.row.status }}</q-td> -->
+                <q-td key="signatory">{{ props.row.signatory.name }} / {{ props.row.signatory.designation }}</q-td>
+                <!-- <q-td key="amount">$ {{ props.row.amount }}</q-td> -->
+                <q-td key="date">{{ props.row.date }}</q-td>
+                </q-tr>
+            </template>
+
+            <template v-slot:no-data>
+                <q-td colspan="9" class="text-center">No GPF Found</q-td>
+            </template>
+        </q-table>
+
         
     </div>
      <!--==================== add modal items ====================-->
@@ -157,6 +159,16 @@ const closeModal = () => {
     showModal.value = false
 }
 
+const columns = [
+  { name: 'id', label: 'ID', align: 'left', field: 'id' },
+  { name: 'file_number', label: 'File Number', align: 'left', field: 'file_number' },
+  { name: 'gpf_name', label: 'Name', align: 'left', field: 'gpf_name' },
+  { name: 'from_deparment', label: 'Department', align: 'left', field: 'from_deparment' },
+  { name: 'from_designation', label: 'Designation', align: 'left', field: 'from_designation' },
+  { name: 'signatory', label: 'Signatory', align: 'left', field: 'signatory' },
+  { name: 'date', label: 'Date', align: 'left', field: 'date' },
+  { name: 'action', label: 'Actions', align: 'left', field: 'action' } // Custom Actions column
+];
 
 onMounted(async () => {
     getGpf()

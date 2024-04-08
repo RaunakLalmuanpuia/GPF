@@ -100,9 +100,8 @@
                 
             </div>
             <div>
-                <a @click="saveEntry()" class="btn btn-secondary">
-                    Save
-                </a>
+              <q-btn color="white" text-color="black" label="Create GPF Account"  @click="saveEntry()"/>  
+              
             </div>
         </div>
         

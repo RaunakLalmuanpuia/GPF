@@ -101,12 +101,7 @@ class GpfController extends Controller
         }
     }
 
-    public function signatory(){
-        $signatory = Signatory::orderBy('id', 'DESC')->get();
-        return response()->json([
-            'signatory' => $signatory
-        ],200);
-    }
+   
 
     public function show_gpf($id){
         $entry_info = EntryInfo::with(['individualInfos', 'template', 'signatory' => function ($query) {
@@ -163,7 +158,7 @@ class GpfController extends Controller
                             'designation' => $individualInfoData['designation'],
                             'account' => $individualInfoData['account'],
                             'amount' => $individualInfoData['amount'],
-                            'phone' => $individualInfoData['phone'], // Fix the key name here
+                            'phone' => $individualInfoData['phone'], 
                             'status' => $individualInfoData['status'],
                         ]
                     );
@@ -174,11 +169,10 @@ class GpfController extends Controller
                         'designation' => $individualInfoData['designation'],
                         'account' => $individualInfoData['account'],
                         'amount' => $individualInfoData['amount'],
-                        'phone' => $individualInfoData['phone'], // Fix the key name here
+                        'phone' => $individualInfoData['phone'], 
                         'status' => $individualInfoData['status'],
                     ]);
                 }
-            
                 // Associate individual info with the entry info
                 $entry_info->individualInfos()->save($individual_info);
             }
@@ -197,6 +191,14 @@ class GpfController extends Controller
         $entry_info->template()->delete();
         $entry_info->delete();
     }
+
+    public function signatory(){
+        $signatory = Signatory::orderBy('id', 'DESC')->get();
+        return response()->json([
+            'signatory' => $signatory
+        ],200);
+    }
+
     public function delete_signatory($id){
         $signatory = Signatory::findOrfail($id);
         $signatory->delete();
@@ -211,30 +213,97 @@ class GpfController extends Controller
         $signatory->save();
 
     }
-    public function save_approval_template(Request $request, $id)
-    {
-        // dd($request);
-        Template::create([
-            'purpose' => $request->input('purpose'),
-            'contents' => $request->input('content'),
-            'entry_info_id' => $id,
+    // public function save_approval_template(Request $request, $id)
+    // {
+    //     // dd($request);
+    //     // Template::create([
+    //     //     'purpose' => $request->input('purpose'),
+    //     //     'contents' => $request->input('content'),
+    //     //     'entry_info_id' => $id,
            
-        ]);
+    //     // ]);
+    //     try {
+    //         // Find the template by ID
+    //         $template = Template::findOrFail($request->template_id);
+    
+    //         // Update the entry info attributes
+    //         $template->update([
+    //             'purpose' => $request->input('purpose'),
+    //             'contents' => $request->input('content'),
+    //         ]);
+    //         return response()->json($template, 200);
+    //     } catch (\Exception $e) {
+    //         // Handle any exceptions
+    //         info($e);
+    //         return response()->json(['error' => 'Failed to update GPF Approval Template.'], 500);
+    //     }
+    // }
+    // public function save_approval_template(Request $request, $id)
+    // {
+    //     dd($request);
+    //     try {
+    //         // Try to find the template by ID
+    //         $template = Template::find($request->template_id);
+    //         // If the template does not exist, create a new one
+    //         if (!$template) {
+    //             $template = Template::create([
+    //                 'purpose' => $request->input('purpose'),
+    //                 'contents' => $request->input('content'),
+    //                 'entry_info_id' => $id,
+    //             ]);
+    //         } else {
+    //             // Update the existing template with the new attributes
+    //             $template->update([
+    //                 'contents' => $request->input('content'),
+    //             ]);
+    //         }
+            
+    //         return response()->json($template, 200);
+    //     } catch (\Exception $e) {
+    //         // Handle any exceptions
+    //         info($e);
+    //         return response()->json(['error' => 'Failed to update GPF Approval Template.'], 500);
+    //     }
+    // }
+    public function save_approval_template(Request $request, $id)
+{
+    try {
+        // Check if $request->new is true
+        if ($request->new) {
+            // Create a new template
+            $template = Template::create([
+                'purpose' => $request->input('purpose'),
+                'contents' => $request->input('content'),
+                'entry_info_id' => $id,
+            ]);
+        } else {
+            // Try to find the template by ID
+            $template = Template::find($request->template_id);
+            // If the template does not exist, return an error
+            if (!$template) {
+                return response()->json(['error' => 'Template not found.'], 404);
+            }
+            // Update the existing template with the new attributes
+            $template->update([
+                'contents' => $request->input('content'),
+            ]);
+        }
+        
+        return response()->json($template, 200);
+    } catch (\Exception $e) {
+        // Handle any exceptions
+        info($e);
+        return response()->json(['error' => 'Failed to update GPF Approval Template.'], 500);
     }
+}
+
+
     //check if template exists
     public function check_existence(Request $request)
-    {
-       
-        // dd($request);
-        // $request->validate([
-        //     'routine_sheet_id' => 'required|exists:routine_sheet,id',
-        //     'purpose' => 'required|in:verification,approval,rejection,notesheet,others',
-        // ]);
-
+    { 
         $template = Template::where('entry_info_id', $request->entry_info)
                                 ->where('purpose', $request->purpose)
                                 ->first();
-
         if ($template) {
             return response()->json(['exists' => 1, 'id' => $template->id], 200);
         } else {
@@ -243,10 +312,10 @@ class GpfController extends Controller
 
         
     }
-
-    public function text_templates($id){
-        // dd($id);
-        $template = Template::where('entry_info_id', $id)->first();
+    
+    // fetch a template
+    public function approval_templates($id){
+        $template = Template::where('entry_info_id', $id)->where('purpose', 'approval')->latest()->first();
         if (!$template) {
             return response()->json(['message' => 'Template not found'], 404);
         }

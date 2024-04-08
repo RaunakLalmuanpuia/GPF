@@ -69,50 +69,61 @@
                 </div> -->
             </div>
             <br><br>
-            <h2>Individual Info</h2>
-            <div class="container">
-              <div class="header">
-                  <p>Name</p>
-                  <p>Designation</p>
-                  <p>GPF Account</p>
-                  <p>Amount</p>
-                  <p>Mobile</p>
-                  <p>Status</p>
-              </div>
+            
+            <!-- Quasar -->
+            <div class="q-pa-md row items-start q-gutter-md">
+            <q-card flat bordered class="my-card">
+            <q-card-section>
+                <div class="text-h6">Individuals Information</div>
+            </q-card-section>
 
-              <div v-if="form.individual_infos" class="individual-info-container">
+            <q-card-section class="q-pt-none">
+                <div v-if="form.individual_infos" class="individual-info-container">
                   <!-- Loop through individualInfoLines and render each line -->
                   <div v-for="(individualInfo, index) in form.individual_infos" :key="index" class="individual-info-line">
                       <!-- Individual info input fields -->
                       <!-- Use v-model to bind inputs to individualInfo properties -->
-                      <input v-model="individualInfo.name" type="text" class="input" placeholder="Enter Name">
-                      <input v-model="individualInfo.designation" type="text" class="input" placeholder="Enter Designation">
-                      <input v-model="individualInfo.account" type="text" class="input" placeholder="Enter GPF Account">
-                      <input v-model="individualInfo.amount" type="text" class="input" placeholder="Enter Amount">
-                      <input v-model="individualInfo.phone" type="text" class="input" placeholder="Enter Mobile">
-                      <input v-model="individualInfo.status" type="text" class="input" placeholder="Enter Status">
+                      <q-input filled v-model="individualInfo.name" label="Name" />
+                      <!-- <input v-model="individualInfo.name" type="text" class="input" placeholder="Enter Name"> -->
+                      <q-input filled v-model="individualInfo.designation" label="Designation" />
+                      <!-- <input v-model="individualInfo.designation" type="text" class="input" placeholder="Enter Designation"> -->
+                      <q-input filled v-model="individualInfo.account" label="GPF Account" />
+                      <!-- <input v-model="individualInfo.account" type="text" class="input" placeholder="Enter GPF Account"> -->
+                      <q-input filled v-model="individualInfo.amount" label="Amount" />
+                      <!-- <input v-model="individualInfo.amount" type="text" class="input" placeholder="Enter Amount"> -->
+                      <q-input filled v-model="individualInfo.phone" label="Mobile" />
+                      <!-- <input v-model="individualInfo.phone" type="text" class="input" placeholder="Enter Mobile"> -->
+                      <q-input filled v-model="individualInfo.status" label="Status" />
+                      <!-- <input v-model="individualInfo.status" type="text" class="input" placeholder="Enter Status"> -->
                       <button class="remove-button" @click="deleteIndividual(individualInfo.id, index)">Remove</button>
                   </div>
               </div>
+            </q-card-section>
 
-          <div class="button-container">
-              <button class="add-button" @click="addNewIndividualInfoLine">Add New Individual</button>
-          </div>
+            <q-separator inset />
+
+            <q-card-section>
+                <button class="add-button" @click="addNewIndividualInfoLine">Add New Individual</button>
+            </q-card-section>
+            </q-card>
         </div>
 
         </div>
        
         <div class="card__header" style="margin-top: 40px;">
             <div>
-                <a class="btn btn-secondary" @click="OnPrint(form.id)">Print Aprroval</a>
+                <q-btn color="white" text-color="black" label="Print Aprroval" @click="OnPrint(form.id)"/>
+                <!-- <a class="btn btn-secondary" @click="OnPrint(form.id)">Print Aprroval</a> -->
             </div>
             <div>
-                <a class="btn btn-secondary" @click="OnPrint(form.id)">Print Rejected</a>
+                <q-btn color="white" text-color="black" label="Print Rejected"  @click="OnPrint(form.id)"/>
+                <!-- <a class="btn btn-secondary" @click="OnPrint(form.id)">Print Rejected</a> -->
             </div>
             <div>
-                <a @click="onEdit(form.id)" class="btn btn-secondary">
+                <q-btn color="white" text-color="black" label="Save"  @click="onEdit(form.id)"/>
+                <!-- <a @click="onEdit(form.id)" class="btn btn-secondary">
                     Save
-                </a>
+                </a> -->
             </div>
         </div>
         

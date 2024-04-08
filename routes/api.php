@@ -47,4 +47,4 @@ Route::post('/save_approval_template/{id}', [GPFController::class, 'save_approva
 Route::post('/check_existence', [GPFController::class, 'check_existence']);
 
 
-Route::get('/text_templates/{id}', [GpfController::class , 'text_templates']);
+Route::get('/approval_templates/{id}', [GpfController::class , 'approval_templates']);
