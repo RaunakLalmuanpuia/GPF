@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\EntryInfo;
 use App\Models\IndividualInfo;
 use App\Models\Signatory;
+use App\Models\Template;
 
 class GpfController extends Controller
 {
@@ -210,4 +211,49 @@ class GpfController extends Controller
         $signatory->save();
 
     }
+    public function save_approval_template(Request $request, $id)
+    {
+        // dd($request);
+        Template::create([
+            'purpose' => $request->input('purpose'),
+            'contents' => $request->input('content'),
+            'entry_info_id' => $id,
+           
+        ]);
+    }
+    //check if template exists
+    public function check_existence(Request $request)
+    {
+       
+        // dd($request);
+        // $request->validate([
+        //     'routine_sheet_id' => 'required|exists:routine_sheet,id',
+        //     'purpose' => 'required|in:verification,approval,rejection,notesheet,others',
+        // ]);
+
+        $template = Template::where('entry_info_id', $request->entry_info)
+                                ->where('purpose', $request->purpose)
+                                ->first();
+
+        if ($template) {
+            return response()->json(['exists' => 1, 'id' => $template->id], 200);
+        } else {
+            return response()->json(['exists' => 0], 200);
+        }
+
+        
+    }
+
+    public function text_templates($id){
+        // dd($id);
+        $template = Template::where('entry_info_id', $id)->first();
+        if (!$template) {
+            return response()->json(['message' => 'Template not found'], 404);
+        }
+        return response()->json(['template' => $template], 200);
+
+    }
 }
+
+
+

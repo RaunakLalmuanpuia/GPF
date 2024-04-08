@@ -10,6 +10,8 @@ class Template extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    protected $fillable = ['purpose', 'contents', 'entry_info_id'];
     public function entryInfo()
     {
         return $this->belongsTo(EntryInfo::class);

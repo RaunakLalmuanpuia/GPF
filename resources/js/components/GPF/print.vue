@@ -94,6 +94,7 @@
       label="Save Data"
       color="primary"
       class="q-mt-md"
+      @click="saveTemplate()"
     />
 </div>
 <div class="row  q-gutter-md">
@@ -126,28 +127,9 @@ import jspdf from 'jspdf';
 
 const router = useRouter();
 const format = ref('A4');
-// const selectedFormat = ref('A4');
 
-// const formatOptions = [
-//   { label: 'A4', value: 'A4', width: '210mm', height: '297mm' }, // A4 size is 210mm x 297mm
-//   { label: 'Legal', value: 'Legal', width: '216mm', height: '356mm' } // Legal size is 216mm x 356mm
-// ];
-// const editorWidth = ref('210mm'); // Default to A4 width
-// const editorHeight = ref('297mm'); // Default to A4 height
+const exist = ref(false);
 
-// watch(selectedFormat, (newValue) => {
-//   console.log("Selected format changed to: ", newValue);
-//   const selectedOption = formatOptions.find(option => option.value === newValue.value);
-//   console.log("Selected option: ", selectedOption);
-//   if (!selectedOption) {
-//     console.error("No matching option found for value: ", newValue);
-//     return;
-//   }
-//   editorWidth.value = selectedOption.width;
-//   editorHeight.value = selectedOption.height;
-//   console.log("Updated editorWidth: ", editorWidth.value);
-//   console.log("Updated editorHeight: ", editorHeight.value);
-// });
 const formatOptions = [
   { label: 'A4', value: 'A4', width: 210, height: 297 }, // A4 size is 210mm x 297mm
   { label: 'Legal', value: 'Legal', width: 216, height: 356 }, // Legal size is 216mm x 356mm
@@ -155,7 +137,7 @@ const formatOptions = [
 const selectedFormat = ref('A4');
 const editorWidth = ref('210mm'); // Default to A4 width
 const editorHeight = ref('297mm'); // Default to A4 height
-// const editorContent = ref('');
+
 
 watch(selectedFormat, (newValue) => {
   const selectedOption = formatOptions.find((option) => option.value === newValue);
@@ -204,40 +186,140 @@ const printData = async () => {
   }
 };
 
-// const fetchTemplateData = async () => {
-//   try {
-//     const response = await api.get('text_templates/' + templateID.value);
-//     const data = response.data;
-//     // Adjust data and set it to editor
-//     // For example, concatenate some values from the response
-//     editor.value = `${data.template.template}\n`;
-
-//     // You can continue adding more data as per your requirement
-//   } catch (error) {
-//     console.error('Error fetching data:', error);
-//   }
-// };
-
 onMounted(async () =>{
     await getGpf();
+    await checkExist();
 })
 
 let entryInfoData;
 let editorContent = ref('');
 
 
-const getGpf = () => {
+
+//get the template if it exists
+const fetchTemplateData = async () => {
+  try {
+
+    let response = await axios.get(`/api/text_templates/${props.id}`);
+    // const response = await axios.get('/api/text_templates/' + form.id);
+
+
+    // console.log(response.data.template.contents)
+    // Adjust data and set it to editor
+    // For example, concatenate some values from the response
+     editorContent.value = response.data.template.contents;
+
+    // You can continue adding more data as per your requirement
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
+// check if template exist or not
+const checkExist = async () => {
+  try {
+    
+    const entryInfoData = {
+      entry_info: form.value.id,
+      purpose: "Approval",
+    };
+    // let response = await axios.get("/api/get_entry_info")
+    
+    let response = await axios.post('/api/check_existence',entryInfoData);
+    exist.value = response.data.exists == true ? true :false;
+
+    if(exist.value == true){
+      console.log("EXIST")
+      fetchTemplateData();
+    }
+    else{
+      console.log("NOT EXIST")
+      getGpftemplate();
+    }
+    // You can continue adding more data as per your requirement
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
+
+// save the current template
+// const saveData = async () => {
+//   try {
+//     // Send editor value to API for saving
+//     if (exist.value) {
+//       await api.put('text_templates/' + templateID.value, {
+//         'routine_sheet_id':id,
+//         'purpose':purpose.value,
+//         'template':editor.value,
+//         'format':selectedFormat.value
+//       });
+//       Notify.create({
+//           type: 'secondary',
+
+//           message: 'Template Updated!',
+//         });
+//     } else
+
+//     {
+//       var form = new FormData();
+//       form.append('routine_sheet_id', id);
+//       form.append('purpose', purpose.value);
+//       form.append('template', editor.value);
+//       form.append('format', format.value);
+//       await api.post('text_templates', form);
+//       Notify.create({
+//           type: 'secondary',
+
+//           message: 'Data saved successfully!',
+//         });
+//     }
+
+//     console.log('Data saved successfully!');
+//   } catch (error) {
+//     console.error('Error saving data:', error);
+//   }
+// };
+
+const saveTemplate = async() => {
+  try {
+    // Prepare data for entry_info
+    const entryInfoData = {
+      entry_info: form.id,
+      purpose: "approval",
+      content: editorContent.value,
+    };
+    axios.post(`/api/save_approval_template/${form.value.id}`, entryInfoData);
+
+    alert('success');
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+const getGpf = async () => {
+    let response = await axios.get(`/api/edit_gpf/${props.id}`)
+    // console.log('form', response.data.entry_info);
+    form.value = response.data.entry_info
+}
+
+const getGpftemplate = () => {
   return new Promise(async (resolve, reject) => {
     try {
       let response = await axios.get(`/api/show_gpf/${props.id}`);
       form.value = response.data.entry_info;
+      let totalAmount = 0; 
+   
+      // Filter individual_infos by status 'Approved'
+      const approvedIndividualInfos = form.value.individual_infos.filter(info => info.status === 'Approved');
+      
+      approvedIndividualInfos.forEach(info => {
+        totalAmount += parseInt(info.amount); 
+      });
 
       entryInfoData = {
         file_number: form.value.file_number,
-        date: form.value.date,
-        amount: form.value.amount,
+        date: formatDate(form.value.date),
+        amount: totalAmount, // Set total amount
         status: form.value.status,
-        individual_infos: form.value.individual_infos,
+        individual_infos: approvedIndividualInfos,
         selectedSignatory: form.value.signatory_id,
         department: form.value.from_deparment,
         designation: form.value.from_designation,
@@ -245,6 +327,7 @@ const getGpf = () => {
       };
 
       console.log(entryInfoData);
+      resolve(response);
 
       let individualInfoHTML = '';
       entryInfoData.individual_infos.forEach((info, index) => {
@@ -253,11 +336,10 @@ const getGpf = () => {
           ₹ ${info.amount}/-<br>
           <div style="padding-left:162px;">
             (Holder of GPA Account No. ${info.account})<br>
-            </div> 
+            </div>
         `;
       });
 
-      resolve(response);
 
       editorContent.value = `<div align="left">
           <div style="padding-left: 200px;">
@@ -306,6 +388,24 @@ const getGpf = () => {
   });
 };
 
+// Function to format the date
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const day = date.getDate();
+  const monthIndex = date.getMonth();
+  const year = date.getFullYear();
 
+  // Array of month names
+  const monthNames = [
+    'January', 'February', 'March',
+    'April', 'May', 'June', 'July',
+    'August', 'September', 'October',
+    'November', 'December'
+  ];
+
+  // Convert day to string with ordinal suffix
+  const dayStr = day + (day % 10 === 1 && day !== 11 ? '<sup>st</sup>' : (day % 10 === 2 && day !== 12 ? '<sup>nd</sup>' : (day % 10 === 3 && day !== 13 ? '<sup>rd</sup>' : '<sup>th</sup>')));
+  return `${dayStr} ${monthNames[monthIndex]}, ${year}`;
+};
 
 </script>

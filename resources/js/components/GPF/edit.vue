@@ -12,20 +12,35 @@
             </div>
         </div>
         <!-- <p>{{ form }}</p> -->
-        <div class="card__content">
-            <div class="card__content--header">
+        <div class="q-pa-md">
+            <div class="q-gutter-md" style="max-width: 300px">
                 <div>
-                    <p class="my-1">File Number</p>
-                    <input v-model="form.file_number" type="text" class="input"> 
-                    <p class="my-1">Department</p>
-                    <input v-model="form.from_deparment" type="text" class="input"> 
-                    <p class="my-1">Designation</p>
-                    <input v-model="form.from_designation" type="text" class="input"> 
+
+                    <q-input outlined  v-model="form.file_number" label="File Number" />
+
+                    <q-input outlined  v-model="form.from_deparment" label="Department" />
+
+                    <q-input outlined  v-model="form.from_designation" label="Designation" />
                 </div>
                 <div>
                     <p class="my-1">Date</p> 
-                    <input v-model="form.date" type="text" class="input">  <!---->
+                    <!-- <input v-model="form.date" type="text" class="input">   -->
                     
+                    <q-input filled v-model="form.date" mask="date" :rules="['date']">
+                      <template v-slot:append>
+                        <q-icon name="event" class="cursor-pointer">
+                          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                            <q-date v-model="form.date">
+                              <div class="row items-center justify-end">
+                                <q-btn v-close-popup label="Close" color="primary" flat />
+                              </div>
+                            </q-date>
+                          </q-popup-proxy>
+                        </q-icon>
+                      </template>
+                    </q-input>
+
+
                     <p class="my-1">Signatory</p> 
                     <div>
                     <p v-if="form.signatory">{{ form.signatory.name }} / {{ form.signatory.designation }} </p>
@@ -35,6 +50,8 @@
                           {{ i+1 }}. {{ item.name }} {{ item.designation }} {{ item.deleted_at ? '(Deleted)' : '' }}
                         </option>
                       </select>
+
+
                       <p class="my-1">Name of Fund</p>
                       <input v-model="form.gpf_name" type="text" class="input"> 
                       <!-- <button @click="addSignatory(selectedSignatory)" class="add-button">
@@ -43,13 +60,13 @@
                     </div>
                       
                 </div>
-                <div>
+                <!-- <div>
                     <p class="my-1">Amount</p> 
                     <input v-model="form.amount" type="text" class="input"> 
                     <p class="my-1">Status</p> 
                     <input v-model="form.status" type="text" class="input"> 
                    
-                </div>
+                </div> -->
             </div>
             <br><br>
             <h2>Individual Info</h2>
@@ -87,7 +104,10 @@
        
         <div class="card__header" style="margin-top: 40px;">
             <div>
-                <a class="btn btn-secondary" @click="OnPrint(form.id)">Print</a>
+                <a class="btn btn-secondary" @click="OnPrint(form.id)">Print Aprroval</a>
+            </div>
+            <div>
+                <a class="btn btn-secondary" @click="OnPrint(form.id)">Print Rejected</a>
             </div>
             <div>
                 <a @click="onEdit(form.id)" class="btn btn-secondary">
@@ -158,9 +178,6 @@ const deleteIndividual = (id, i) => {
 }
 
 const onEdit = (id) => {
-    // if(form.value.individual_infos.length>=1){
-    //     alert(JSON.stringify(form.value))
-    // }
     try {
     // Prepare data for entry_info
     const entryInfoData = {

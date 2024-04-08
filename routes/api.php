@@ -41,3 +41,10 @@ Route::get('/delete_gpf/{id}', [GpfController::class , 'delete_gpf']);
 Route::post('/save_signatory', [GPFController::class, 'save_signatory']);
 
 Route::get('/delete_signatory/{id}', [GpfController::class , 'delete_signatory']);
+
+Route::post('/save_approval_template/{id}', [GPFController::class, 'save_approval_template']);
+
+Route::post('/check_existence', [GPFController::class, 'check_existence']);
+
+
+Route::get('/text_templates/{id}', [GpfController::class , 'text_templates']);

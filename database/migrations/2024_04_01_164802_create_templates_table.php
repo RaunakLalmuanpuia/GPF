@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('purpose')->nullable();
-            $table->string('contents')->nullable();
+            $table->text('contents')->nullable();
             
             $table->unsignedBigInteger('entry_info_id')->nullable();
             $table->unsignedBigInteger('individual_info_id')->nullable();

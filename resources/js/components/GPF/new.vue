@@ -22,7 +22,21 @@
                 </div>
                 <div>
                     <p class="my-1">Date</p> 
-                    <input v-model="date" type="text" class="input">  <!---->
+                    <!-- <input v-model="date" type="text" class="input">   -->
+                    <!-- <q-date v-model="date" /> -->
+                    <q-input filled v-model="date" mask="date" :rules="['date']">
+                      <template v-slot:append>
+                        <q-icon name="event" class="cursor-pointer">
+                          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                            <q-date v-model="date">
+                              <div class="row items-center justify-end">
+                                <q-btn v-close-popup label="Close" color="primary" flat />
+                              </div>
+                            </q-date>
+                          </q-popup-proxy>
+                        </q-icon>
+                      </template>
+                    </q-input>
                     <p class="my-1">Signatory</p> 
                     <div>
                       <select v-model="selectedSignatory" class="input dropdown">
@@ -39,13 +53,13 @@
                     </div>
                       
                 </div>
-                <div>
+                <!-- <div>
                     <p class="my-1">Amount</p> 
                     <input v-model="amount" type="text" class="input"> 
                     <p class="my-1">Status</p> 
                     <input v-model="status" type="text" class="input"> 
                    
-                </div>
+                </div> -->
             </div>
             <br><br>
             <h2>Individual Info</h2>
