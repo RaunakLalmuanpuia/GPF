@@ -3,7 +3,7 @@
         
         <div>
             <div>
-                <h2>GPF</h2>
+                <h2 class="text-gray-300">GPF</h2>
             </div>
             <!-- <div>
                 <q-btn @click="newGpf()" color="white" text-color="black" label="New GPF"/>
@@ -19,10 +19,6 @@
          </div>
 <!-- {{ gpf }} -->
         
-
-            
-        
-
         <q-table
             :rows="gpf"
             :columns="columns"
