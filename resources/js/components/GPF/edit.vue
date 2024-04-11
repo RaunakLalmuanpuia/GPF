@@ -1,4 +1,5 @@
 <template>
+    <QuasarLayout>
     <div class="container">
              <!--==================== EDIT INVOICE ====================-->
              <div class="invoices">
@@ -131,10 +132,11 @@
 
         <!-- <iframe width="500" height="250" src="https://www.youtube.com/embed/_EQuJYqK2oc" title="Laravel 10 and Vuejs 3 - Simple Invoice Application - Edit and Delete Invoice." frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> -->
     </div>
+</QuasarLayout>
 </template>
 
 <script setup>
-
+import QuasarLayout from "@/Layout/Layout.vue";
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();

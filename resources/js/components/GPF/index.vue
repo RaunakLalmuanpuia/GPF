@@ -1,4 +1,5 @@
 <template>
+    <QuasarLayout>
     <div>
         
         <div>
@@ -131,9 +132,11 @@
             </div>
         </div>
     </div> -->
+</QuasarLayout>
 </template>
 
 <script setup>
+import QuasarLayout from "@/Layout/Layout.vue";
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 

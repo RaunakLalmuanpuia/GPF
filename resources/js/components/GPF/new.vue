@@ -1,4 +1,5 @@
 <template>
+   <QuasarLayout>
      <div class="invoices">
         
         <div class="card__header">
@@ -111,11 +112,12 @@
     
     <br><br><br>
     
-   
+  </QuasarLayout>
 
 </template>
 
 <script setup>
+import QuasarLayout from "@/Layout/Layout.vue";
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();

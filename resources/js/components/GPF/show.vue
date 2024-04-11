@@ -1,40 +1,41 @@
 <template>
-    <div class="container">
+    <QuasarLayout>
+    <div>
              <!--==================== SHOW GPF ====================-->
-        <div class="invoices">
+        <div>
             <!-- {{ form.signatory}} -->
-            <div class="card__header">
+            <div>
                 <div>
-                    <h2 class="invoice__title">GPF Account</h2>
+                    <h3>GPF Account</h3>
                 </div>
                 <div>
                     
                 </div>
             </div>
             <div>
-                <div class="card__header--title ">
-                    <h1 class="mr-2">File Number: {{ form.file_number }}</h1>
-                    <p>Date: {{ form.date }} </p>
-                    
-
-                    <p style="padding-left: 10px;">Status:{{ form.status }} </p>
-
-                    <p style="padding-left: 10px;">Amount: Rs{{ form.amount }} </p>
-                   
+                <div>
+                    <h4 class="px-2 pt-2">File Number: {{ form.file_number }}</h4>
                 </div>
                     <div>
+                        <p style="padding-left: 10px;">Date: {{ form.date }} </p>
                         <p style="padding-left: 10px;">Name: {{ form.gpf_name }} </p>
                         <p style="padding-left: 10px;">Department: {{ form.from_deparment }} </p>
                         <p style="padding-left: 10px;">Designation: {{ form.from_designation }} </p>
-                        
                         <p style="padding-left: 10px;" v-if="form.signatory">Signatory: {{ form.signatory.name }} / {{ form.signatory.designation }}</p>
 
                     </div>
                 <div>
-                    <ul  class="card__header-list">
+                    <!-- <q-btn
+                        label="Save Data"
+                        color="primary"
+                        class="q-mt-md"
+                        @click="print()"
+                    /> -->
+                   
+                    <ul>
                         <li>
                             <!-- Select Btn Option -->
-                            <button class="selectBtnFlat" @click="print()">
+                            <button @click="print()">
                                 <i class="fas fa-print"></i>
                                 Print
                             </button>
@@ -65,7 +66,7 @@
                 <!-- <div class="logo">
                     <img src="assets/img/logo.png" alt="" style="width: 200px;">
                 </div> -->
-                <div class="invoice__header--title">
+                <div>
                     <p></p>
                     <p class="invoice__header--title-1">GPF</p>
                     <p></p>
@@ -103,26 +104,30 @@
                 
 
             </div>
-            <div class="card__footer">
-               
-                <!-- <div>
-                    <a class="btn btn-secondary">
-                        Save
-                    </a>
-                </div>
-                <div>
-                    <a class="btn btn-secondary">
-                        Print
-                    </a>
-                </div> -->
+            <div>
+                <q-btn
+                        label="Edit"
+                        color="primary"
+                        class="q-mt-md"
+                        @click="onEdit(form.id)"
+                    />
+                    <q-btn
+                        label="Delete"
+                        color="primary"
+                        class="q-mt-md"
+                        @click="deleteGpf(form.id)"
+                    />
+                
             </div>
             
         </div>
 
     </div>
+</QuasarLayout>
 </template>
 
 <script setup>
+import QuasarLayout from "@/Layout/Layout.vue";
 import { onMounted,ref } from 'vue';
 import { useRouter } from 'vue-router';
 

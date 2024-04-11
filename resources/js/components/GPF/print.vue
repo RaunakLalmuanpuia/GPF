@@ -1,5 +1,5 @@
 <template>
-
+   <QuasarLayout>
   <div class="q-pa-md q-gutter-sm column justify-center items-center q-my-md">
     <h4>GPF Approval  Template</h4>
 
@@ -118,10 +118,11 @@
     </div>
     <q-card flat bordered> </q-card>
   </div>
-
+</QuasarLayout>
 </template>
 
 <script setup>
+import QuasarLayout from "@/Layout/Layout.vue";
 import { onMounted,ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import html2canvas from 'html2canvas';

@@ -5,15 +5,26 @@ import GpfShow from '../components/GPF/show.vue';
 import NotFound from "../components/NotFound.vue";
 import GpfEdit from "../components/GPF/edit.vue";
 import GpfPrint from "../components/GPF/print.vue";
+import Dashboard from "../Dashboard.vue";
+import Login from "../Login.vue";
+
 
 const routes = [
     {
         path:'/',
-        component:GpfIndex
+        component:Dashboard
+    },
+    {
+        path:'/login',
+        component:Login
     },
     {
         path:'/:pathMatch(.*)*',
         component: NotFound
+    },
+    {
+        path:'/gpf',
+        component:GpfIndex
     },
     {
         path:'/gpf/new',
