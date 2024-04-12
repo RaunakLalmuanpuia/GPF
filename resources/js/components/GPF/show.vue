@@ -146,11 +146,33 @@ onMounted(async () =>{
     getGpf()
 })
 
+// const getGpf = async () => {
+//     let response = await axios.get(`/api/show_gpf/${props.id}`)
+//     // console.log('form', response.data.entry_info)
+//     form.value = response.data.entry_info
+// }
 const getGpf = async () => {
-    let response = await axios.get(`/api/show_gpf/${props.id}`)
-    // console.log('form', response.data.entry_info)
-    form.value = response.data.entry_info
-}
+    try {
+        const token = localStorage.getItem('token'); // Get the token from local storage
+        if (!token) {
+            throw new Error('No token found');
+        }
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}` // Include the token in the request headers
+            }
+        };
+        // Make API request to fetch GPF data
+        let response = await axios.get(`/api/show_gpf/${props.id}`, config);
+
+        // Set the form data after successful fetch
+        form.value = response.data.entry_info;
+    } catch (error) {
+        console.error('Error:', error);
+        // Handle error here, such as redirecting the user to the login page
+    }
+};
+
 
 const print = () => {
     window.print()
@@ -158,15 +180,50 @@ const print = () => {
 }
 
 
+// const onEdit = (id) => {
+//     router.push('/gpf/edit/' + id)
+// }
 const onEdit = (id) => {
-    router.push('/gpf/edit/' + id)
-}
-
+    try {
+        const token = localStorage.getItem('token'); // Get the token from local storage
+        if (!token) {
+            throw new Error('No token found');
+        }
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}` // Include the token in the request headers
+            }
+        };
+        // If token is found, navigate to the edit page with the ID
+        router.push(`/gpf/edit/${id}`,config);
+    } catch (error) {
+        console.error('Authentication error:', error);
+        // Handle authentication error here, such as redirecting to the login page
+    }
+};
+// const deleteGpf = (id) => {
+//     axios.get('/api/delete_gpf/'+id)
+//     router.push('/')
+// }
 const deleteGpf = (id) => {
-    axios.get('/api/delete_gpf/'+id)
-    router.push('/')
+    try {
+        const token = localStorage.getItem('token'); // Get the token from local storage
+        if (!token) {
+            throw new Error('No token found');
+        }
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}` // Include the token in the request headers
+            }
+        };
+        // If token is found, navigate to the edit page with the ID
+        axios.get('/api/delete_gpf/'+id , config)
+        router.push('/gpf')
+    } catch (error) {
+        console.error('Authentication error:', error);
+        // Handle authentication error here, such as redirecting to the login page
+    }
 }
-
 </script>
 
 <style>

@@ -1,6 +1,6 @@
 <template>
    <QuasarLayout>
-  <div class="q-pa-md q-gutter-sm column justify-center items-center q-my-md">
+  <div class="items-center justify-center q-pa-md q-gutter-sm column q-my-md">
     <h4>GPF Approval  Template</h4>
 
     <q-editor v-model="editorContent" :style="{ width: editorWidth, height: editorHeight }" min-height="5rem"
@@ -99,13 +99,13 @@
       @click="saveTemplate()"
     />
 </div>
-<div class="row  q-gutter-md">
+<div class="row q-gutter-md">
       <q-select
       v-model="selectedFormat"
       :options="formatOptions"
       label="Select Paper Size"
       outlined
-      class=" q-mt-md " style="width: 200px;"
+      class=" q-mt-md" style="width: 200px;"
     />
 
 
@@ -206,14 +206,17 @@ let editorContent = ref('');
 //get the template if it exists
 const fetchTemplateData = async () => {
   try {
+    const token = localStorage.getItem('token'); // Get the token from local storage
+    if (!token) {
+      throw new Error('No token found');
+    }
+    const config = {
+            headers: {
+                Authorization: `Bearer ${token}` // Include the token in the request headers
+            }
+        };
+    let response = await axios.get(`/api/approval_templates/${props.id}`, config);
 
-    let response = await axios.get(`/api/approval_templates/${props.id}`);
-    // const response = await axios.get('/api/text_templates/' + form.id);
-
-
-    // console.log(response.data.template.contents)
-    // Adjust data and set it to editor
-    // For example, concatenate some values from the response
      editorContent.value = response.data.template.contents;
 
     // You can continue adding more data as per your requirement
@@ -224,30 +227,62 @@ const fetchTemplateData = async () => {
 // check if template exist or not
 const checkExist = async () => {
   try {
-    
+    const token = localStorage.getItem('token'); // Get the token from local storage
+    if (!token) {
+      throw new Error('No token found');
+    }
+    const config = {
+            headers: {
+                Authorization: `Bearer ${token}` // Include the token in the request headers
+            }
+        };
     const entryInfoData = {
       entry_info: form.value.id,
       purpose: "Approval",
     };
-    // let response = await axios.get("/api/get_entry_info")
-    
-    let response = await axios.post('/api/check_existence',entryInfoData);
-    exist.value = response.data.exists == true ? true :false;
-    temp_id.value =response.data.id;
+
+    let response = await axios.post('/api/check_existence', entryInfoData, config);
+    exist.value = response.data.exists == true ? true : false;
+    temp_id.value = response.data.id;
     console.log('Template id ' + temp_id.value);
-    if(exist.value == true){
-      console.log("EXIST")
+    if (exist.value == true) {
+      console.log("EXIST");
       fetchTemplateData();
-    }
-    else{
-      console.log("NOT EXIST")
+    } else {
+      console.log("NOT EXIST");
       getGpftemplate();
     }
-    // You can continue adding more data as per your requirement
   } catch (error) {
     console.error('Error fetching data:', error);
+    // Handle authentication error here, such as redirecting to the login page
   }
 };
+// const checkExist = async () => {
+//   try {
+    
+//     const entryInfoData = {
+//       entry_info: form.value.id,
+//       purpose: "Approval",
+//     };
+//     // let response = await axios.get("/api/get_entry_info")
+    
+//     let response = await axios.post('/api/check_existence',entryInfoData);
+//     exist.value = response.data.exists == true ? true :false;
+//     temp_id.value =response.data.id;
+//     console.log('Template id ' + temp_id.value);
+//     if(exist.value == true){
+//       console.log("EXIST")
+//       fetchTemplateData();
+//     }
+//     else{
+//       console.log("NOT EXIST")
+//       getGpftemplate();
+//     }
+//     // You can continue adding more data as per your requirement
+//   } catch (error) {
+//     console.error('Error fetching data:', error);
+//   }
+// };
 
 // save the current template
 // const saveData = async () => {
@@ -286,9 +321,17 @@ const checkExist = async () => {
 //     console.error('Error saving data:', error);
 //   }
 // };
-
-const saveTemplate = async() => {
+const saveTemplate = async () => {
   try {
+    const token = localStorage.getItem('token'); // Get the token from local storage
+    if (!token) {
+      throw new Error('No token found');
+    }
+    const config = {
+            headers: {
+                Authorization: `Bearer ${token}` // Include the token in the request headers
+            }
+        };
     // Prepare data for entry_info
     const entryInfoData = {
       template_id: temp_id.value,
@@ -296,25 +339,72 @@ const saveTemplate = async() => {
       content: editorContent.value,
       new: new_template.value,
     };
-    axios.post(`/api/save_approval_template/${form.value.id}`, entryInfoData);
 
-    alert('success');
+    await axios.post(`/api/save_approval_template/${form.value.id}`, entryInfoData,config);
+    
+    alert('Success');
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error saving template:', error);
+    // Handle authentication error here, such as redirecting to the login page
   }
-}
+};
+// const saveTemplate = async() => {
+//   try {
+//     // Prepare data for entry_info
+//     const entryInfoData = {
+//       template_id: temp_id.value,
+//       purpose: "approval",
+//       content: editorContent.value,
+//       new: new_template.value,
+//     };
+//     axios.post(`/api/save_approval_template/${form.value.id}`, entryInfoData);
+
+//     alert('success');
+//   } catch (error) {
+//     console.error('Error:', error);
+//   }
+// }
 const getGpf = async () => {
-    let response = await axios.get(`/api/edit_gpf/${props.id}`)
-    // console.log('form', response.data.entry_info);
-    form.value = response.data.entry_info
-}
+  try {
+    const token = localStorage.getItem('token'); // Get the token from local storage
+    if (!token) {
+      throw new Error('No token found');
+    }
+    const config = {
+            headers: {
+                Authorization: `Bearer ${token}` // Include the token in the request headers
+            }
+        };
+    let response = await axios.get(`/api/edit_gpf/${props.id}`, config);
+    form.value = response.data.entry_info;
+    // console.log('form', form.value);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    // Handle authentication error here, such as redirecting to the login page
+  }
+};
+// const getGpf = async () => {
+//     let response = await axios.get(`/api/edit_gpf/${props.id}`)
+//     // console.log('form', response.data.entry_info);
+//     form.value = response.data.entry_info
+// }
 
 const getGpftemplate = () => {
   new_template.value = true;
   console.log('New Template'+new_template.value);
   return new Promise(async (resolve, reject) => {
     try {
-      let response = await axios.get(`/api/show_gpf/${props.id}`);
+      const token = localStorage.getItem('token'); // Get the token from local storage
+        if (!token) {
+            throw new Error('No token found');
+        }
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}` // Include the token in the request headers
+            }
+        };
+        
+      let response = await axios.get(`/api/show_gpf/${props.id}`, config);
       form.value = response.data.entry_info;
       let totalAmount = 0; 
    

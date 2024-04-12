@@ -1,12 +1,12 @@
 <template>
     <QuasarLayout>
         <p>Dashboard</p>
-        <q-btn
+        <!-- <q-btn
                         label="GPF"
                         color="primary"
                         class="q-mt-md"
                         @click="Gpf()"
-                    />
+                    /> -->
 
     </QuasarLayout>
 
@@ -17,7 +17,7 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const Gpf =async() => {
-    router.push('/gpf')
-}
+// const Gpf =async() => {
+//     router.push('/gpf')
+// }
 </script>

@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 class AuthController extends Controller
 {
     
@@ -82,22 +83,22 @@ class AuthController extends Controller
 
         return response()->json(['token' => $token], 201);
     }
-    public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
-        ]);
+    // public function login(Request $request)
+    // {
+    //     $request->validate([
+    //         'email' => 'required|email',
+    //         'password' => 'required|string',
+    //     ]);
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
+    //     if (!Auth::attempt($request->only('email', 'password'))) {
+    //         return response()->json(['message' => 'Unauthorized'], 401);
+    //     }
 
-        $user = User::where('email', $request->email)->firstOrFail();
-        $token = $user->createToken('auth_token')->plainTextToken;
+    //     $user = User::where('email', $request->email)->firstOrFail();
+    //     $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json(['token' => $token], 200);
-    }
+    //     return response()->json(['token' => $token], 200);
+    // }
     // public function logout(Request $request)
     // {
     //     $request->user()->currentAccessToken()->delete();
@@ -130,10 +131,58 @@ class AuthController extends Controller
         
         ]);
        }
+       public function login(Request $request): JsonResponse
+            {
+                $credentials = $request->validate([
+                    'email' => ['required', 'email'],
+                    'password' => ['required','min:8'],
+                ]);
 
-       public function logout(Request $request)
+                try {
+
+                    $user = User::where('email',$credentials['email'])->first();
+
+                    if(!$user || !Hash::check($credentials['password'],$user->password)){
+
+                        return response()->json(['message' => 'Invalid Credentials'], 401);
+                    }
+
+                    if (Auth::attempt($credentials)) {
+
+                        $tokenName = 'Token'.rand(111,999);
+                        $token = $user->createToken($tokenName)->plainTextToken;
+
+                        return response()->json([
+                                'status' => 200,
+                                'message' => 'Login Successful',
+                                'access_token' => $token,
+                                'token_type' => 'Bearer',
+                            ], 200);
+                    }else{
+
+                        return response()->json(['message' => 'Invalid credentials'], 401);
+                    }
+
+                } catch (\Throwable $th) {
+
+                    return response()->json([
+                        'message' => 'Something went wrong'.$th->getMessage(),
+                        'status' => 500
+                    ], 500);
+                }
+            }
+
+        public function logout()
         {
-            Auth::logout();
-            return response()->json(['message' => 'Successfully logged out']);
+            // dd( User::findOrFail(Auth::id()));
+            $user = User::findOrFail(Auth::id());
+            $user->tokens()->delete();
+            
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Logged out successfully'
+            ], 200);
         }
+       
 }

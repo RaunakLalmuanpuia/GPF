@@ -1,8 +1,8 @@
 <template>
-    <div class=" window-height window-width row justify-center items-center">
+    <div class="items-center justify-center window-height window-width row">
       <div class="column">
         <div class="row">
-          <h5 class="text-h5 text-white q-my-md">Company & Co</h5>
+          <h5 class="text-white text-h5 q-my-md">Company & Co</h5>
         </div>
         <div class="row">
           <q-card square bordered class="q-pa-lg shadow-1">
@@ -64,18 +64,20 @@ const dealing = ref({
 const router = useRouter();
 
 const LoginData = () => {
-  axios.post("/api/login", dealing.value)
+  const response = axios.post("/api/login", dealing.value)
     .then(({ data }) => {
       console.log(data);
       try {
-        if (data.status === true) {
-          alert("Login Successfully");
+        const { status, message, access_token, token_type } = data;
+        if (status === 200) {
+          localStorage.setItem('token', `${token_type} ${access_token}`)
+          alert("Login Successfully:" + message);
           router.push('/gpf');
         } else {
-          alert("Login failed");
+          alert("Login failed" + message);
         }
       } catch (err) {
-        alert("Error, please try again");
+        alert("Error, please try again" + err);
       }
     });
 };

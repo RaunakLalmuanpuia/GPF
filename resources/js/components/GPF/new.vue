@@ -30,7 +30,7 @@
                         <q-icon name="event" class="cursor-pointer">
                           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                             <q-date v-model="date">
-                              <div class="row items-center justify-end">
+                              <div class="items-center justify-end row">
                                 <q-btn v-close-popup label="Close" color="primary" flat />
                               </div>
                             </q-date>
@@ -158,48 +158,112 @@ const removeIndividualInfoLine = (index) => {
 
 // Function to save the entry and related individual info
 
+// const saveEntry = async () => {
+//   // console.log(selectedSignatory.value)
+//   try {
+//     // Prepare data for entry_info
+//     const entryInfoData = {
+//       file_number: fileNumber.value,
+//       date: date.value,
+//       amount: amount.value,
+//       status: status.value,
+//       individual_infos: individualInfoLines.value,
+//       selectedSignatory: selectedSignatory.value,
+//       department: department.value,
+//       designation: designation.value,
+//       name: name.value
+
+
+//     };
+//     axios.post('/api/save_gpf', entryInfoData);
+//     router.push('/')
+//     // console.log('Response:', response.data);
+
+//     fileNumber.value = ''; // Clear the fields after successful save
+//     date.value = '';
+//     selectedSignatory.value = '';
+//     amount.value = '';
+//     status.value = '';
+//     selectedSignatory.value = '';
+//     department.value = '';
+//     name.value = '';
+//     // alert('saved Succesfully');
+//     individualInfoLines.value = [];
+//   } catch (error) {
+//     console.error('Error:', error);
+//   }
+// };
 const saveEntry = async () => {
-  // console.log(selectedSignatory.value)
-  try {
-    // Prepare data for entry_info
-    const entryInfoData = {
-      file_number: fileNumber.value,
-      date: date.value,
-      amount: amount.value,
-      status: status.value,
-      individual_infos: individualInfoLines.value,
-      selectedSignatory: selectedSignatory.value,
-      department: department.value,
-      designation: designation.value,
-      name: name.value
+    try {
+        const token = localStorage.getItem('token'); // Get the token from local storage
+        if (!token) {
+            throw new Error('No token found');
+        }
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}` // Include the token in the request headers
+            }
+        };
 
+        // Prepare data for entry_info
+        const entryInfoData = {
+            file_number: fileNumber.value,
+            date: date.value,
+            amount: amount.value,
+            status: status.value,
+            individual_infos: individualInfoLines.value,
+            selectedSignatory: selectedSignatory.value,
+            department: department.value,
+            designation: designation.value,
+            name: name.value
+        };
 
-    };
-    axios.post('/api/save_gpf', entryInfoData);
-    router.push('/')
-    // console.log('Response:', response.data);
+        // Make API request to save the entry
+        await axios.post('/api/save_gpf', entryInfoData, config);
 
-    fileNumber.value = ''; // Clear the fields after successful save
-    date.value = '';
-    selectedSignatory.value = '';
-    amount.value = '';
-    status.value = '';
-    selectedSignatory.value = '';
-    department.value = '';
-    name.value = '';
-    // alert('saved Succesfully');
-    individualInfoLines.value = [];
-  } catch (error) {
-    console.error('Error:', error);
-  }
+        // Redirect to the desired route after successful save
+        router.push('/gpf');
+
+        // Clear the form fields after successful save
+        fileNumber.value = '';
+        date.value = '';
+        selectedSignatory.value = '';
+        amount.value = '';
+        status.value = '';
+        department.value = '';
+        name.value = '';
+        individualInfoLines.value = [];
+    } catch (error) {
+        console.error('Error:', error);
+        // Handle error here, such as displaying an error message to the user
+    }
 };
 
 //get signatory
-const getsignatory = async  () => {
-  let response = await axios.get('/api/signatory')
-  // console.log('signatory', response)
-  signatory.value = response.data.signatory
-}
+// const getsignatory = async  () => {
+//   let response = await axios.get('/api/signatory')
+//   // console.log('signatory', response)
+//   signatory.value = response.data.signatory
+// }
+const getsignatory = async () => {
+    try {
+        const token = localStorage.getItem('token'); // Get the token from local storage
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}` // Include the token in the request headers
+            }
+        };
+
+        const response = await axios.get('/api/signatory', config);
+        signatory.value = response.data.signatory;
+    } catch (error) {
+        console.error('Error fetching signatory:', error);
+    }
+};
 
 
 </script>

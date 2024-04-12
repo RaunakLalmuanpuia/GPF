@@ -7,7 +7,7 @@ import GpfEdit from "../components/GPF/edit.vue";
 import GpfPrint from "../components/GPF/print.vue";
 import Dashboard from "../Dashboard.vue";
 import Login from "../Login.vue";
-
+import { isAuthenticated } from '../auth/auth';
 
 const routes = [
     {
@@ -24,26 +24,31 @@ const routes = [
     },
     {
         path:'/gpf',
-        component:GpfIndex
+        component:GpfIndex,
+        meta: { requiresAuth: true }
     },
     {
         path:'/gpf/new',
-        component:gpfNew
+        component:gpfNew,
+        meta: { requiresAuth: true }
     },
     {
         path:'/gpf/show/:id',
         component:GpfShow,
-        props:true
+        props:true,
+        meta: { requiresAuth: true }
     },
     {
         path:'/gpf/edit/:id',
         component:GpfEdit,
-        props:true
+        props:true,
+        meta: { requiresAuth: true }
     },
     {
         path:'/gpf/print/:id',
         component:GpfPrint,
-        props:true
+        props:true,
+        meta: { requiresAuth: true }
     },
 ]
 
@@ -51,6 +56,22 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 })
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        // Check if the user is authenticated
+        if (!isAuthenticated()) {
+            // If not authenticated, redirect to login page
+            next('/login');
+        } else {
+            // If authenticated, proceed to the requested route
+            next();
+        }
+    } else {
+        // If the route does not require authentication, proceed as usual
+        next();
+    }
+});
 
 export default router
 

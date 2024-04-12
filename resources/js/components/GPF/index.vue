@@ -79,7 +79,7 @@
             </li>
             </ul>
             <div class="model__footer">
-                <button @click="closeModal()" class="btn btn-light mr-2 btn__close--modal">
+                <button @click="closeModal()" class="mr-2 btn btn-light btn__close--modal">
                     Cancel
                 </button>
                 <button class="btn btn-light btn__close--modal" @click="addSignatory()">Save</button>
@@ -125,7 +125,7 @@
             </li>
             </ul>
             <div class="model__footer">
-                <button @click="closeModal()" class="btn btn-light mr-2 btn__close--modal">
+                <button @click="closeModal()" class="mr-2 btn btn-light btn__close--modal">
                     Cancel
                 </button>
                 <button class="btn btn-light btn__close--modal" @click="addSignatory()">Save</button>
@@ -174,36 +174,148 @@ onMounted(async () => {
     getsignatory()
 })
 
+// const getGpf = async () => {
+//     let response = await axios.get("/api/get_entry_info")
+//     // console.log('response', response);
+//     gpf.value = response.data.entry_info
+// }
 const getGpf = async () => {
-    let response = await axios.get("/api/get_entry_info")
-    // console.log('response', response);
-    gpf.value = response.data.entry_info
-}
+    try {
+        const token = localStorage.getItem('token'); // Get the token from local storage
+        if (!token) {
+            throw new Error('No token found');
+        }
 
-const search = async() => {
-    let response = await axios.get('/api/search_gpf?s='+searchGpf.value)
-    // console.log('response', response.data.entry_info);
-    gpf.value = response.data.entry_info;
-}
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}` // Include the token in the request headers
+            }
+        };
 
-const newGpf =async() => {
-    router.push('/gpf/new')
-}
+        const response = await axios.get("/api/get_entry_info", config);
+        gpf.value = response.data.entry_info;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+};
 
-const onShow = (id) => {
-    router.push('/gpf/show/'+id);
-}
+
+// const search = async() => {
+//     let response = await axios.get('/api/search_gpf?s='+searchGpf.value)
+//     // console.log('response', response.data.entry_info);
+//     gpf.value = response.data.entry_info;
+// }
+const search = async () => {
+    try {
+        const token = localStorage.getItem('token'); // Get the token from local storage
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}` // Include the token in the request headers
+            }
+        };
+
+        const response = await axios.get('/api/search_gpf?s=' + searchGpf.value, config);
+        gpf.value = response.data.entry_info;
+    } catch (error) {
+        console.error('Error searching:', error);
+    }
+};
+
+// const newGpf =async() => {
+//     router.push('/gpf/new')
+// }
+const newGpf = async () => {
+    try {
+        const token = localStorage.getItem('token'); // Get the token from local storage
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        // If token is found, redirect the user to the new route
+        router.push('/gpf/new');
+    } catch (error) {
+        console.error('Authentication error:', error);
+        // Handle authentication error here, such as redirecting to the login page
+    }
+};
+
+// const onShow = (id) => {
+//     router.push('/gpf/show/'+id);
+// }
+const onShow = async (id) => {
+    try {
+        const token = localStorage.getItem('token'); // Get the token from local storage
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        // If token is found, redirect the user to the show route with the ID
+        router.push(`/gpf/show/${id}`);
+    } catch (error) {
+        console.error('Authentication error:', error);
+        // Handle authentication error here, such as redirecting to the login page
+    }
+};
 //get signatory
-const getsignatory = async  () => {
-  let response = await axios.get('/api/signatory')
-  // console.log('signatory', response)
-  signatory.value = response.data.signatory
-}
+// const getsignatory = async  () => {
+//   let response = await axios.get('/api/signatory')
+//   // console.log('signatory', response)
+//   signatory.value = response.data.signatory
+// }
 
-const deletesignatory = (id) => {
-    axios.get('/api/delete_signatory/'+id)
-    signatory.value = signatory.value.filter(item => item.id !== id);
-}
+const getsignatory = async () => {
+    try {
+        const token = localStorage.getItem('token'); // Get the token from local storage
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}` // Include the token in the request headers
+            }
+        };
+
+        const response = await axios.get('/api/signatory', config);
+        signatory.value = response.data.signatory;
+    } catch (error) {
+        console.error('Error fetching signatory:', error);
+    }
+};
+
+
+// const deletesignatory = (id) => {
+//     axios.get('/api/delete_signatory/'+id)
+//     signatory.value = signatory.value.filter(item => item.id !== id);
+// }
+
+const deletesignatory = async (id) => {
+    try {
+        const token = localStorage.getItem('token'); // Get the token from local storage
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}` // Include the token in the request headers
+            }
+        };
+
+        await axios.get(`/api/delete_signatory/${id}`, config); // Include the config object in the request
+
+        // After successful deletion, update the signatory array in the Vue component
+        signatory.value = signatory.value.filter(item => item.id !== id);
+    } catch (error) {
+        console.error('Error deleting signatory:', error);
+    }
+};
+
+
 // console.log('Search parameter:', searchGpf.value);
 // const addSignatory = () => {
 //      axios.post('/api/save_signatory', {
@@ -212,12 +324,40 @@ const deletesignatory = (id) => {
 //     })
 //     //closeModal()
 // }
+
+// const addSignatory = async () => {
+//     try {
+//         await axios.post('/api/save_signatory', {
+//             name: name.value,
+//             designation: designation.value
+//         });
+//         name.value = ''; // Clear the fields after successful save
+//         designation.value = '';
+//         getsignatory(); // Fetch signatories after saving
+//         // closeModal(); // Close modal after successful save
+//     } catch (error) {
+//         console.error('Error saving signatory:', error);
+//         // Handle error here
+//     }
+// }
 const addSignatory = async () => {
     try {
+        const token = localStorage.getItem('token'); // Get the token from local storage
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}` // Include the token in the request headers
+            }
+        };
+
         await axios.post('/api/save_signatory', {
             name: name.value,
             designation: designation.value
-        });
+        }, config); // Include the config object in the request
+
         name.value = ''; // Clear the fields after successful save
         designation.value = '';
         getsignatory(); // Fetch signatories after saving
@@ -226,5 +366,6 @@ const addSignatory = async () => {
         console.error('Error saving signatory:', error);
         // Handle error here
     }
-}
+};
+
 </script>

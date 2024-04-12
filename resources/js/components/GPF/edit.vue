@@ -32,7 +32,7 @@
                         <q-icon name="event" class="cursor-pointer">
                           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                             <q-date v-model="form.date">
-                              <div class="row items-center justify-end">
+                              <div class="items-center justify-end row">
                                 <q-btn v-close-popup label="Close" color="primary" flat />
                               </div>
                             </q-date>
@@ -72,7 +72,7 @@
             <br><br>
             
             <!-- Quasar -->
-            <div class="q-pa-md row items-start q-gutter-md">
+            <div class="items-start q-pa-md row q-gutter-md">
             <q-card flat bordered class="my-card">
             <q-card-section>
                 <div class="text-h6">Individuals Information</div>
@@ -159,11 +159,32 @@ onMounted(async () =>{
     getsignatory()
 })
 
-const getsignatory = async  () => {
-  let response = await axios.get('/api/signatory')
-  // console.log('signatory', response)
-  signatory.value = response.data.signatory
-}
+// const getsignatory = async  () => {
+//   let response = await axios.get('/api/signatory')
+//   // console.log('signatory', response)
+//   signatory.value = response.data.signatory
+// }
+
+const getsignatory = async () => {
+    try {
+        const token = localStorage.getItem('token'); // Get the token from local storage
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}` // Include the token in the request headers
+            }
+        };
+
+        const response = await axios.get('/api/signatory', config);
+        signatory.value = response.data.signatory;
+    } catch (error) {
+        console.error('Error fetching signatory:', error);
+    }
+};
+
 const addNewIndividualInfoLine = () => {
     form.value.individual_infos.push({
         name: '',
@@ -176,11 +197,33 @@ const addNewIndividualInfoLine = () => {
 };
 
 
+// const getGpf = async () => {
+//     let response = await axios.get(`/api/edit_gpf/${props.id}`)
+//     // console.log('form', response.data.entry_info);
+//     form.value = response.data.entry_info
+// }
 const getGpf = async () => {
-    let response = await axios.get(`/api/edit_gpf/${props.id}`)
-    // console.log('form', response.data.entry_info);
-    form.value = response.data.entry_info
-}
+    try {
+        const token = localStorage.getItem('token'); // Get the token from local storage
+        if (!token) {
+            throw new Error('No token found');
+        }
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}` // Include the token in the request headers
+            }
+        };
+        // Make API request to fetch GPF data
+        let response = await axios.get(`/api/edit_gpf/${props.id}`, config);
+
+        // Set the form data after successful fetch
+        form.value = response.data.entry_info;
+    } catch (error) {
+        console.error('Error:', error);
+        // Handle error here, such as redirecting the user to the login page
+    }
+};
+
 
 const deleteIndividual = (id, i) => {
     // form.value.individual_infos.split(i,1)
