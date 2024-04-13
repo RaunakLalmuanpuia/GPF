@@ -23,8 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Authentication Endpoints
-Route::post('send_otp', [AuthController::class, 'sendOtp']);
-Route::post('verify_otp_and_login', [AuthController::class, 'verifyOtpAndLogin']);
+Route::post('send_otp', [AuthController::class, 'send_otp']);
+Route::post('verify_otp_and_search', [AuthController::class, 'verifyOtpAndSearch']);
 Route::post('register', [AuthController::class, 'register']);
 
 

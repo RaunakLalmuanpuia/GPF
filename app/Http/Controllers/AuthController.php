@@ -8,13 +8,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Http;
+use App\Models\IndividualInfo;
 class AuthController extends Controller
 {
     
-    public function sendOtp(Request $request)
+    public function send_otp(Request $request)
     {
+        // dd($request);
         $request->validate([
-            'phone_number' => 'required|string',
+            'send_otp' => 'required|string',
         ]);
 
         // Generate a random OTP
@@ -27,11 +30,27 @@ class AuthController extends Controller
         ]);
 
         // You can send the OTP to the user via SMS or any other method here
-
+        //send sms
+        $templateID = "1407170608246834529";
+        //MIPUI-AW atana I OTP chu {#var#} a ni e. EGOVMZ
+        $message = "MIPUI-AW atana I OTP chu ".$otp ." a ni e. EGOVMZ";
+        // $templateID = "1407165911820847483";
+        // $message = "OTP for MIPUI-AW is ".$OTP .". -MSeGS";
+       
+        // Http::withHeaders([
+        //     'Authorization' => "Bearer 551|" . env('SMS_TOKEN'),
+        //  ])->get("https://sms.msegs.in/api/send-otp",[
+        //     'template_id' => $templateID,
+        //     'message' => $message,
+        //     'recipient'=>$request->phone_number
+        //  ]);
+        
         return response()->json(['message' => 'OTP sent successfully'], 200);
     }
-    public function verifyOtpAndLogin(Request $request)
+
+    public function verifyOtpAndSearch(Request $request)
     {
+        // dd($request);
         $request->validate([
             'phone_number' => 'required|string',
             'otp' => 'required|string',
@@ -51,19 +70,16 @@ class AuthController extends Controller
         // Mark the OTP as expired
         $otp->update(['expired' => true]);
 
-        // Find or create the user based on the phone number
-        $user = User::firstOrNew(['phone_number' => $request->phone_number]);
-        if (!$user->exists) {
-            // User does not exist, you can create the user here if needed
-            // Example: $user->name = 'New User';
-            //          $user->save();
-            return response()->json(['message' => 'User not found'], 404);
-        }
+        // Find or Individual info and the entry info the user based on the phone number
+        $individualInfos = IndividualInfo::where('phone', $request->phone_number)
+        // Eager load the relations with EntryInfo and Template models
+        ->with('entryInfo.signatory', 'template')
+        ->get();
 
-        // Generate and return the token
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json(['token' => $token], 200);
+        return response()->json([
+            'individualInfos' => $individualInfos
+        ],200);
+        
     }
     public function register(Request $request)
     {
@@ -184,5 +200,7 @@ class AuthController extends Controller
                 'message' => 'Logged out successfully'
             ], 200);
         }
+
+       
        
 }

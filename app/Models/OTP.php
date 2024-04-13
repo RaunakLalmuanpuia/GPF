@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class OTP extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'phone_number',
+        'otp',
+        'expired',
+        'purpose',
+    ];
+    
 }

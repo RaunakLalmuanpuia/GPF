@@ -128,7 +128,7 @@ class GpfController extends Controller
     }
 
     public function update_gpf(Request $request, $id){
-        // info($request);
+        info($request);
         try {
             // Find the entry info by ID
             $entry_info = EntryInfo::findOrFail($id);

@@ -12,11 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('o_t_p_s', function (Blueprint $table) {
+
             $table->id();
-            $table->string('otp')->nullable();
-            $table->dateTime('expiry')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('otp');
+            $table->boolean('expired')->default(false);
             $table->string('purpose')->nullable();
-            $table->string('phone')->nullable();
+
 
             $table->string('param1')->nullable();
             $table->string('param2')->nullable();

@@ -235,6 +235,15 @@ const deleteIndividual = (id, i) => {
 
 const onEdit = (id) => {
     try {
+        const token = localStorage.getItem('token'); // Get the token from local storage
+        if (!token) {
+            throw new Error('No token found');
+        }
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}` // Include the token in the request headers
+            }
+        };
     // Prepare data for entry_info
     const entryInfoData = {
       file_number: form.value.file_number,
@@ -247,7 +256,7 @@ const onEdit = (id) => {
       designation: form.value.from_designation,
       name: form.value.gpf_name
     };
-    axios.post(`/api/update_gpf/${form.value.id}`, entryInfoData);
+    axios.post(`/api/update_gpf/${form.value.id}`, entryInfoData, config);
     router.push(router.currentRoute.value.path)
     alert('success');
   } catch (error) {
