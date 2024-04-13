@@ -67,31 +67,3 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/approval_templates/{id}', [GpfController::class , 'approval_templates']);
 });
 
-
-// Route::get('/get_entry_info', [GpfController::class , 'get_entry_info']);
-// Route::get('/search_gpf', [GpfController::class , 'search_gpf']);
-// // Route::get('/create_gpf', [GpfController::class , 'create_gpf']);
-// Route::post('/save_gpf', [GPFController::class, 'save_gpf']);
-
-// Route::get('/signatory', [GpfController::class , 'signatory']);
-
-// Route::get('/show_gpf/{id}', [GpfController::class , 'show_gpf']);
-
-// Route::get('/edit_gpf/{id}', [GpfController::class , 'edit_gpf']);
-// Route::get('/delete_individual/{id}', [GpfController::class , 'delete_individual']);
-
-// Route::post('/update_gpf/{id}', [GpfController::class , 'update_gpf']);
-
-// Route::get('/delete_gpf/{id}', [GpfController::class , 'delete_gpf']);
-
-
-// Route::post('/save_signatory', [GPFController::class, 'save_signatory']);
-
-// Route::get('/delete_signatory/{id}', [GpfController::class , 'delete_signatory']);
-
-// Route::post('/save_approval_template/{id}', [GPFController::class, 'save_approval_template']);
-
-// Route::post('/check_existence', [GPFController::class, 'check_existence']);
-
-
-// Route::get('/approval_templates/{id}', [GpfController::class , 'approval_templates']);

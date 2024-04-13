@@ -1,5 +1,6 @@
 <template>
     <QuasarLayout>
+
         <!-- <p>Dashboard</p> -->
         <!-- <q-btn
                         label="GPF"
@@ -7,8 +8,12 @@
                         class="q-mt-md"
                         @click="Gpf()"
                     /> -->
-                    <!-- <div class="q-pa-md">
-                        <q-carousel
+                    
+                <div class="flex">
+
+                    <!-- div 1 -->
+                    <div class="q-pa-md flex-grow">
+                        <!-- <q-carousel
                         v-model="slide"
                         transition-prev="slide-right"
                         transition-next="slide-left"
@@ -53,34 +58,52 @@
                             { label: 4, value: 'map' }
                             ]"
                         />
-                        </div>
-                    </div> -->
+                        </div> -->
+
+                        <q-carousel
+      v-model="slide"
+      transition-prev="slide-right"
+      transition-next="slide-left"
+      swipeable
+      animated
+      control-color="amber"
+      navigation
+      padding
+      arrows
+      height="300px"
+      class="bg-grey-9 shadow-2 rounded-borders"
+    >
+      <q-carousel-slide :name="1" class="column no-wrap">
+        <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
+          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/mountains.jpg" />
+          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/parallax1.jpg" />
+        </div>
+      </q-carousel-slide>
+      <q-carousel-slide :name="2" class="column no-wrap">
+        <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
+          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/parallax2.jpg" />
+          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/quasar.jpg" />
+        </div>
+      </q-carousel-slide>
+      <q-carousel-slide :name="3" class="column no-wrap">
+        <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
+          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/cat.jpg" />
+          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/linux-avatar.png" />
+        </div>
+      </q-carousel-slide>
+      <q-carousel-slide :name="4" class="column no-wrap">
+        <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
+          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/material.png" />
+          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/donuts.png" />
+        </div>
+      </q-carousel-slide>
+                         </q-carousel>
+                        
+                    </div>
 
                     
-                    <!-- <div class="q-pa-md row items-middle q-gutter-md">
-                        <div class="px-20">
-                            <q-card class="my-card">
-                                <div class="px-3 text-h6">
-                                    Check Gpf Status
-                                </div>  
-                                <q-card-section>
-                                    <q-input rounded filled v-model="phoneNumber" label="Phone Number" />
-                                </q-card-section>
-                                <q-card-section v-if="showOTP">             
-                                    <q-input rounded filled v-model="otp" label="OTP" />
-                                </q-card-section>
-
-                                <q-card-actions>
-
-                                    <q-btn flat v-if="showResendButton" @click="resendOTP">Resend OTP</q-btn>
-                                    <q-btn flat v-if="showSendButton" @click="sendOTP">Send OTP</q-btn>
-                                    <q-btn flat v-if="showSearchButton" @click="search">Search</q-btn>
-                                </q-card-actions>
-
-                            </q-card>
-                        </div>
-                    </div> -->
-                    <div v-if="showOtpCard" class="flex justify-center items-center ">
+                    <!-- div2 -->
+                    <div v-if="showOtpCard" class="flex-grow flex justify-center items-center ">
                         <div class="w-full max-w-xl ml-10">
                         <div class="q-pa-md row items-middle q-gutter-md">
                             <div class="px-20">
@@ -92,10 +115,11 @@
                                 </div>  
                                 <q-card-section>
                                 <q-input rounded filled v-model="phoneNumber" label="Phone Number" />
-                                <!-- {{ lorem }} -->
+                                
+                                
                                 </q-card-section>
                                 <q-card-section v-if="showOTP">
-                                <!-- {{ lorem }} -->
+                            
                                 <q-input rounded filled v-model="otp" label="OTP" />
                                 </q-card-section>
 
@@ -109,7 +133,7 @@
                         </div>
                         </div>
                     </div>
-
+                </div>
                     <div v-if="showTable">
                         <table border="1">
                         <thead>
@@ -149,7 +173,7 @@
                         </tbody>
                         </table>
                         <div>
-                            <q-btn flat @click="searchNew()">Search New</q-btn>
+                            <q-btn class="bg-green-5 mt-4 ml-8" flat @click="searchNew()">Search New</q-btn>
                         </div>
                     </div>
 
@@ -161,7 +185,14 @@
 <script setup>
 import QuasarLayout from "@/Layout/Layout.vue";
 import { useRouter } from 'vue-router';
-import {ref} from 'vue'
+import {ref, onMounted} from 'vue'
+import { useQuasar } from 'quasar';
+
+
+onMounted(() => {
+  document.title = 'GPF';
+});
+const q=useQuasar()
 
 const router = useRouter();
 
@@ -179,6 +210,8 @@ const showResendButton = ref(false);
 const showSendButton = ref(true);
 const showSearchButton = ref(false);
 const showTable = ref(false);
+
+const showError = ref(false);
 
 let form = ref({id:''})
 
@@ -202,6 +235,14 @@ let form = ref({id:''})
 // };
 const sendOTP = () => {
   // Prepare data for sending OTP
+  if (!phoneNumber.value) {
+        showError.value = true;
+        q.notify({
+        type:'negative',
+        message: 'Phone Number is required'
+        });
+        return;
+    }
   const otpData = {
     phone_number: phoneNumber.value,
     send_otp: 'true' // Include the send_otp field
@@ -211,6 +252,7 @@ const sendOTP = () => {
   axios.post('/api/send_otp', otpData)
     .then(response => {
       console.log(response.data.message);
+
       // Show the OTP input field and resend button
       showOTP.value = true;
       showResendButton.value = true;
@@ -228,6 +270,14 @@ const resendOTP = () => {
 };
 const search = () => {
   // Logic to search
+  if (!otp.value) {
+        showError.value = true;
+        q.notify({
+        type:'negative',
+        message: 'OTP is required'
+        });
+        return;
+    }
   const otpValue = {
     phone_number: phoneNumber.value,
     otp: otp.value,

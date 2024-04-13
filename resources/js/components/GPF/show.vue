@@ -32,49 +32,11 @@
                         @click="print()"
                     /> -->
                    
-                    <ul>
-                        <li>
-                            <!-- Select Btn Option -->
-                            <button @click="print()">
-                                <i class="fas fa-print"></i>
-                                Print
-                            </button>
-                            <!-- End Select Btn Option -->
-                        </li>
-                        <li>
-                            <!-- Select Btn Option -->
-                            <button class="selectBtnFlat" @click="onEdit(form.id)">
-                                <i class=" fas fa-reply"></i>
-                                Edit
-                            </button>
-                            <!-- End Select Btn Option -->
-                        </li>
-                        <li>
-                            <!-- Select Btn Option -->
-                            <button class="selectBtnFlat " @click="deleteGpf(form.id)">
-                                <i class=" fas fa-pencil-alt"></i>
-                                Delete
-                            </button>
-                            <!-- End Select Btn Option -->
-                        </li>
-                        
-                    </ul>
+                   
                 </div>
             </div>
 
             <div class="table invoice">
-                <!-- <div class="logo">
-                    <img src="assets/img/logo.png" alt="" style="width: 200px;">
-                </div> -->
-                <div>
-                    <p></p>
-                    <p class="invoice__header--title-1">GPF</p>
-                    <p></p>
-                </div>
-
-                
-
-            
                 <table style="padding-top: 20px;">
                     <thead>
                         <tr>
@@ -99,16 +61,12 @@
                         </tr>
                     </tbody>
                 </table>
-                
-
-                
-
             </div>
-            <div>
+            <div class="flex">
                 <q-btn
                         label="Edit"
                         color="primary"
-                        class="q-mt-md"
+                        class="q-mt-md ml-2 mr-2"
                         @click="onEdit(form.id)"
                     />
                     <q-btn
@@ -144,6 +102,7 @@ const props = defineProps({
 
 onMounted(async () =>{
     getGpf()
+    document.title = 'GPF - Show'
 })
 
 // const getGpf = async () => {
@@ -172,13 +131,6 @@ const getGpf = async () => {
         // Handle error here, such as redirecting the user to the login page
     }
 };
-
-
-const print = () => {
-    window.print()
-    router.push('/').catch(() => {})
-}
-
 
 // const onEdit = (id) => {
 //     router.push('/gpf/edit/' + id)

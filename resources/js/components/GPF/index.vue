@@ -172,6 +172,7 @@ const columns = [
 onMounted(async () => {
     getGpf()
     getsignatory()
+    document.title = 'GPF - Index';
 })
 
 // const getGpf = async () => {

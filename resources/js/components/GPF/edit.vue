@@ -157,6 +157,7 @@ const props = defineProps({
 onMounted(async () =>{
     getGpf()
     getsignatory()
+    document.title = 'GPF - Edit'
 })
 
 // const getsignatory = async  () => {

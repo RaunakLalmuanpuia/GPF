@@ -140,6 +140,7 @@ let selectedSignatory = ref('');
 
 onMounted(async () => {
   getsignatory()
+  document.title = 'GPF - New'
 })
 
 

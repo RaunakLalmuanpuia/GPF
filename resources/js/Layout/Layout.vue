@@ -73,6 +73,9 @@
     localStorage.removeItem('token');
     alert('Logged out successfully');
     router.push('/');
+    // window.location.reload()
+    // Reload the page and clear browser cache
+    window.location.href = '/';
     console.log('logged out');
     // Redirect or perform any other actions after successful logout
   } 

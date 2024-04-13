@@ -196,6 +196,7 @@ const printData = async () => {
 onMounted(async () =>{
     await getGpf();
     await checkExist();
+    document.title = 'GPF - Template'
 })
 
 let entryInfoData;
