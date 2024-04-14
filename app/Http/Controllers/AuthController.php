@@ -37,13 +37,13 @@ class AuthController extends Controller
         // $templateID = "1407165911820847483";
         // $message = "OTP for MIPUI-AW is ".$OTP .". -MSeGS";
        
-        // Http::withHeaders([
-        //     'Authorization' => "Bearer 551|" . env('SMS_TOKEN'),
-        //  ])->get("https://sms.msegs.in/api/send-otp",[
-        //     'template_id' => $templateID,
-        //     'message' => $message,
-        //     'recipient'=>$request->phone_number
-        //  ]);
+        Http::withHeaders([
+            'Authorization' => "Bearer 551|" . env('SMS_TOKEN'),
+         ])->get("https://sms.msegs.in/api/send-otp",[
+            'template_id' => $templateID,
+            'message' => $message,
+            'recipient'=>$request->phone_number
+         ]);
         
         return response()->json(['message' => 'OTP sent successfully'], 200);
     }

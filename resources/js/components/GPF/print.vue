@@ -1,122 +1,122 @@
 <template>
    <QuasarLayout>
-  <div class="items-center justify-center q-pa-md q-gutter-sm column q-my-md">
-    <h4>GPF Approval  Template</h4>
+    <div class="items-center justify-center q-pa-md q-gutter-sm column q-my-md">
+      <h4>GPF Approval  Template</h4>
 
-    <q-editor v-model="editorContent" :style="{ width: editorWidth, height: editorHeight }" min-height="5rem"
-    :toolbar="[
-        [
-          {
-            label: $q.lang.editor.align,
-            icon: $q.iconSet.editor.align,
-            fixedLabel: true,
-            list: 'only-icons',
-            options: ['left', 'center', 'right', 'justify']
-          },
-        ],
-        ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
-        ['print'],
-        [
-          {
-            label: $q.lang.editor.formatting,
-            icon: $q.iconSet.editor.formatting,
-            list: 'no-icons',
-            options: [
-              'p',
-              'h1',
-              'h2',
-              'h3',
-              'h4',
-              'h5',
-              'h6',
-              'code'
-            ]
-          },
-          {
-            label: $q.lang.editor.fontSize,
-            icon: $q.iconSet.editor.fontSize,
-            fixedLabel: true,
-            fixedIcon: true,
-            list: 'no-icons',
-            options: [
-              'size-1',
-              'size-2',
-              'size-3',
-              'size-4',
-              'size-5',
-              'size-6',
-              'size-7'
-            ]
-          },
-          {
-            label: $q.lang.editor.defaultFont,
-            icon: $q.iconSet.editor.font,
-            fixedIcon: true,
-            list: 'no-icons',
-            options: [
-              'default_font',
-              'arial',
-              'arial_black',
-              'comic_sans',
-              'courier_new',
-              'impact',
-              'lucida_grande',
-              'times_new_roman',
-              'verdana'
-            ]
-          },
-          'removeFormat'
-        ],
-        ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
+      <q-editor v-model="editorContent" :style="{ width: editorWidth, height: editorHeight }" min-height="5rem"
+      :toolbar="[
+          [
+            {
+              label: $q.lang.editor.align,
+              icon: $q.iconSet.editor.align,
+              fixedLabel: true,
+              list: 'only-icons',
+              options: ['left', 'center', 'right', 'justify']
+            },
+          ],
+          ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
+          ['print'],
+          [
+            {
+              label: $q.lang.editor.formatting,
+              icon: $q.iconSet.editor.formatting,
+              list: 'no-icons',
+              options: [
+                'p',
+                'h1',
+                'h2',
+                'h3',
+                'h4',
+                'h5',
+                'h6',
+                'code'
+              ]
+            },
+            {
+              label: $q.lang.editor.fontSize,
+              icon: $q.iconSet.editor.fontSize,
+              fixedLabel: true,
+              fixedIcon: true,
+              list: 'no-icons',
+              options: [
+                'size-1',
+                'size-2',
+                'size-3',
+                'size-4',
+                'size-5',
+                'size-6',
+                'size-7'
+              ]
+            },
+            {
+              label: $q.lang.editor.defaultFont,
+              icon: $q.iconSet.editor.font,
+              fixedIcon: true,
+              list: 'no-icons',
+              options: [
+                'default_font',
+                'arial',
+                'arial_black',
+                'comic_sans',
+                'courier_new',
+                'impact',
+                'lucida_grande',
+                'times_new_roman',
+                'verdana'
+              ]
+            },
+            'removeFormat'
+          ],
+          ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
 
-        ['undo', 'redo'],
-        ['viewsource']
-      ]"
-      :fonts="{
-        arial: 'Arial',
-        arial_black: 'Arial Black',
-        comic_sans: 'Comic Sans MS',
-        courier_new: 'Courier New',
-        impact: 'Impact',
-        lucida_grande: 'Lucida Grande',
-        times_new_roman: 'Times New Roman',
-        verdana: 'Verdana'
-      }" />
-<div class="row q-gutter-md q-my-md" >
-  <!-- get the new GPF account details if any changes were made to the account -->
-  <q-btn
-      @click="getGpftemplate()"
-      label="Reset Template"
-      color="primary"
+          ['undo', 'redo'],
+          ['viewsource']
+        ]"
+        :fonts="{
+          arial: 'Arial',
+          arial_black: 'Arial Black',
+          comic_sans: 'Comic Sans MS',
+          courier_new: 'Courier New',
+          impact: 'Impact',
+          lucida_grande: 'Lucida Grande',
+          times_new_roman: 'Times New Roman',
+          verdana: 'Verdana'
+        }" />
+      <div class="row q-gutter-md q-my-md" >
+        <!-- get the new GPF account details if any changes were made to the account -->
+        <q-btn
+            @click="getGpftemplate()"
+            label="Reset Template"
+            color="primary"
+            class="q-mt-md"
+            v-model="new_template"
+          />
+          <q-btn
+          
+            label="Save Data"
+            color="primary"
+            class="q-mt-md"
+            @click="saveTemplate()"
+          />
+      </div>
+      <div class="row q-gutter-md">
+        <q-select
+        v-model="selectedFormat"
+        :options="formatOptions"
+        label="Select Paper Size"
+        outlined
+        class=" q-mt-md" style="width: 200px;"
+      />
+
+
+      <q-btn
+      @click="printData()"
+      label="Print"
+      color="grey"
       class="q-mt-md"
-      v-model="new_template"
     />
-    <q-btn
-     
-      label="Save Data"
-      color="primary"
-      class="q-mt-md"
-      @click="saveTemplate()"
-    />
-</div>
-<div class="row q-gutter-md">
-      <q-select
-      v-model="selectedFormat"
-      :options="formatOptions"
-      label="Select Paper Size"
-      outlined
-      class=" q-mt-md" style="width: 200px;"
-    />
-
-
-    <q-btn
-    @click="printData()"
-    label="Print"
-    color="grey"
-    class="q-mt-md"
-  />
-    </div>
-    <q-card flat bordered> </q-card>
+      </div>
+      
   </div>
 </QuasarLayout>
 </template>
@@ -159,7 +159,6 @@ watch(selectedFormat, (newValue) => {
 
 let form = ref({id:''})
 
-let slide = ref(1);
 
 const props = defineProps({
     id:{
@@ -207,20 +206,19 @@ let editorContent = ref('');
 //get the template if it exists
 const fetchTemplateData = async () => {
   try {
-    const token = localStorage.getItem('token'); // Get the token from local storage
+    const token = localStorage.getItem('token'); 
     if (!token) {
       throw new Error('No token found');
     }
     const config = {
             headers: {
-                Authorization: `Bearer ${token}` // Include the token in the request headers
+                Authorization: `Bearer ${token}` 
             }
         };
     let response = await axios.get(`/api/approval_templates/${props.id}`, config);
 
      editorContent.value = response.data.template.contents;
 
-    // You can continue adding more data as per your requirement
   } catch (error) {
     console.error('Error fetching data:', error);
   }
@@ -228,13 +226,13 @@ const fetchTemplateData = async () => {
 // check if template exist or not
 const checkExist = async () => {
   try {
-    const token = localStorage.getItem('token'); // Get the token from local storage
+    const token = localStorage.getItem('token'); 
     if (!token) {
       throw new Error('No token found');
     }
     const config = {
             headers: {
-                Authorization: `Bearer ${token}` // Include the token in the request headers
+                Authorization: `Bearer ${token}` 
             }
         };
     const entryInfoData = {
@@ -258,79 +256,16 @@ const checkExist = async () => {
     // Handle authentication error here, such as redirecting to the login page
   }
 };
-// const checkExist = async () => {
-//   try {
-    
-//     const entryInfoData = {
-//       entry_info: form.value.id,
-//       purpose: "Approval",
-//     };
-//     // let response = await axios.get("/api/get_entry_info")
-    
-//     let response = await axios.post('/api/check_existence',entryInfoData);
-//     exist.value = response.data.exists == true ? true :false;
-//     temp_id.value =response.data.id;
-//     console.log('Template id ' + temp_id.value);
-//     if(exist.value == true){
-//       console.log("EXIST")
-//       fetchTemplateData();
-//     }
-//     else{
-//       console.log("NOT EXIST")
-//       getGpftemplate();
-//     }
-//     // You can continue adding more data as per your requirement
-//   } catch (error) {
-//     console.error('Error fetching data:', error);
-//   }
-// };
 
-// save the current template
-// const saveData = async () => {
-//   try {
-//     // Send editor value to API for saving
-//     if (exist.value) {
-//       await api.put('text_templates/' + templateID.value, {
-//         'routine_sheet_id':id,
-//         'purpose':purpose.value,
-//         'template':editor.value,
-//         'format':selectedFormat.value
-//       });
-//       Notify.create({
-//           type: 'secondary',
-
-//           message: 'Template Updated!',
-//         });
-//     } else
-
-//     {
-//       var form = new FormData();
-//       form.append('routine_sheet_id', id);
-//       form.append('purpose', purpose.value);
-//       form.append('template', editor.value);
-//       form.append('format', format.value);
-//       await api.post('text_templates', form);
-//       Notify.create({
-//           type: 'secondary',
-
-//           message: 'Data saved successfully!',
-//         });
-//     }
-
-//     console.log('Data saved successfully!');
-//   } catch (error) {
-//     console.error('Error saving data:', error);
-//   }
-// };
 const saveTemplate = async () => {
   try {
-    const token = localStorage.getItem('token'); // Get the token from local storage
+    const token = localStorage.getItem('token'); 
     if (!token) {
       throw new Error('No token found');
     }
     const config = {
             headers: {
-                Authorization: `Bearer ${token}` // Include the token in the request headers
+                Authorization: `Bearer ${token}` 
             }
         };
     // Prepare data for entry_info
@@ -346,62 +281,43 @@ const saveTemplate = async () => {
     alert('Success');
   } catch (error) {
     console.error('Error saving template:', error);
-    // Handle authentication error here, such as redirecting to the login page
+    e
   }
 };
-// const saveTemplate = async() => {
-//   try {
-//     // Prepare data for entry_info
-//     const entryInfoData = {
-//       template_id: temp_id.value,
-//       purpose: "approval",
-//       content: editorContent.value,
-//       new: new_template.value,
-//     };
-//     axios.post(`/api/save_approval_template/${form.value.id}`, entryInfoData);
 
-//     alert('success');
-//   } catch (error) {
-//     console.error('Error:', error);
-//   }
-// }
-const getGpf = async () => {
-  try {
-    const token = localStorage.getItem('token'); // Get the token from local storage
-    if (!token) {
-      throw new Error('No token found');
+  const getGpf = async () => {
+    try {
+      const token = localStorage.getItem('token'); 
+      if (!token) {
+        throw new Error('No token found');
+      }
+      const config = {
+              headers: {
+                  Authorization: `Bearer ${token}` 
+              }
+          };
+      let response = await axios.get(`/api/edit_gpf/${props.id}`, config);
+      form.value = response.data.entry_info;
+      // console.log('form', form.value);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      // Handle authentication error here, such as redirecting to the login page
     }
-    const config = {
-            headers: {
-                Authorization: `Bearer ${token}` // Include the token in the request headers
-            }
-        };
-    let response = await axios.get(`/api/edit_gpf/${props.id}`, config);
-    form.value = response.data.entry_info;
-    // console.log('form', form.value);
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    // Handle authentication error here, such as redirecting to the login page
-  }
-};
-// const getGpf = async () => {
-//     let response = await axios.get(`/api/edit_gpf/${props.id}`)
-//     // console.log('form', response.data.entry_info);
-//     form.value = response.data.entry_info
-// }
+  };
+
 
 const getGpftemplate = () => {
   new_template.value = true;
   console.log('New Template'+new_template.value);
   return new Promise(async (resolve, reject) => {
     try {
-      const token = localStorage.getItem('token'); // Get the token from local storage
+      const token = localStorage.getItem('token'); 
         if (!token) {
             throw new Error('No token found');
         }
         const config = {
             headers: {
-                Authorization: `Bearer ${token}` // Include the token in the request headers
+                Authorization: `Bearer ${token}` 
             }
         };
         
@@ -450,6 +366,7 @@ const getGpftemplate = () => {
       // Loop for individual info
       entryInfoData.individual_infos.forEach((info, index) => {
       const amountInWords = numberToWords(parseInt(info.amount.replace(/,/g, ''))); // Convert amount to words
+      // edit this to make individual_infos of same size
       individualInfoHTML += `
           ${index + 1}.&nbsp ${info.name}, ${info.designation}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp;&nbsp;&nbsp;
           ₹ ${info.amount}/-<br>
@@ -458,18 +375,7 @@ const getGpftemplate = () => {
           </div>
       `;
       });
-      // entryInfoData.individual_infos.forEach((info, index) => {
-      //   individualInfoHTML += `
-      //     ${index + 1}.&nbsp ${info.name}, ${info.designation}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp;&nbsp;&nbsp;
-      //     ₹ ${info.amount}/-<br>
-      //     <div style="padding-left:162px;">
-      //       (Holder of GPA Account No. ${info.account})<br>
-      //       </div>
-      //   `;
-      // });
-
-
-
+  
       editorContent.value = `<div align="left">
           <div style="padding-left: 200px;">
           ${entryInfoData.file_number}
