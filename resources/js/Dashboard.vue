@@ -78,35 +78,54 @@
       </div>
       
 
-      <div ref="trackPort" class="flex flex-col items-center w-screen h-auto md:justify-center md:flex-row md:h-72 lg:h-auto z-5 bg-homeblue">
-                <div class="flex flex-col items-center justify-center w-4/5 my-2 bg-white rounded-lg md:w-1/3 lg:w-2/6 xl:w-1/3 md:my-4 lg:my-6 md:mr-12 lg:mr-20 sm:h-32 md:h-48 xl:h-56">
-                    <div class="px-5 py-2 text-xl font-bold text-textblue"> GPF track-na</div>
-                    <div class="w-4/5 border rounded-lg mb-7">
-                        <label  class="absolute px-2 py-2 text-xs font-bold text-blue-500">Phone No</label>
-                        <input rounded filled v-model="phoneNumber" class="w-full px-2 pt-6 pb-1 text-gray-900 rounded-lg focus:outline-none "/>    
-                        <!-- <input  type="text" v-model="reportStore" class="w-full px-2 pt-6 pb-1 text-gray-900 rounded-lg focus:outline-none "  placeholder="I Memo no chhu lut rawh le " > -->
-                        <q-input v-if="showOTP" rounded filled v-model="otp" label="OTP" />
-                      </div>
-                    <button @click ="search"  type="submit" class="flex items-center py-2 mt-4 mb-4 text-sm md:mb-0 focus:outline-none">
-                        <label   class="px-5 py-2 text-white rounded-lg bg-buttonpink hover:bg-red-500 hover:outline-none focus:outline-none">Report</label>
-                    </button>
-                    
-                    <q-btn flat v-if="showResendButton" @click="resendOTP">Resend OTP</q-btn>
-                    <q-btn flat v-if="showSendButton" @click="sendOTP">Send OTP</q-btn>
-                    <q-btn flat v-if="showSearchButton" @click="search">Search</q-btn> 
-                </div>
+      
+            
 
-                <div class="flex flex-col items-center justify-center w-4/5 my-2 bg-white rounded-lg md:w-1/3 lg:w-2/6 xl:w-1/3 md:my-4 lg:my-6 md:ml-12 lg:ml-20 sm:h-32 md:h-48 xl:h-56">
+      <!-- <div class="flex flex-col items-center w-screen h-auto md:justify-center md:flex-row md:h-72 lg:h-auto z-5 bg-green">
+              <div class="flex flex-col items-center justify-center w-4/5 my-2 bg-white rounded-lg md:w-1/3 lg:w-2/6 xl:w-1/3 md:my-4 lg:my-6 md:ml-12 lg:ml-20 sm:h-32 md:h-48 xl:h-56">
                     <div class="px-5 py-2 text-xl font-bold text-textblue"> Track GPF </div>
+                    
                     <div class="w-4/5 border rounded-lg mb-7">
                       <label  class="absolute px-2 py-2 text-xs font-bold text-blue-500">Phone No</label>
-                        <input rounded filled v-model="phoneNumber" class="w-full px-2 pt-6 pb-1 text-gray-900 rounded-lg focus:outline-none "/>
+                      <input rounded filled v-model="phoneNumber" class="w-full px-2 pt-6 pb-1 text-gray-900 rounded-lg focus:outlined "/>
                     </div>
+                    
                     <button @click ="StoreMemo"  type="submit" class="flex items-center py-2 mt-4 mb-4 text-sm md:mb-0 focus:outline-none">
-                        <label class="px-5 py-2 text-white rounded-lg bg-buttonpink hover:bg-red-500 hover:outline-none focus:outline-none">Track</label>
+                        <label class="px-5 py-2 text-white rounded-lg bg-blue hover:bg-red-500 hover:outline-none focus:outline-none">Track</label>
                     </button> 
+                    
                 </div>
-            </div>
+      </div>
+             -->
+
+             <!-- <div class="flex flex-col items-center w-screen h-auto md:justify-center md:flex-row md:h-72 lg:h-auto z-5 bg-green">
+                <div class="flex flex-col items-center justify-center w-4/5 my-2 bg-white rounded-lg md:w-1/3 lg:w-2/6 xl:w-1/3 md:my-4 lg:my-6 md:ml-12 lg:ml-20 sm:h-32 md:h-48 xl:h-56">
+                    <div class="px-5 py-2 text-xl font-bold text-textblue"> Track GPF </div>
+                    
+                    <div class="w-4/5 border rounded-lg mb-7">
+                        <label class="absolute px-2 py-2 text-xs font-bold text-blue-500">Phone No</label>
+                        <input rounded filled v-model="phoneNumber" class="w-full px-2 pt-6 pb-1 text-gray-900 rounded-lg focus:outlined "/>
+                    </div>
+                    <div class="w-4/5 border rounded-lg mb-7">
+                        <label class="absolute px-2 py-2 text-xs font-bold text-blue-500">Phone No</label>
+                        <input rounded filled v-model="phoneNumber" class="w-full px-2 pt-6 pb-1 text-gray-900 rounded-lg focus:outlined "/>
+                    </div>
+                    
+                    <div>
+                        <button v-if="showSendButton" @click="sendOTP" type="submit" class="flex items-center py-2 mt-4 mb-4 text-sm md:mb-0 focus:outline-none mr-4">
+                            <label class="px-5 py-2 text-white rounded-lg bg-blue hover:bg-red-500 hover:outline-none focus:outline-none">Send OTP</label>
+                        </button>
+                        <button  v-if="showResendButton" @click="resendOTP" type="submit" class="flex items-center  px-2 mt-4 mb-4 text-sm md:mb-0 focus:outline-none">
+                            <label class="px-5 py-2 text-white rounded-lg bg-blue hover:bg-red-500 hover:outline-none focus:outline-none">Resend OTP</label>
+                        </button>
+                        <button  v-if="showSearchButton" @click="search" type="submit" class="flex items-center py-2 mt-4 mb-4 text-sm md:mb-0 focus:outline-none">
+                            <label class="px-5 py-2 text-white rounded-lg bg-blue hover:bg-red-500 hover:outline-none focus:outline-none">Search</label>
+                        </button>
+                    </div>
+                </div>
+            </div> -->
+            
+
 
 
 

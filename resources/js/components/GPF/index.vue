@@ -4,34 +4,30 @@
         
         <div>
             <div>
-                <h2 class="text-gray-300">GPF</h2>
+                <h2 class="text-gray-800">GPF</h2>
             </div>
-            <!-- <div>
-                <q-btn @click="newGpf()" color="white" text-color="black" label="New GPF"/>
-            </div> -->
-            <div>
-                <q-btn @click="openModal()" color="white" text-color="black" label="New Signatory"/>
+            
+            <div style="display: flex; justify-content: flex-end; margin-right: 20px; margin-bottom:5px;">
+                 <q-btn @click="openModal()" color="white" text-color="black" label="New Signatory"/>
             </div>
+            
         </div>
 
-        <div class="relative">
+        <div class="mt-2 mr-10 ml-10">
             <!-- <input v-model="searchGpf" @keyup="search()" class="table--search--input" type="text" placeholder="Search GPF"> -->
             <q-input outlined v-model="searchGpf" @keyup="search()" type="text" placeholder="Search GPF" />
         </div>
-<!-- {{ gpf }} -->
-        
+
+        <div class="flex justify-content:flex-start mt-10 ml-4">
+                     <q-btn @click="newGpf()" label="Create New" color="primary" />
+        </div>
         <q-table
             :rows="gpf"
             :columns="columns"
             row-key="id"
             class="q-mt-md"
             >
-            <template v-slot:top>
-                <q-toolbar>
-                <q-space />
-                <q-btn @click="newGpf()" label="Create New" color="primary" />
-                </q-toolbar>
-            </template>
+            
 
             <template v-slot:body="props">
                 <q-tr :props="props">

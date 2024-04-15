@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
 use App\Models\IndividualInfo;
+use Illuminate\Support\Facades\Validator;
+
 class AuthController extends Controller
 {
     
@@ -40,13 +42,13 @@ class AuthController extends Controller
         //send sms
         $templateID = "1407170608246834529";
         $message = "MIPUI-AW atana I OTP chu ".$otp ." a ni e. EGOVMZ";
-        Http::withHeaders([
-            'Authorization' => "Bearer 551|" . env('SMS_TOKEN'),
-         ])->get("https://sms.msegs.in/api/send-otp",[
-            'template_id' => $templateID,
-            'message' => $message,
-            'recipient'=>$request->phone_number
-         ]);
+        // Http::withHeaders([
+        //     'Authorization' => "Bearer 551|" . env('SMS_TOKEN'),
+        //  ])->get("https://sms.msegs.in/api/send-otp",[
+        //     'template_id' => $templateID,
+        //     'message' => $message,
+        //     'recipient'=>$request->phone_number
+        //  ]);
         
         return response()->json(['message' => 'OTP sent successfully'], 200);
     }
@@ -105,10 +107,11 @@ class AuthController extends Controller
     
     public function user(Request $request)
     {
+        // dd($request->user());
         // return $request->user();
         $user = $request->user();
-        $user->load('roles'); // Load roles relationship
-        return response()->json($user);
+        // $user->load('roles'); // Load roles relationship
+        return response()->json(['user' => $user]);
     }
     public function check(Request $request)
     {
@@ -187,5 +190,41 @@ class AuthController extends Controller
        {
         
        }
-       
+       public function update(Request $request)
+        {
+            // Define validation rules
+            $validator = Validator::make($request->all(), [
+                'id' => 'required|exists:users,id',
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users,email,' . $request->id,
+                'password' => 'nullable|string|min:6',
+            ]);
+
+            // If validation fails, return error response
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+
+            try {
+                // Retrieve the user by ID
+                $user = User::findOrFail($request->id);
+
+                // Update the user's profile
+                $user->name = $request->name;
+                $user->email = $request->email;
+               
+                if (!is_null($request->password)) {
+                    $user->password = bcrypt($request->password); // Hash the password for security
+                }
+
+                // Save the updated user
+                $user->save();
+
+                // Return success response
+                return response()->json(['message' => 'User profile updated successfully'], 200);
+            } catch (\Exception $e) {
+                // Return error response if an exception occurs
+                return response()->json(['message' => 'Failed to update user profile', 'error' => $e->getMessage()], 500);
+            }
+        }
 }

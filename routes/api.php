@@ -18,9 +18,9 @@ use App\Http\Controllers\GpfController;
 use App\Http\Controllers\AuthController;
 
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user/{$id}', function (Request $request) {
+//     return dd($request->user());
+// });
 
 // Authentication Endpoints
 Route::post('send_otp', [AuthController::class, 'send_otp']);
@@ -33,7 +33,8 @@ Route::post('/login', [AuthController::class, 'login']);
 // Route::post('/login', [AuthController::class, 'check']);
 
 Route::middleware('auth:sanctum')->get('/logout', [AuthController::class, 'logout']);
-// Route::middleware('auth:sanctum')->get('user', [AuthController::class, 'user']);
+Route::middleware('auth:sanctum')->get('/user', [AuthController::class, 'user']);
+Route::middleware('auth:sanctum')->post('/update', [AuthController::class, 'update']);
 
 
 Route::middleware(['auth:sanctum'])->group(function () {

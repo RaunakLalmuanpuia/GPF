@@ -8,10 +8,6 @@
           <q-toolbar-title>
             <q-avatar>
               <img src="https://upload.wikimedia.org/wikipedia/commons/c/c6/Ashok_Emblem_svg.svg">
-
-
-
-                
             </q-avatar>
             Finance Department (EC)
           </q-toolbar-title>
@@ -71,11 +67,13 @@
   
 
 <script setup>
-  import { ref, onMounted  } from 'vue'
+  import axios from 'axios';
+import { ref, onMounted  } from 'vue'
   import { useRouter } from 'vue-router';
   const leftDrawerOpen = ref(false)
   const router = useRouter();
   const isLoggedIn = ref(false);
+  const userId = ref(null);
   
   const toggleLeftDrawer = () => {
     leftDrawerOpen.value = !leftDrawerOpen.value
@@ -102,15 +100,36 @@
     console.error('Error:', error);
   }
 };
+
 const profie = async () => {
-  router.push('/profile')
+  try {
+        const token = localStorage.getItem('token'); // Get the token from local storage
+        if (!token) {
+            throw new Error('No token found');
+        }
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}` // Include the token in the request headers
+            }
+        };
+
+        const response = await axios.get(`/api/user/`, config);
+        userId.value = response.data.id;
+        console.log('userID' +userId.value)
+        // If token is found, navigate to the edit page with the ID
+        router.push('/profile',config);
+    } catch (error) {
+        console.error('Authentication error:', error);
+        // Handle authentication error here, such as redirecting to the login page
+    }
+  
 }
 const gpf = async () => {
   router.push('/gpf')
 }
 const isAuthenticated = () => {
-  // Implement logic to check if the user is logged in
-  // For example, you can check if a token exists in localStorage
+
+  //check if a token exists in localStorage
   const token = localStorage.getItem('token');
   return !!token; // Return true if token exists, false otherwise
 };
