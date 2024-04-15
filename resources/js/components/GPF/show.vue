@@ -25,19 +25,13 @@
 
                     </div>
                 <div>
-                    <!-- <q-btn
-                        label="Save Data"
-                        color="primary"
-                        class="q-mt-md"
-                        @click="print()"
-                    /> -->
-                   
+                  
                    
                 </div>
             </div>
-
+            <!-- Change table design -->
             <div class="table invoice">
-                <table style="padding-top: 20px;">
+                <table style="padding-top: 20px; margin-right: 20px;">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -56,7 +50,7 @@
                             <td>{{ item.designation }}</td>
                             <td>{{ item.phone }}</td>
                             <td>{{ item.account }}</td>
-                            <td>${{ item.amount }}</td>
+                            <td>₹{{ item.amount }}</td>
                             <td>{{ item.status }}</td>
                         </tr>
                     </tbody>
@@ -66,7 +60,7 @@
                 <q-btn
                         label="Edit"
                         color="primary"
-                        class="q-mt-md ml-2 mr-2"
+                        class="ml-2 mr-2 q-mt-md"
                         @click="onEdit(form.id)"
                     />
                     <q-btn

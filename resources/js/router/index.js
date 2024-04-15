@@ -7,6 +7,7 @@ import GpfEdit from "../components/GPF/edit.vue";
 import GpfPrint from "../components/GPF/print.vue";
 import Dashboard from "../Dashboard.vue";
 import Login from "../Login.vue";
+import Profile from "../Profile.vue";
 import { isAuthenticated } from '../auth/auth';
 
 const routes = [
@@ -47,6 +48,12 @@ const routes = [
     {
         path:'/gpf/print/:id',
         component:GpfPrint,
+        props:true,
+        meta: { requiresAuth: true }
+    },
+    {
+        path:'/profile',
+        component:Profile,
         props:true,
         meta: { requiresAuth: true }
     },

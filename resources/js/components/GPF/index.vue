@@ -15,9 +15,9 @@
         </div>
 
         <div class="relative">
-                    <!-- <input v-model="searchGpf" @keyup="search()" class="table--search--input" type="text" placeholder="Search GPF"> -->
-                    <q-input outlined v-model="searchGpf" @keyup="search()" type="text" placeholder="Search GPF" />
-         </div>
+            <!-- <input v-model="searchGpf" @keyup="search()" class="table--search--input" type="text" placeholder="Search GPF"> -->
+            <q-input outlined v-model="searchGpf" @keyup="search()" type="text" placeholder="Search GPF" />
+        </div>
 <!-- {{ gpf }} -->
         
         <q-table
@@ -166,7 +166,7 @@ const columns = [
   { name: 'from_designation', label: 'Designation', align: 'left', field: 'from_designation' },
   { name: 'signatory', label: 'Signatory', align: 'left', field: 'signatory' },
   { name: 'date', label: 'Date', align: 'left', field: 'date' },
-  { name: 'action', label: 'Actions', align: 'left', field: 'action' } // Custom Actions column
+  // Custom Actions column
 ];
 
 onMounted(async () => {

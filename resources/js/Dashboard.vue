@@ -1,206 +1,179 @@
 <template>
-    <QuasarLayout>
+  <QuasarLayout>
 
-        <!-- <p>Dashboard</p> -->
-        <!-- <q-btn
+    <!-- <p>Dashboard</p> -->
+    <!-- <q-btn
                         label="GPF"
                         color="primary"
                         class="q-mt-md"
                         @click="Gpf()"
                     /> -->
-                    
-                <div class="flex">
 
-                    <!-- div 1 -->
-                    <div class="q-pa-md flex-grow">
-                        <!-- <q-carousel
-                        v-model="slide"
-                        transition-prev="slide-right"
-                        transition-next="slide-left"
-                        animated
-                        control-color="primary"
-                        class="rounded-borders"
-                        >
-                        <q-carousel-slide name="style" class="column no-wrap flex-center">
-                            <q-icon name="style" color="primary" size="56px" />
-                            <div class="q-mt-md text-center">
-                            {{ lorem }}
-                            </div>
-                        </q-carousel-slide>
-                        <q-carousel-slide name="tv" class="column no-wrap flex-center">
-                            <q-icon name="live_tv" color="primary" size="56px" />
-                            <div class="q-mt-md text-center">
-                            {{ lorem }}
-                            </div>
-                        </q-carousel-slide>
-                        <q-carousel-slide name="layers" class="column no-wrap flex-center">
-                            <q-icon name="layers" color="primary" size="56px" />
-                            <div class="q-mt-md text-center">
-                            {{ lorem }}
-                            </div>
-                        </q-carousel-slide>
-                        <q-carousel-slide name="map" class="column no-wrap flex-center">
-                            <q-icon name="terrain" color="primary" size="56px" />
-                            <div class="q-mt-md text-center">
-                            {{ lorem }}
-                            </div>
-                        </q-carousel-slide>
-                        </q-carousel>
+    <div class="flex">
 
-                        <div class="row justify-center">
-                        <q-btn-toggle
-                            glossy
-                            v-model="slide"
-                            :options="[
-                            { label: 1, value: 'style' },
-                            { label: 2, value: 'tv' },
-                            { label: 3, value: 'layers' },
-                            { label: 4, value: 'map' }
-                            ]"
-                        />
-                        </div> -->
+      <!-- div 1 -->
+      <div class="flex-grow q-pa-md">
 
-                        <q-carousel
-      v-model="slide"
-      transition-prev="slide-right"
-      transition-next="slide-left"
-      swipeable
-      animated
-      control-color="amber"
-      navigation
-      padding
-      arrows
-      height="300px"
-      class="bg-grey-9 shadow-2 rounded-borders"
-    >
-      <q-carousel-slide :name="1" class="column no-wrap">
-        <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/mountains.jpg" />
-          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/parallax1.jpg" />
-        </div>
-      </q-carousel-slide>
-      <q-carousel-slide :name="2" class="column no-wrap">
-        <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/parallax2.jpg" />
-          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/quasar.jpg" />
-        </div>
-      </q-carousel-slide>
-      <q-carousel-slide :name="3" class="column no-wrap">
-        <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/cat.jpg" />
-          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/linux-avatar.png" />
-        </div>
-      </q-carousel-slide>
-      <q-carousel-slide :name="4" class="column no-wrap">
-        <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/material.png" />
-          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/donuts.png" />
-        </div>
-      </q-carousel-slide>
-                         </q-carousel>
-                        
-                    </div>
+        <q-carousel v-model="slide" transition-prev="slide-right" transition-next="slide-left" swipeable animated
+          control-color="amber" navigation padding arrows height="300px" class="bg-grey-9 shadow-2 rounded-borders">
+          <q-carousel-slide :name="1" class="column no-wrap">
+            <div class="items-center justify-start row fit q-gutter-xs q-col-gutter no-wrap">
+              <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/mountains.jpg" />
+              <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/parallax1.jpg" />
+            </div>
+          </q-carousel-slide>
+          <q-carousel-slide :name="2" class="column no-wrap">
+            <div class="items-center justify-start row fit q-gutter-xs q-col-gutter no-wrap">
+              <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/parallax2.jpg" />
+              <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/quasar.jpg" />
+            </div>
+          </q-carousel-slide>
+          <q-carousel-slide :name="3" class="column no-wrap">
+            <div class="items-center justify-start row fit q-gutter-xs q-col-gutter no-wrap">
+              <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/cat.jpg" />
+              <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/linux-avatar.png" />
+            </div>
+          </q-carousel-slide>
+          <q-carousel-slide :name="4" class="column no-wrap">
+            <div class="items-center justify-start row fit q-gutter-xs q-col-gutter no-wrap">
+              <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/material.png" />
+              <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/donuts.png" />
+            </div>
+          </q-carousel-slide>
+        </q-carousel>
 
-                    
-                    <!-- div2 -->
-                    <div v-if="showOtpCard" class="flex-grow flex justify-center items-center ">
-                        <div class="w-full max-w-xl ml-10">
-                        <div class="q-pa-md row items-middle q-gutter-md">
-                            <div class="px-20">
-                            <q-card class="my-card">
-                                <!-- <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
+      </div>
+
+
+      <!-- div2 -->
+      <div v-if="showOtpCard" class="flex items-center justify-center flex-grow ">
+        <div class="w-full max-w-5xl ml-10">
+          <div class="">
+            <div class="">
+              <q-card class="my-card">
+                <!-- <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
                                 </q-img> -->
-                                <div class="px-3 text-h6">
-                                Check Gpf Status
-                                </div>  
-                                <q-card-section>
-                                <q-input rounded filled v-model="phoneNumber" label="Phone Number" />
-                                
-                                
-                                </q-card-section>
-                                <q-card-section v-if="showOTP">
-                            
-                                <q-input rounded filled v-model="otp" label="OTP" />
-                                </q-card-section>
-
-                                <q-card-actions>
-                                <q-btn flat v-if="showResendButton" @click="resendOTP">Resend OTP</q-btn>
-                                <q-btn flat v-if="showSendButton" @click="sendOTP">Send OTP</q-btn>
-                                <q-btn flat v-if="showSearchButton" @click="search">Search</q-btn>
-                                </q-card-actions>
-                            </q-card>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
+                <div class="px-3 text-h6">
+                  Check Gpf Status
                 </div>
-                    <div v-if="showTable">
-                        <table border="1">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Phone</th>
-                                <th>Designation</th>
-                                <th>File Number</th>
-                                <th>Account No.</th>
-                                <th>Status</th>
-                                <th>Amount</th>
-                                <th>Date</th>
-                                <th>Department</th>
-                                <!-- <th>From Designation</th> -->
-                                <th>Signatory Name</th>
-                                <th>Signatory Designation</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Loop through individualInfos -->
-                            <tr v-for="(info, index) in form" :key="info.id">
-                                <td>{{ index + 1 }}</td>
-                                <td>{{ info.name }}</td>
-                                <td>{{ info.phone }}</td>
-                                <td>{{ info.designation }}</td>
-                                <td>{{ info.entry_info.file_number }}</td>
-                                <td>{{ info.account }}</td>
-                                <td>{{ info.status }}</td>
-                                <td>{{ info.amount }}</td>
-                                <td>{{ info.entry_info.date }}</td>
-                                <td>{{ info.entry_info.from_deparment }}</td>
-                                <!-- <td>{{ info.entry_info.from_designation }}</td> -->
-                                <td>{{ info.entry_info.signatory.name }}</td>
-                                <td>{{ info.entry_info.signatory.designation }}</td>
-                            </tr>
-                        </tbody>
-                        </table>
-                        <div>
-                            <q-btn class="bg-green-5 mt-4 ml-8" flat @click="searchNew()">Search New</q-btn>
-                        </div>
-                    </div>
+                <q-card-section>
+                  <q-input rounded filled v-model="phoneNumber" label="Phone Number" />
 
+
+                </q-card-section>
+                <q-card-section v-if="showOTP">
+
+                  <q-input rounded filled v-model="otp" label="OTP" />
+                </q-card-section>
+
+                <q-card-actions>
+                  <q-btn flat v-if="showResendButton" @click="resendOTP">Resend OTP</q-btn>
+                  <q-btn flat v-if="showSendButton" @click="sendOTP">Send OTP</q-btn>
+                  <q-btn flat v-if="showSearchButton" @click="search">Search</q-btn>
+                </q-card-actions>
+              </q-card>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+      <div ref="trackPort" class="flex flex-col items-center w-screen h-auto md:justify-center md:flex-row md:h-72 lg:h-auto z-5 bg-homeblue">
+                <div class="flex flex-col items-center justify-center w-4/5 my-2 bg-white rounded-lg md:w-1/3 lg:w-2/6 xl:w-1/3 md:my-4 lg:my-6 md:mr-12 lg:mr-20 sm:h-32 md:h-48 xl:h-56">
+                    <div class="px-5 py-2 text-xl font-bold text-textblue"> GPF track-na</div>
+                    <div class="w-4/5 border rounded-lg mb-7">
+                        <label  class="absolute px-2 py-2 text-xs font-bold text-blue-500">Phone No</label>
+                        <input rounded filled v-model="phoneNumber" class="w-full px-2 pt-6 pb-1 text-gray-900 rounded-lg focus:outline-none "/>    
+                        <!-- <input  type="text" v-model="reportStore" class="w-full px-2 pt-6 pb-1 text-gray-900 rounded-lg focus:outline-none "  placeholder="I Memo no chhu lut rawh le " > -->
+                        <q-input v-if="showOTP" rounded filled v-model="otp" label="OTP" />
+                      </div>
+                    <button @click ="search"  type="submit" class="flex items-center py-2 mt-4 mb-4 text-sm md:mb-0 focus:outline-none">
+                        <label   class="px-5 py-2 text-white rounded-lg bg-buttonpink hover:bg-red-500 hover:outline-none focus:outline-none">Report</label>
+                    </button>
                     
+                    <q-btn flat v-if="showResendButton" @click="resendOTP">Resend OTP</q-btn>
+                    <q-btn flat v-if="showSendButton" @click="sendOTP">Send OTP</q-btn>
+                    <q-btn flat v-if="showSearchButton" @click="search">Search</q-btn> 
+                </div>
 
-    </QuasarLayout>
+                <div class="flex flex-col items-center justify-center w-4/5 my-2 bg-white rounded-lg md:w-1/3 lg:w-2/6 xl:w-1/3 md:my-4 lg:my-6 md:ml-12 lg:ml-20 sm:h-32 md:h-48 xl:h-56">
+                    <div class="px-5 py-2 text-xl font-bold text-textblue"> Track GPF </div>
+                    <div class="w-4/5 border rounded-lg mb-7">
+                      <label  class="absolute px-2 py-2 text-xs font-bold text-blue-500">Phone No</label>
+                        <input rounded filled v-model="phoneNumber" class="w-full px-2 pt-6 pb-1 text-gray-900 rounded-lg focus:outline-none "/>
+                    </div>
+                    <button @click ="StoreMemo"  type="submit" class="flex items-center py-2 mt-4 mb-4 text-sm md:mb-0 focus:outline-none">
+                        <label class="px-5 py-2 text-white rounded-lg bg-buttonpink hover:bg-red-500 hover:outline-none focus:outline-none">Track</label>
+                    </button> 
+                </div>
+            </div>
+
+
+
+      
+    </div>
+    <div v-if="showTable">
+      <table border="1">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Designation</th>
+            <th>File Number</th>
+            <th>Account No.</th>
+            <th>Status</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Department</th>
+            <!-- <th>From Designation</th> -->
+            <th>Signatory Name</th>
+            <th>Signatory Designation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Loop through individualInfos -->
+          <tr v-for="(info, index) in form" :key="info.id">
+            <td>{{ index + 1 }}</td>
+            <td>{{ info.name }}</td>
+            <td>{{ info.phone }}</td>
+            <td>{{ info.designation }}</td>
+            <td>{{ info.entry_info.file_number }}</td>
+            <td>{{ info.account }}</td>
+            <td>{{ info.status }}</td>
+            <td>{{ info.amount }}</td>
+            <td>{{ info.entry_info.date }}</td>
+            <td>{{ info.entry_info.from_deparment }}</td>
+            <td>{{ info.entry_info.signatory.name }}</td>
+            <td>{{ info.entry_info.signatory.designation }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div>
+        <q-btn class="mt-4 ml-8 bg-green-5" flat @click="searchNew()">Search New</q-btn>
+      </div>
+    </div>
+
+
+
+  </QuasarLayout>
 
 </template>
 <script setup>
 import QuasarLayout from "@/Layout/Layout.vue";
 import { useRouter } from 'vue-router';
-import {ref, onMounted} from 'vue'
+import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar';
 
 
 onMounted(() => {
   document.title = 'GPF';
 });
-const q=useQuasar()
+const q = useQuasar()
 
 const router = useRouter();
 
-// const lorem = ref('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')
 
-// const Gpf =async() => {
-//     router.push('/gpf')
-// }
 const slide = ref('style')
 const showOtpCard = ref(true);
 const phoneNumber = ref('');
@@ -213,45 +186,28 @@ const showTable = ref(false);
 
 const showError = ref(false);
 
-let form = ref({id:''})
+let form = ref({ id: '' })
 
-// const sendOTP = () => {
-//   // Logic to send OTP
-//   // Prepare data for entry_info
-//   const otpData = {
-//             phoneNumber: phoneNumber.value,
-//         };
-//     console.log(otpData.phoneNumber);
-//         // Make API request to save the entry
-//     axios.post('/api/send_otp', otpData);
 
-//     phoneNumber.value = '';
-//     // Show the OTP input field and resend button
-//     showOTP.value = true;
-//     showResendButton.value = true;
-//     // Hide the send OTP button
-//     showSendButton.value = false;
-//     showSearchButton.value = true;
-// };
 const sendOTP = () => {
   // Prepare data for sending OTP
   if (!phoneNumber.value) {
-        showError.value = true;
-        q.notify({
-        type:'negative',
-        message: 'Phone Number is required'
-        });
-        return;
-    }
+    showError.value = true;
+    q.notify({
+      type: 'negative',
+      message: 'Phone Number is required'
+    });
+    return;
+  }
   const otpData = {
     phone_number: phoneNumber.value,
     send_otp: 'true' // Include the send_otp field
   };
-  
+
   // Make API request to send OTP
   axios.post('/api/send_otp', otpData)
     .then(response => {
-      console.log(response.data.message);
+      // console.log(response.data.message);
 
       // Show the OTP input field and resend button
       showOTP.value = true;
@@ -259,10 +215,19 @@ const sendOTP = () => {
       // Hide the send OTP button
       showSendButton.value = false;
       showSearchButton.value = true;
+
+      q.notify({
+        type: 'positive',
+        message: 'OTP sent successfully'
+      });
     })
     .catch(error => {
-      console.error('Failed to send OTP:', error);
-      // Handle error if necessary
+      // console.log(error.message)
+      // console.error('Failed to send OTP:', error);
+      q.notify({
+        type: 'negative',
+        message: error.response.data.message
+      });
     });
 };
 const resendOTP = () => {
@@ -271,13 +236,13 @@ const resendOTP = () => {
 const search = () => {
   // Logic to search
   if (!otp.value) {
-        showError.value = true;
-        q.notify({
-        type:'negative',
-        message: 'OTP is required'
-        });
-        return;
-    }
+    showError.value = true;
+    q.notify({
+      type: 'negative',
+      message: 'OTP is required'
+    });
+    return;
+  }
   const otpValue = {
     phone_number: phoneNumber.value,
     otp: otp.value,
@@ -289,7 +254,7 @@ const search = () => {
       form.value = response.data.individualInfos;
       showTable.value = true;
       showOtpCard.value = false;
-      
+
     })
     .catch(error => {
       console.error('Failed to send OTP:', error);

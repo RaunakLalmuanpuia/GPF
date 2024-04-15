@@ -1,118 +1,128 @@
 <template>
-   <QuasarLayout>
-     <div class="invoices">
+    <QuasarLayout>
         
-        <div class="card__header">
-            <div>
-                <h2 class="invoice__title">New GPF</h2>
-            </div>
-            <div>
-                
-            </div>
+        <!-- Error message section -->
+        <div v-if="showError" class="error-message">
+            {{ errorMessage }}
         </div>
+        
+        <div class="invoices">
 
-        <div class="card__content">
-            <div class="card__content--header">
+            <div class="card__header">
                 <div>
-                    <p class="my-1">File Number</p>
-                    <input v-model="fileNumber" type="text" class="input"> 
-                    <p class="my-1">Department</p>
-                    <input v-model="department" type="text" class="input"> 
-                    <p class="my-1">Designation</p>
-                    <input v-model="designation" type="text" class="input"> 
+                    <h2 class="invoice__title">New GPF</h2>
                 </div>
                 <div>
-                    <p class="my-1">Date</p> 
-                    <!-- <input v-model="date" type="text" class="input">   -->
-                    <!-- <q-date v-model="date" /> -->
-                    <q-input filled v-model="date" mask="date" :rules="['date']">
-                      <template v-slot:append>
-                        <q-icon name="event" class="cursor-pointer">
-                          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                            <q-date v-model="date">
-                              <div class="items-center justify-end row">
-                                <q-btn v-close-popup label="Close" color="primary" flat />
-                              </div>
-                            </q-date>
-                          </q-popup-proxy>
-                        </q-icon>
-                      </template>
-                    </q-input>
-                    <p class="my-1">Signatory</p> 
+
+                </div>
+            </div>
+
+            <div class="card__content">
+                <div class="card__content--header">
                     <div>
-                      <select v-model="selectedSignatory" class="input dropdown">
-                        <option disabled value="">Select a signatory</option>
-                        <option v-for="(item, i) in signatory" :key="item.id" :value="item.id">
-                          {{ i+1 }}. {{ item.name }} {{ item.designation }}
-                        </option>
-                      </select>
-                      <p class="my-1">Name of Fund</p>
-                      <input v-model="name" type="text" class="input"> 
-                      <!-- <button @click="addSignatory(selectedSignatory)" class="add-button">
+                       
+                        <p class="my-1">File Number</p>
+                        <input v-model="fileNumber" type="text" class="input">
+                        <p class="my-1">Department</p>
+                        <input v-model="department" type="text" class="input">
+                        <p class="my-1">Designation</p>
+                        <input v-model="designation" type="text" class="input">
+                    </div>
+                    <div>
+                        <p class="my-1">Date</p>
+                        <!-- <input v-model="date" type="text" class="input">   -->
+                        <!-- <q-date v-model="date" /> -->
+                        <q-input filled v-model="date" mask="date" :rules="['date']">
+                            <template v-slot:append>
+                                <q-icon name="event" class="cursor-pointer">
+                                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                                        <q-date v-model="date">
+                                            <div class="items-center justify-end row">
+                                                <q-btn v-close-popup label="Close" color="primary" flat />
+                                            </div>
+                                        </q-date>
+                                    </q-popup-proxy>
+                                </q-icon>
+                            </template>
+                        </q-input>
+                        <p class="my-1">Signatory</p>
+                        <div>
+                            <select v-model="selectedSignatory" class="input dropdown">
+                                <option disabled value="">Select a signatory</option>
+                                <option v-for="(item, i) in signatory" :key="item.id" :value="item.id">
+                                    {{ i + 1 }}. {{ item.name }} {{ item.designation }}
+                                </option>
+                            </select>
+                            <p class="my-1">Name of Fund</p>
+                            <input v-model="name" type="text" class="input">
+                            <!-- <button @click="addSignatory(selectedSignatory)" class="add-button">
                         +
                       </button> -->
+                        </div>
+
                     </div>
-                      
-                </div>
-                <!-- <div>
+                    <!-- <div>
                     <p class="my-1">Amount</p> 
                     <input v-model="amount" type="text" class="input"> 
                     <p class="my-1">Status</p> 
                     <input v-model="status" type="text" class="input"> 
                    
                 </div> -->
+                </div>
+                <br><br>
+                <h2>Individual Info</h2>
+                <div class="container">
+                    <div class="header">
+                        <p>Name</p>
+                        <p>Designation</p>
+                        <p>GPF Account</p>
+                        <p>Amount</p>
+                        <p>Mobile</p>
+                        <p>Status</p>
+                    </div>
+
+                    <div class="individual-info-container">
+                        <!-- Loop through individualInfoLines and render each line -->
+                        <div v-for="(individualInfo, index) in individualInfoLines" :key="index"
+                            class="individual-info-line">
+                            <!-- Individual info input fields -->
+                            <!-- Use v-model to bind inputs to individualInfo properties -->
+                            <input v-model="individualInfo.name" type="text" class="input" placeholder="Enter Name">
+                            <input v-model="individualInfo.designation" type="text" class="input"
+                                placeholder="Enter Designation">
+                            <input v-model="individualInfo.account" type="text" class="input"
+                                placeholder="Enter GPF Account">
+                            <input v-model="individualInfo.amount" type="text" class="input" placeholder="Enter Amount">
+                            <input v-model="individualInfo.mobile" type="text" class="input" placeholder="Enter Mobile">
+                            <input v-model="individualInfo.status" type="text" class="input" placeholder="Enter Status">
+                            <button class="remove-button" @click="removeIndividualInfoLine(index)">Remove</button>
+                        </div>
+                    </div>
+
+                    <div class="button-container">
+                        <button class="add-button" @click="addNewIndividualInfoLine">Add New Individual</button>
+                    </div>
+                </div>
+
             </div>
-            <br><br>
-            <h2>Individual Info</h2>
-            <div class="container">
-              <div class="header">
-                  <p>Name</p>
-                  <p>Designation</p>
-                  <p>GPF Account</p>
-                  <p>Amount</p>
-                  <p>Mobile</p>
-                  <p>Status</p>
-              </div>
 
-              <div class="individual-info-container">
-                  <!-- Loop through individualInfoLines and render each line -->
-                  <div v-for="(individualInfo, index) in individualInfoLines" :key="index" class="individual-info-line">
-                      <!-- Individual info input fields -->
-                      <!-- Use v-model to bind inputs to individualInfo properties -->
-                      <input v-model="individualInfo.name" type="text" class="input" placeholder="Enter Name">
-                      <input v-model="individualInfo.designation" type="text" class="input" placeholder="Enter Designation">
-                      <input v-model="individualInfo.account" type="text" class="input" placeholder="Enter GPF Account">
-                      <input v-model="individualInfo.amount" type="text" class="input" placeholder="Enter Amount">
-                      <input v-model="individualInfo.mobile" type="text" class="input" placeholder="Enter Mobile">
-                      <input v-model="individualInfo.status" type="text" class="input" placeholder="Enter Status">
-                      <button class="remove-button" @click="removeIndividualInfoLine(index)">Remove</button>
-                  </div>
-              </div>
+            <div class="card__header" style="margin-top: 40px;">
+                <div>
 
-          <div class="button-container">
-              <button class="add-button" @click="addNewIndividualInfoLine">Add New Individual</button>
-          </div>
+                </div>
+                <div>
+                    <q-btn color="white" text-color="black" label="Create GPF Account" @click="saveEntry()" />
+
+                </div>
+            </div>
+
         </div>
 
-        </div>
-       
-        <div class="card__header" style="margin-top: 40px;">
-            <div>
-                
-            </div>
-            <div>
-              <q-btn color="white" text-color="black" label="Create GPF Account"  @click="saveEntry()"/>  
-              
-            </div>
-        </div>
-        
-    </div>
 
-    
-    
-    <br><br><br>
-    
-  </QuasarLayout>
+
+        <br><br><br>
+
+    </QuasarLayout>
 
 </template>
 
@@ -135,65 +145,30 @@ let individualInfoLines = ref([]);
 
 let selectedSignatory = ref('');
 
-
-
+// Define reactive variables
+const showError = ref(false); // Controls the visibility of the error message
+const errorMessage = ref(''); // Stores the error message text
 
 onMounted(async () => {
-  getsignatory()
-  document.title = 'GPF - New'
+    getsignatory()
+    document.title = 'GPF - New'
 })
 
 
 
 // Function to add a new individual info line
 const addNewIndividualInfoLine = () => {
-  // Add a new line to the temporary array
-  individualInfoLines.value.push({});
+    // Add a new line to the temporary array
+    individualInfoLines.value.push({});
 };
 
 // Function to remove an individual info line
 const removeIndividualInfoLine = (index) => {
-  // Remove the line from the temporary array
-  individualInfoLines.value.splice(index, 1);
+    // Remove the line from the temporary array
+    individualInfoLines.value.splice(index, 1);
 };
 
-// Function to save the entry and related individual info
 
-// const saveEntry = async () => {
-//   // console.log(selectedSignatory.value)
-//   try {
-//     // Prepare data for entry_info
-//     const entryInfoData = {
-//       file_number: fileNumber.value,
-//       date: date.value,
-//       amount: amount.value,
-//       status: status.value,
-//       individual_infos: individualInfoLines.value,
-//       selectedSignatory: selectedSignatory.value,
-//       department: department.value,
-//       designation: designation.value,
-//       name: name.value
-
-
-//     };
-//     axios.post('/api/save_gpf', entryInfoData);
-//     router.push('/')
-//     // console.log('Response:', response.data);
-
-//     fileNumber.value = ''; // Clear the fields after successful save
-//     date.value = '';
-//     selectedSignatory.value = '';
-//     amount.value = '';
-//     status.value = '';
-//     selectedSignatory.value = '';
-//     department.value = '';
-//     name.value = '';
-//     // alert('saved Succesfully');
-//     individualInfoLines.value = [];
-//   } catch (error) {
-//     console.error('Error:', error);
-//   }
-// };
 const saveEntry = async () => {
     try {
         const token = localStorage.getItem('token'); // Get the token from local storage
@@ -220,8 +195,15 @@ const saveEntry = async () => {
         };
 
         // Make API request to save the entry
-        await axios.post('/api/save_gpf', entryInfoData, config);
-
+        const response = await axios.post('/api/save_gpf', entryInfoData, config);
+        // Check if the response contains any errors
+        if (response.data.error) {
+            // Handle validation errors
+            showError.value = true; // Show the error message
+            errorMessage.value = response.data.error.message;
+            console.log( response.data.error.message); // Set the error message text
+            return;
+        }
         // Redirect to the desired route after successful save
         router.push('/gpf');
 
@@ -327,4 +309,16 @@ const getsignatory = async () => {
     background-color: #45a049;
 }
 
+.error-message {
+    background-color: #ffcccc;
+    color: #ff0000;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.error-text {
+    margin: 0;
+    font-weight: bold;
+}
 </style>

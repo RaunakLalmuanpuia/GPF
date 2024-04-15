@@ -18,11 +18,18 @@ class AuthController extends Controller
         // dd($request);
         $request->validate([
             'send_otp' => 'required|string',
+            'phone_number' =>'required'
         ]);
 
         // Generate a random OTP
         $otp = rand(100000, 999999);
 
+        // Query the database to check if the phone number exists
+        $exists = IndividualInfo::where('phone', $request->phone_number)->exists();
+        
+        if (!$exists) {
+            return response()->json(['message' => 'Phone number does not exist'], 404);
+        } 
         // Save OTP to the database
         OTP::create([
             'phone_number' => $request->phone_number,
@@ -32,11 +39,7 @@ class AuthController extends Controller
         // You can send the OTP to the user via SMS or any other method here
         //send sms
         $templateID = "1407170608246834529";
-        //MIPUI-AW atana I OTP chu {#var#} a ni e. EGOVMZ
         $message = "MIPUI-AW atana I OTP chu ".$otp ." a ni e. EGOVMZ";
-        // $templateID = "1407165911820847483";
-        // $message = "OTP for MIPUI-AW is ".$OTP .". -MSeGS";
-       
         Http::withHeaders([
             'Authorization' => "Bearer 551|" . env('SMS_TOKEN'),
          ])->get("https://sms.msegs.in/api/send-otp",[
@@ -99,28 +102,7 @@ class AuthController extends Controller
 
         return response()->json(['token' => $token], 201);
     }
-    // public function login(Request $request)
-    // {
-    //     $request->validate([
-    //         'email' => 'required|email',
-    //         'password' => 'required|string',
-    //     ]);
-
-    //     if (!Auth::attempt($request->only('email', 'password'))) {
-    //         return response()->json(['message' => 'Unauthorized'], 401);
-    //     }
-
-    //     $user = User::where('email', $request->email)->firstOrFail();
-    //     $token = $user->createToken('auth_token')->plainTextToken;
-
-    //     return response()->json(['token' => $token], 200);
-    // }
-    // public function logout(Request $request)
-    // {
-    //     $request->user()->currentAccessToken()->delete();
-
-    //     return response()->json(['message' => 'Logged out']);
-    // }
+    
     public function user(Request $request)
     {
         // return $request->user();
@@ -201,6 +183,9 @@ class AuthController extends Controller
             ], 200);
         }
 
-       
+       public function profile()
+       {
+        
+       }
        
 }

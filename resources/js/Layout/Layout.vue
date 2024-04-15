@@ -8,22 +8,25 @@
           <q-toolbar-title>
             <q-avatar>
               <img src="https://upload.wikimedia.org/wikipedia/commons/c/c6/Ashok_Emblem_svg.svg">
-              <!-- <img src="https://freesvg.org/img/indian-emblem.png" alt="Indian Emblem"> -->
-              <!-- https://upload.wikimedia.org/wikipedia/commons/c/c6/Ashok_Emblem_svg.svg -->
+
 
 
                 
             </q-avatar>
-            GPF
+            Finance Department (EC)
           </q-toolbar-title>
         </q-toolbar>
   
         <q-tabs align="left">
           <!-- <q-route-tab to="/gpf" label="GPF" /> -->
-          <q-route-tab to="/page2" label="Page Two" />
+          <!-- <q-route-tab to="/page2" label="Page Two" /> -->
           <!-- <q-route-tab to="/logout" label="Logout" />
            -->
-          <q-btn v-if="isLoggedIn" @click="logout()">Logout</q-btn>
+          <q-route-tab v-if="isLoggedIn" @click="gpf()" label="GPF"/>
+          <q-route-tab v-if="isLoggedIn" @click="profie()" label="Profile"/>
+          <q-route-tab v-if="isLoggedIn" @click="logout()" label="Logout"/>
+         
+          
         </q-tabs>
       </q-header>
   
@@ -34,19 +37,34 @@
       <q-page-container>
         <slot />
       </q-page-container>
+      
+      
       <div class="flex items-center justify-center">
         <q-footer elevated class="text-white bg-primary">
         <q-toolbar>
           <q-toolbar-title>
-            <q-avatar>
+            <!-- <q-avatar>
               <img src="https://upload.wikimedia.org/wikipedia/commons/c/c6/Ashok_Emblem_svg.svg">
-            </q-avatar>
-            <div>GPF</div>
+            </q-avatar> -->
+            <div class="flex items-center justify-center">
+            <span>
+              Copyright © {{ new Date().getFullYear() }} Created by
+              <a href="https://msegs.mizoram.gov.in/" target="_blank" title="Colorlib">MSeGS</a>. All rights reserved.
+            </span>
+          </div>
+            
           </q-toolbar-title>
         </q-toolbar>
+          <!-- <div class="flex items-center justify-center">
+            <span>
+              Copyright © {{ new Date().getFullYear() }} Created by
+              <a href="https://msegs.mizoram.gov.in/" target="_blank" title="Colorlib">MSeGS</a>. All rights reserved.
+            </span>
+          </div> -->
       </q-footer>
   
       </div>
+      
       
     </q-layout>
   </template>
@@ -84,7 +102,12 @@
     console.error('Error:', error);
   }
 };
-
+const profie = async () => {
+  router.push('/profile')
+}
+const gpf = async () => {
+  router.push('/gpf')
+}
 const isAuthenticated = () => {
   // Implement logic to check if the user is logged in
   // For example, you can check if a token exists in localStorage
