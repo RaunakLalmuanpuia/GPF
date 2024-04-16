@@ -18,9 +18,9 @@
           <!-- <q-route-tab to="/page2" label="Page Two" /> -->
           <!-- <q-route-tab to="/logout" label="Logout" />
            -->
-          <q-route-tab v-if="isLoggedIn" @click="gpf()" label="GPF"/>
-          <q-route-tab v-if="isLoggedIn" @click="individual()" label="Individual"/>
-          <q-route-tab v-if="isLoggedIn" @click="profie()" label="Profile"/>
+          <q-route-tab v-if="isLoggedIn" @click="gpf()" :class="{ 'bg-green-500': $route.path === '/gpf' }" label="GPF"/>
+          <q-route-tab v-if="isLoggedIn" @click="individual()" :class="{ 'bg-green-500': $route.path === '/individual' }" label="Individual"/>
+          <q-route-tab v-if="isLoggedIn" @click="profie()" :class="{ 'bg-green-500': $route.path === '/profile' }" label="Profile"/>
           <q-route-tab v-if="isLoggedIn" @click="logout()" label="Logout"/>
          
          
