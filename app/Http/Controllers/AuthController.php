@@ -55,7 +55,7 @@ class AuthController extends Controller
 
     public function verifyOtpAndSearch(Request $request)
     {
-        // dd($request);
+
         $request->validate([
             'phone_number' => 'required|string',
             'otp' => 'required|string',
@@ -131,9 +131,9 @@ class AuthController extends Controller
                                      'message' => "Fail"
         
         ]);
-       }
-       public function login(Request $request): JsonResponse
-            {
+    }
+    public function login(Request $request): JsonResponse
+    {
                 $credentials = $request->validate([
                     'email' => ['required', 'email'],
                     'password' => ['required','min:8'],
@@ -171,10 +171,10 @@ class AuthController extends Controller
                         'status' => 500
                     ], 500);
                 }
-            }
+    }
 
-        public function logout()
-        {
+    public function logout()
+    {
             // dd( User::findOrFail(Auth::id()));
             $user = User::findOrFail(Auth::id());
             $user->tokens()->delete();
@@ -184,13 +184,10 @@ class AuthController extends Controller
                 'status' => 200,
                 'message' => 'Logged out successfully'
             ], 200);
-        }
+    }
 
-       public function profile()
-       {
-        
-       }
-       public function update(Request $request)
+       
+    public function update(Request $request)
         {
             // Define validation rules
             $validator = Validator::make($request->all(), [

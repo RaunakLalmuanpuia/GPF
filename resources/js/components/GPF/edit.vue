@@ -1,7 +1,7 @@
 <template>
     <QuasarLayout>
     <div>
-        <div class="">
+        <div class="mb-2 ml-4">
             <div>
                 <h4 class="invoice__title">Edit GPF</h4>
             </div>
@@ -9,7 +9,7 @@
         </div>
         <!-- Entry_info -->
         <div class="flex">
-            <div class="flex-grow mr-4 ml-4">
+            <div class="flex-grow ml-4 mr-4">
                 <div>
 
                     <!-- <p class="my-1">Name of Fund</p>
@@ -84,7 +84,13 @@
                      
                       <q-input filled v-model="individualInfo.phone" label="Mobile"/>
                     
-                      <q-input filled v-model="individualInfo.status" label="Status"/>
+                      <!-- <q-input filled v-model="individualInfo.status" label="Status"/> -->
+                      <select v-model="individualInfo.status" class="input">
+                                <option value="" disabled selected>Select Status</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Rejected">Rejected</option>
+                                <option value="Pending">Pending</option>
+                            </select>
                         <!-- Delete Individual Info -->
                       <button class="remove-button" @click="deleteIndividual(individualInfo.id, index)">Remove</button>
                   </div>

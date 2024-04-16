@@ -6,9 +6,9 @@
             {{ errorMessage }}
         </div>
         
-        <div class="invoices">
+        <div>
 
-            <div class="card__header">
+            <div>
                 <div>
                     <h2 class="invoice__title">New GPF</h2>
                 </div>
@@ -20,7 +20,8 @@
             <div class="card__content">
                 <div class="card__content--header">
                     <div>
-                       
+                        <p class="my-1">Name of Fund</p>
+                        <input v-model="name" type="text" class="input">
                         <p class="my-1">File Number</p>
                         <input v-model="fileNumber" type="text" class="input">
                         <p class="my-1">Department</p>
@@ -30,8 +31,6 @@
                     </div>
                     <div>
                         <p class="my-1">Date</p>
-                        <!-- <input v-model="date" type="text" class="input">   -->
-                        <!-- <q-date v-model="date" /> -->
                         <q-input filled v-model="date" mask="date" :rules="['date']">
                             <template v-slot:append>
                                 <q-icon name="event" class="cursor-pointer">
@@ -53,11 +52,7 @@
                                     {{ i + 1 }}. {{ item.name }} {{ item.designation }}
                                 </option>
                             </select>
-                            <p class="my-1">Name of Fund</p>
-                            <input v-model="name" type="text" class="input">
-                            <!-- <button @click="addSignatory(selectedSignatory)" class="add-button">
-                        +
-                      </button> -->
+                           
                         </div>
 
                     </div>
@@ -70,8 +65,9 @@
                 </div> -->
                 </div>
                 <br><br>
-                <h2>Individual Info</h2>
+                
                 <div class="container">
+                    <h4>Individual Info</h4>
                     <div class="header">
                         <p>Name</p>
                         <p>Designation</p>
@@ -82,11 +78,10 @@
                     </div>
 
                     <div class="individual-info-container">
-                        <!-- Loop through individualInfoLines and render each line -->
+                     
                         <div v-for="(individualInfo, index) in individualInfoLines" :key="index"
                             class="individual-info-line">
-                            <!-- Individual info input fields -->
-                            <!-- Use v-model to bind inputs to individualInfo properties -->
+                           
                             <input v-model="individualInfo.name" type="text" class="input" placeholder="Enter Name">
                             <input v-model="individualInfo.designation" type="text" class="input"
                                 placeholder="Enter Designation">
@@ -94,7 +89,13 @@
                                 placeholder="Enter GPF Account">
                             <input v-model="individualInfo.amount" type="text" class="input" placeholder="Enter Amount">
                             <input v-model="individualInfo.mobile" type="text" class="input" placeholder="Enter Mobile">
-                            <input v-model="individualInfo.status" type="text" class="input" placeholder="Enter Status">
+                            
+                            <select v-model="individualInfo.status" class="input">
+                                <option value="" disabled selected>Select Status</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Rejected">Rejected</option>
+                                <option value="Pending">Pending</option>
+                            </select>
                             <button class="remove-button" @click="removeIndividualInfoLine(index)">Remove</button>
                         </div>
                     </div>
@@ -103,16 +104,13 @@
                         <button class="add-button" @click="addNewIndividualInfoLine">Add New Individual</button>
                     </div>
                 </div>
+                
 
             </div>
 
             <div class="card__header" style="margin-top: 40px;">
                 <div>
-
-                </div>
-                <div>
-                    <q-btn color="white" text-color="black" label="Create GPF Account" @click="saveEntry()" />
-
+                    <q-btn color="white" text-color="black" label="Create GPF Account" @click="saveEntry()" class="ml-8" />
                 </div>
             </div>
 
@@ -222,12 +220,6 @@ const saveEntry = async () => {
     }
 };
 
-//get signatory
-// const getsignatory = async  () => {
-//   let response = await axios.get('/api/signatory')
-//   // console.log('signatory', response)
-//   signatory.value = response.data.signatory
-// }
 const getsignatory = async () => {
     try {
         const token = localStorage.getItem('token'); // Get the token from local storage

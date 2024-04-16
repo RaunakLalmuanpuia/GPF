@@ -9,6 +9,7 @@ use App\Models\IndividualInfo;
 use App\Models\Signatory;
 use App\Models\Template;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Http;
 class GpfController extends Controller
 {
     
@@ -154,6 +155,21 @@ class GpfController extends Controller
                     'phone' => $individualInfoData['mobile'],
                     'status' => $individualInfoData['status'],
                 ]);
+
+                //send sms
+                $name = $individualInfoData['name'];
+                $status = $individualInfoData['status'];
+                $message = 'Chibai  '.$name.',  MIPUI AW ah I lo in register avangin kan lawm e. I registration a fel tawh a. '.$status.'.mizoram.gov.in ah lut in Grievance I theih lut thei e. EGOV-MZ';
+                $templateId ='1407170608238248851';
+                $phone = $individualInfoData['mobile'];
+                
+                Http::withHeaders([
+                    'Authorization' => "Bearer 551|" . env('SMS_TOKEN'),
+                 ])->get("https://sms.msegs.in/api/send-sms",[
+                    'template_id' => $templateId,
+                    'message' => $message,
+                    'recipient'=> $phone
+                 ]);         
             }
 
             return response()->json($entryInfo, 201);
@@ -317,6 +333,23 @@ class GpfController extends Controller
                 }
                 // Associate individual info with the entry info
                 $entry_info->individualInfos()->save($individual_info);
+                $name = $individualInfoData['name'];
+                $status = $individualInfoData['status'];
+                $message = 'Chibai  '.$name.',  MIPUI AW ah I lo in register avangin kan lawm e. I registration a fel tawh a. '.$status.'.mizoram.gov.in ah lut in Grievance I theih lut thei e. EGOV-MZ';
+                $templateId ='1407170608238248851';
+                $phone = $individualInfoData['phone'];
+                info($message);
+
+                Http::withHeaders([
+                    'Authorization' => "Bearer 551|" . env('SMS_TOKEN'),
+                 ])->get("https://sms.msegs.in/api/send-sms",[
+                    'template_id' => $templateId,
+                    'message' => $message,
+                    'recipient'=> $phone
+                 ]);    
+                // $phoneNumbers[] = $individualInfoData['mobile'];
+                // $statuses[] = $individualInfoData['status'];
+                //send sms to
             }
     
             return response()->json($entry_info, 200);

@@ -46,8 +46,10 @@
 
 
       <!-- div2 -->
-      <div v-if="showOtpCard" class="flex items-center justify-center flex-grow ">
-        <div class="w-full max-w-5xl ml-10">
+        
+    </div>
+    <div v-if="showOtpCard" class="flex items-center justify-center flex-grow ">
+        <div class="w-full max-w-2xl mt-10 ml-10">
           <div class="">
             <div class="">
               <q-card class="my-card">
@@ -75,62 +77,35 @@
             </div>
           </div>
         </div>
-      </div>
-      
+      </div> 
 
-      
-            
-
-      <!-- <div class="flex flex-col items-center w-screen h-auto md:justify-center md:flex-row md:h-72 lg:h-auto z-5 bg-green">
-              <div class="flex flex-col items-center justify-center w-4/5 my-2 bg-white rounded-lg md:w-1/3 lg:w-2/6 xl:w-1/3 md:my-4 lg:my-6 md:ml-12 lg:ml-20 sm:h-32 md:h-48 xl:h-56">
-                    <div class="px-5 py-2 text-xl font-bold text-textblue"> Track GPF </div>
-                    
-                    <div class="w-4/5 border rounded-lg mb-7">
-                      <label  class="absolute px-2 py-2 text-xs font-bold text-blue-500">Phone No</label>
-                      <input rounded filled v-model="phoneNumber" class="w-full px-2 pt-6 pb-1 text-gray-900 rounded-lg focus:outlined "/>
-                    </div>
-                    
-                    <button @click ="StoreMemo"  type="submit" class="flex items-center py-2 mt-4 mb-4 text-sm md:mb-0 focus:outline-none">
-                        <label class="px-5 py-2 text-white rounded-lg bg-blue hover:bg-red-500 hover:outline-none focus:outline-none">Track</label>
-                    </button> 
-                    
-                </div>
-      </div>
-             -->
-
-             <!-- <div class="flex flex-col items-center w-screen h-auto md:justify-center md:flex-row md:h-72 lg:h-auto z-5 bg-green">
-                <div class="flex flex-col items-center justify-center w-4/5 my-2 bg-white rounded-lg md:w-1/3 lg:w-2/6 xl:w-1/3 md:my-4 lg:my-6 md:ml-12 lg:ml-20 sm:h-32 md:h-48 xl:h-56">
+    <!-- <div v-if="showOtpCard" class="flex flex-col items-center w-screen h-auto md:justify-center md:flex-row md:h-75 lg:h-auto z-5 bg-green">
+                <div class="flex flex-col items-center justify-center w-4/5 my-2 bg-white rounded-lg md:w-1/3 lg:w-2/6 xl:w-1/3 md:my-4 lg:my-6 md:ml-12 lg:ml-20 sm:h-38 md:h-52 xl:h-62">
                     <div class="px-5 py-2 text-xl font-bold text-textblue"> Track GPF </div>
                     
                     <div class="w-4/5 border rounded-lg mb-7">
                         <label class="absolute px-2 py-2 text-xs font-bold text-blue-500">Phone No</label>
                         <input rounded filled v-model="phoneNumber" class="w-full px-2 pt-6 pb-1 text-gray-900 rounded-lg focus:outlined "/>
                     </div>
-                    <div class="w-4/5 border rounded-lg mb-7">
-                        <label class="absolute px-2 py-2 text-xs font-bold text-blue-500">Phone No</label>
-                        <input rounded filled v-model="phoneNumber" class="w-full px-2 pt-6 pb-1 text-gray-900 rounded-lg focus:outlined "/>
+                    <div v-if="showOTP" class="w-4/5 border rounded-lg mb-7">
+                        <label class="absolute px-2 py-2 text-xs font-bold text-blue-500">OTP</label>
+                        <input rounded filled v-model="otp" class="w-full px-2 pt-6 pb-1 text-gray-900 rounded-lg focus:outlined "/>
                     </div>
                     
-                    <div>
-                        <button v-if="showSendButton" @click="sendOTP" type="submit" class="flex items-center py-2 mt-4 mb-4 text-sm md:mb-0 focus:outline-none mr-4">
+                    <div class="flex-col items-center justify-center w-full">
+                        <button v-if="showSendButton" @click="sendOTP" type="submit">
                             <label class="px-5 py-2 text-white rounded-lg bg-blue hover:bg-red-500 hover:outline-none focus:outline-none">Send OTP</label>
                         </button>
-                        <button  v-if="showResendButton" @click="resendOTP" type="submit" class="flex items-center  px-2 mt-4 mb-4 text-sm md:mb-0 focus:outline-none">
+                        <button  v-if="showResendButton" @click="resendOTP" type="submit" class="px-2" >
                             <label class="px-5 py-2 text-white rounded-lg bg-blue hover:bg-red-500 hover:outline-none focus:outline-none">Resend OTP</label>
                         </button>
-                        <button  v-if="showSearchButton" @click="search" type="submit" class="flex items-center py-2 mt-4 mb-4 text-sm md:mb-0 focus:outline-none">
+                        <button  v-if="showSearchButton" @click="search" type="submit">
                             <label class="px-5 py-2 text-white rounded-lg bg-blue hover:bg-red-500 hover:outline-none focus:outline-none">Search</label>
                         </button>
                     </div>
                 </div>
-            </div> -->
+    </div> -->
             
-
-
-
-
-      
-    </div>
     <div v-if="showTable">
       <table border="1">
         <thead>
@@ -250,7 +225,28 @@ const sendOTP = () => {
     });
 };
 const resendOTP = () => {
-  // Logic to resend OTP
+  const otpData = {
+    phone_number: phoneNumber.value,
+    send_otp: 'true' // Include the send_otp field
+  };
+
+  // Make API request to send OTP
+  axios.post('/api/send_otp', otpData)
+    .then(response => {
+     
+      q.notify({
+        type: 'positive',
+        message: 'OTP Resend successfully'
+      });
+    })
+    .catch(error => {
+      // console.log(error.message)
+      // console.error('Failed to send OTP:', error);
+      q.notify({
+        type: 'negative',
+        message: error.response.data.message
+      });
+    });
 };
 const search = () => {
   // Logic to search
