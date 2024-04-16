@@ -31,17 +31,25 @@ class GpfController extends Controller
                 $entry_info = EntryInfo::with(['individualInfos', 'template', 'signatory' => function ($query) {
                     $query->withTrashed();
                 }])
+                ->where(function ($query) use ($search) {
+                    $query->Where('file_number','LIKE', "%$search%")
+                    ->orWhere('amount','LIKE', "%$search%")
+                    ->orWhere('date','LIKE', "%$search%")
+                    ->orWhere('from_designation','LIKE', "%$search%")
+                    ->orWhere('from_deparment','LIKE', "%$search%")
+                    ->orWhere('gpf_name','LIKE', "%$search%");
+                })
                 ->orWhereHas('signatory', function ($query) use ($search) {
                     $query->where('name', 'LIKE', "%$search%");
                         //   ->orWhere('designation', 'LIKE', "%$search%");
                 })
-                ->where('status','LIKE', "%$search%")
-                ->orWhere('file_number','LIKE', "%$search%")
-                ->orWhere('amount','LIKE', "%$search%")
-                ->orWhere('date','LIKE', "%$search%")
-                ->orWhere('from_designation','LIKE', "%$search%")
-                ->orWhere('from_deparment','LIKE', "%$search%")
-                ->orWhere('gpf_name','LIKE', "%$search%")
+                // ->where('status','LIKE', "%$search%")
+                // ->orWhere('file_number','LIKE', "%$search%")
+                // ->orWhere('amount','LIKE', "%$search%")
+                // ->orWhere('date','LIKE', "%$search%")
+                // ->orWhere('from_designation','LIKE', "%$search%")
+                // ->orWhere('from_deparment','LIKE', "%$search%")
+                // ->orWhere('gpf_name','LIKE', "%$search%")
                 ->get();
             } catch (\Throwable $th) {
                 //throw $th;
@@ -172,7 +180,7 @@ class GpfController extends Controller
                  ]);         
             }
 
-            return response()->json($entryInfo, 201);
+            return response()->json(['id'=>$entryInfo->id], 201);
         } catch (\Exception $e) {
             // Handle any exceptions
             info($e);

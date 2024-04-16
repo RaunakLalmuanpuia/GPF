@@ -5,6 +5,7 @@ import GpfShow from '../components/GPF/show.vue';
 import NotFound from "../components/NotFound.vue";
 import GpfEdit from "../components/GPF/edit.vue";
 import GpfPrint from "../components/GPF/print.vue";
+import Individual from "../components/GPF/individual.vue";
 import Dashboard from "../Dashboard.vue";
 import Login from "../Login.vue";
 import Profile from "../Profile.vue";
@@ -55,6 +56,12 @@ const routes = [
         path:'/profile',
         component:Profile,
         props:true,
+        meta: { requiresAuth: true }
+    },
+    {
+        path:'/individual',
+        component:Individual,
+        // props:true,
         meta: { requiresAuth: true }
     },
 ]

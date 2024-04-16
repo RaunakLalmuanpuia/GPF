@@ -19,8 +19,10 @@
           <!-- <q-route-tab to="/logout" label="Logout" />
            -->
           <q-route-tab v-if="isLoggedIn" @click="gpf()" label="GPF"/>
+          <q-route-tab v-if="isLoggedIn" @click="individual()" label="Individual"/>
           <q-route-tab v-if="isLoggedIn" @click="profie()" label="Profile"/>
           <q-route-tab v-if="isLoggedIn" @click="logout()" label="Logout"/>
+         
          
           
         </q-tabs>
@@ -127,12 +129,16 @@ const profie = async () => {
 const gpf = async () => {
   router.push('/gpf')
 }
+const individual = async () => {
+  router.push('/individual')
+}
 const isAuthenticated = () => {
 
   //check if a token exists in localStorage
   const token = localStorage.getItem('token');
   return !!token; // Return true if token exists, false otherwise
 };
+
 
 
 onMounted(() => {

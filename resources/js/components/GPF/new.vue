@@ -144,6 +144,8 @@ let designation = ref('');
 let name = ref('');
 let individualInfoLines = ref([]);
 
+let entryInfoId = ref('');
+
 let selectedSignatory = ref('');
 const statusOptions = ['Approved', 'Rejected', 'Pending']
 // Define reactive variables
@@ -197,6 +199,7 @@ const saveEntry = async () => {
 
         // Make API request to save the entry
         const response = await axios.post('/api/save_gpf', entryInfoData, config);
+        // console.log(response.data.id);
         // Check if the response contains any errors
         if (response.data.error) {
             // Handle validation errors
@@ -206,7 +209,7 @@ const saveEntry = async () => {
             return;
         }
         // Redirect to the desired route after successful save
-        router.push('/gpf');
+        router.push(`/gpf/show/${response.data.id}`);
 
         // Clear the form fields after successful save
         fileNumber.value = '';

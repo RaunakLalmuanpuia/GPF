@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\GpfController;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\IndividualController;
 
 // Route::middleware('auth:sanctum')->get('/user/{$id}', function (Request $request) {
 //     return dd($request->user());
@@ -66,5 +66,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     
     
     Route::get('/approval_templates/{id}', [GpfController::class , 'approval_templates']);
+
+
+    Route::get('/individuals', [IndividualController::class , 'index']);
+    Route::get('/search_individuals', [IndividualController::class , 'search_individual']);
 });
 

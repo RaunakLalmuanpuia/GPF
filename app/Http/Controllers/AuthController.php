@@ -151,7 +151,9 @@ class AuthController extends Controller
                     if (Auth::attempt($credentials)) {
 
                         $tokenName = 'Token'.rand(111,999);
-                        $token = $user->createToken($tokenName)->plainTextToken;
+                        // $token = $user->createToken($tokenName)->plainTextToken;
+                        $token = $user->createToken($tokenName, ['expires_in' => 30 * 60])->plainTextToken;
+
 
                         return response()->json([
                                 'status' => 200,
