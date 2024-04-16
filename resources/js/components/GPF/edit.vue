@@ -9,18 +9,18 @@
         </div>
         <!-- Entry_info -->
         <div class="flex">
-            <div class="flex-grow ml-4 mr-4">
+            <div class="flex flex-grow ml-4 mr-4 column">
                 <div>
 
                     <!-- <p class="my-1">Name of Fund</p>
                       <input v-model="form.gpf_name" type="text" class="input">  -->
 
-                    <q-input outlined  v-model="form.gpf_name" label="Name of Fund" />
-                    <q-input outlined  v-model="form.file_number" label="File Number" />
+                    <q-input outlined  v-model="form.gpf_name" label="Name of Fund" class="q-py-md" />
+                    <q-input outlined  v-model="form.file_number" label="File Number" class="q-py-md"/>
 
-                    <q-input outlined  v-model="form.from_deparment" label="Department" />
+                    <q-input outlined  v-model="form.from_deparment" label="Department" class="q-py-md" />
 
-                    <q-input outlined  v-model="form.from_designation" label="Designation" />
+                    <q-input outlined  v-model="form.from_designation" label="Designation" class="q-py-md" />
                 </div>
             </div>
 

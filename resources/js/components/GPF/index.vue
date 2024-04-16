@@ -4,7 +4,7 @@
         
         <div>
             <div>
-                <h2 class="text-gray-800">GPF</h2>
+                <h4 class="ml-4 text-gray-800">GPF</h4>
             </div>
             
             <div style="display: flex; justify-content: flex-end; margin-right: 20px; margin-bottom:5px;">
@@ -13,12 +13,12 @@
             
         </div>
 
-        <div class="mt-2 mr-10 ml-10">
+        <div class="mt-2 ml-10 mr-10">
             <!-- <input v-model="searchGpf" @keyup="search()" class="table--search--input" type="text" placeholder="Search GPF"> -->
             <q-input outlined v-model="searchGpf" @keyup="search()" type="text" placeholder="Search GPF" />
         </div>
 
-        <div class="flex justify-content:flex-start mt-10 ml-4">
+        <div class="flex mt-10 ml-4 justify-content:flex-start">
                      <q-btn @click="newGpf()" label="Create New" color="primary" />
         </div>
         <q-table
@@ -32,7 +32,7 @@
             <template v-slot:body="props">
                 <q-tr :props="props">
                 <q-td key="id">
-                    <a href="#" @click="onShow(props.row.id)">{{ props.row.id }}</a></q-td>
+                    <a href="#" @click="onShow(props.row.id)"> {{ props.rowIndex+1 }}</a></q-td>
                 <q-td key="file_number">{{ props.row.file_number }}</q-td>
                 <q-td key="gpf_name">{{ props.row.gpf_name }}</q-td>
                 <q-td key="from_deparment">{{ props.row.from_deparment }}</q-td>
@@ -57,77 +57,37 @@
       <q-card class="my-card">
         <q-card-section>
             <div>
-            <q-btn @click="closeModal()" v-close-popup flat color="primary" round icon="close" />
-            <!-- <span class="modal__close btn__close--modal" @click="closeModal()">×</span> -->
+            <q-btn  @click="closeModal()" v-close-popup flat color="primary" round icon="close" />
+            
             <h3 class="modal__title">Add New Signatory</h3>
             <hr><br>
             <div class="modal__items">
-                <p class="my-1">Name</p> 
-                <input v-model="name" type="text" class="input"> 
-                <p class="my-1">Designation</p> 
-                <input v-model="designation" type="text" class="input"> 
+                <q-input outlined  v-model="name" label="Name" class="q-py-md" />
+                <q-input outlined  v-model="designation" label="Designation" class="q-py-md" />
             </div>
             <br><hr>
             <ul>
-            <li v-for="(item, i) in signatory" :key="item.id" :value="item.id">
+            <li  class="py-2" v-for="(item, i) in signatory" :key="item.id" :value="item.id">
                 {{ i+1 }}. {{ item.name }} /{{ item.designation }}
-                <button style="margin-left: 100px;" @click="deletesignatory(item.id)">Delete</button>
+                <q-btn style="margin-left: 10px;" color="primary" @click="deletesignatory(item.id)">Delete</q-btn>
             </li>
             </ul>
-            <div class="model__footer">
-                <button @click="closeModal()" class="mr-2 btn btn-light btn__close--modal">
+            <div class="mt-5">
+                <q-btn @click="closeModal()" class="mr-2 btn btn-light btn__close--modal">
                     Cancel
-                </button>
-                <button class="btn btn-light btn__close--modal" @click="addSignatory()">Save</button>
+                </q-btn>
+                <q-btn class="btn btn-light btn__close--modal" @click="addSignatory()">Save</q-btn>
             </div>
         </div>
         </q-card-section>
-<!-- 
-        <q-card-section class="q-pt-none">
-          <div class="text-subtitle1">
-            $・Italian, Cafe
-          </div>
-          <div class="text-caption text-grey">
-            Small plates, salads & sandwiches in an intimate setting.
-          </div>
-        </q-card-section> -->
+
 
         <q-separator />
 
-        <!-- <q-card-actions align="right">
-          <q-btn v-close-popup flat color="primary" label="Reserve" />
-          <q-btn v-close-popup flat color="primary" round icon="event" />
-        </q-card-actions> -->
       </q-card>
     </q-dialog>
 
- <!--==================== add modal items ====================-->
-     <!-- <div class="modal main__modal" :class="{show: showModal}">
-        <div class="modal__content">
-            <span class="modal__close btn__close--modal" @click="closeModal()">×</span>
-            <h3 class="modal__title">Add New Signatory</h3>
-            <hr><br>
-            <div class="modal__items">
-                <p class="my-1">Name</p> 
-                <input v-model="name" type="text" class="input"> 
-                <p class="my-1">Designation</p> 
-                <input v-model="designation" type="text" class="input"> 
-            </div>
-            <br><hr>
-            <ul>
-            <li v-for="(item, i) in signatory" :key="item.id" :value="item.id">
-                {{ i+1 }}. {{ item.name }} /{{ item.designation }}
-                <button style="margin-left: 100px;" @click="deletesignatory(item.id)">Delete</button>
-            </li>
-            </ul>
-            <div class="model__footer">
-                <button @click="closeModal()" class="mr-2 btn btn-light btn__close--modal">
-                    Cancel
-                </button>
-                <button class="btn btn-light btn__close--modal" @click="addSignatory()">Save</button>
-            </div>
-        </div>
-    </div> -->
+ 
 </QuasarLayout>
 </template>
 
@@ -171,11 +131,6 @@ onMounted(async () => {
     document.title = 'GPF - Index';
 })
 
-// const getGpf = async () => {
-//     let response = await axios.get("/api/get_entry_info")
-//     // console.log('response', response);
-//     gpf.value = response.data.entry_info
-// }
 const getGpf = async () => {
     try {
         const token = localStorage.getItem('token'); // Get the token from local storage
@@ -197,11 +152,6 @@ const getGpf = async () => {
 };
 
 
-// const search = async() => {
-//     let response = await axios.get('/api/search_gpf?s='+searchGpf.value)
-//     // console.log('response', response.data.entry_info);
-//     gpf.value = response.data.entry_info;
-// }
 const search = async () => {
     try {
         const token = localStorage.getItem('token'); // Get the token from local storage
@@ -222,9 +172,7 @@ const search = async () => {
     }
 };
 
-// const newGpf =async() => {
-//     router.push('/gpf/new')
-// }
+
 const newGpf = async () => {
     try {
         const token = localStorage.getItem('token'); // Get the token from local storage
@@ -240,9 +188,7 @@ const newGpf = async () => {
     }
 };
 
-// const onShow = (id) => {
-//     router.push('/gpf/show/'+id);
-// }
+
 const onShow = async (id) => {
     try {
         const token = localStorage.getItem('token'); // Get the token from local storage
@@ -257,12 +203,7 @@ const onShow = async (id) => {
         // Handle authentication error here, such as redirecting to the login page
     }
 };
-//get signatory
-// const getsignatory = async  () => {
-//   let response = await axios.get('/api/signatory')
-//   // console.log('signatory', response)
-//   signatory.value = response.data.signatory
-// }
+
 
 const getsignatory = async () => {
     try {
@@ -285,10 +226,6 @@ const getsignatory = async () => {
 };
 
 
-// const deletesignatory = (id) => {
-//     axios.get('/api/delete_signatory/'+id)
-//     signatory.value = signatory.value.filter(item => item.id !== id);
-// }
 
 const deletesignatory = async (id) => {
     try {
@@ -313,30 +250,6 @@ const deletesignatory = async (id) => {
 };
 
 
-// console.log('Search parameter:', searchGpf.value);
-// const addSignatory = () => {
-//      axios.post('/api/save_signatory', {
-//         name: name.value,
-//         designation: designation.value
-//     })
-//     //closeModal()
-// }
-
-// const addSignatory = async () => {
-//     try {
-//         await axios.post('/api/save_signatory', {
-//             name: name.value,
-//             designation: designation.value
-//         });
-//         name.value = ''; // Clear the fields after successful save
-//         designation.value = '';
-//         getsignatory(); // Fetch signatories after saving
-//         // closeModal(); // Close modal after successful save
-//     } catch (error) {
-//         console.error('Error saving signatory:', error);
-//         // Handle error here
-//     }
-// }
 const addSignatory = async () => {
     try {
         const token = localStorage.getItem('token'); // Get the token from local storage
@@ -364,5 +277,7 @@ const addSignatory = async () => {
         // Handle error here
     }
 };
+
+
 
 </script>

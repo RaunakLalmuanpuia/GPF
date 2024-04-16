@@ -76,7 +76,7 @@ const LoginData = () => {
         const { status, message, access_token, token_type } = data;
         if (status === 200) {
           localStorage.setItem('token', `${token_type} ${access_token}`)
-          alert("Login Successfully:" + message);
+          // alert("Login Successfully:" + message);
           router.push('/gpf');
         } else {
           alert("Login failed" + message);

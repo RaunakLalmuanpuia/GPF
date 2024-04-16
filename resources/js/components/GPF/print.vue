@@ -135,7 +135,7 @@ const exist = ref(false);
 const temp_id = ref('');
 const new_template = ref(false);
 
-console.log('New Template'+new_template.value);
+// console.log('New Template'+new_template.value);
 
 const formatOptions = [
   { label: 'A4', value: 'A4', width: 210, height: 297 }, // A4 size is 210mm x 297mm
@@ -243,12 +243,12 @@ const checkExist = async () => {
     let response = await axios.post('/api/check_existence', entryInfoData, config);
     exist.value = response.data.exists == true ? true : false;
     temp_id.value = response.data.id;
-    console.log('Template id ' + temp_id.value);
+    // console.log('Template id ' + temp_id.value);
     if (exist.value == true) {
       console.log("EXIST");
       fetchTemplateData();
     } else {
-      console.log("NOT EXIST");
+      // console.log("NOT EXIST");
       getGpftemplate();
     }
   } catch (error) {
@@ -281,7 +281,7 @@ const saveTemplate = async () => {
     alert('Success');
   } catch (error) {
     console.error('Error saving template:', error);
-    e
+    
   }
 };
 
@@ -308,7 +308,7 @@ const saveTemplate = async () => {
 
 const getGpftemplate = () => {
   new_template.value = true;
-  console.log('New Template'+new_template.value);
+  // console.log('New Template'+new_template.value);
   return new Promise(async (resolve, reject) => {
     try {
       const token = localStorage.getItem('token'); 
@@ -345,7 +345,7 @@ const getGpftemplate = () => {
       //   totalAmount += parseInt(info.amount); 
       // });
 
-      console.log('Total amount '+totalAmountInWords);
+      // console.log('Total amount '+totalAmountInWords);
       entryInfoData = {
         file_number: form.value.file_number,
         date: formatDate(form.value.date),
@@ -359,7 +359,7 @@ const getGpftemplate = () => {
         name: form.value.gpf_name
       };
 
-      console.log(entryInfoData);
+      // console.log(entryInfoData);
       resolve(response);
 
       let individualInfoHTML = '';

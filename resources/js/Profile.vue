@@ -1,7 +1,7 @@
 <template>
     <QuasarLayout>
 
-        <div class="flex justify-center items-center q-h-full" style="max-width: 1000px">
+        <div class="flex items-center justify-center q-h-full" style="max-width: 1000px">
             <div>
                 <h4 class="ml-4">Update Profile</h4>
 

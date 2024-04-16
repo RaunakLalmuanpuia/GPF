@@ -1,37 +1,41 @@
 <template>
     <QuasarLayout>
-        
+
         <!-- Error message section -->
         <div v-if="showError" class="error-message">
             {{ errorMessage }}
         </div>
-        
+
         <div>
 
             <div>
                 <div>
-                    <h2 class="invoice__title">New GPF</h2>
+                    <h4 class="invoice__title q-ma-md">New GPF</h4>
                 </div>
-                <div>
 
-                </div>
             </div>
 
-            <div class="card__content">
+            <div class="card__content q-pa-md">
                 <div class="card__content--header">
-                    <div>
-                        <p class="my-1">Name of Fund</p>
-                        <input v-model="name" type="text" class="input">
-                        <p class="my-1">File Number</p>
-                        <input v-model="fileNumber" type="text" class="input">
-                        <p class="my-1">Department</p>
-                        <input v-model="department" type="text" class="input">
-                        <p class="my-1">Designation</p>
-                        <input v-model="designation" type="text" class="input">
-                    </div>
-                    <div>
-                        <p class="my-1">Date</p>
-                        <q-input filled v-model="date" mask="date" :rules="['date']">
+                    <div class="flex flex-wrap row q-gutter-md">
+                        <!-- <p class="my-1">Name of Fund</p> -->
+                        <q-input clearable v-model="name" type="text" label="Name of Fund" class=" col-md-8 col-lg-3" outlined />
+                        <!-- <p class="my-1">File Number</p> -->
+                        <!-- <input v-model="fileNumber" type="text" class="input col-md-4"> -->
+                        <q-input clearable v-model="fileNumber" type="text" label="File Number" class=" col-md-8 col-lg-3"
+                            outlined />
+                        <!-- <p class="my-1">Department</p>
+                        <input v-model="department" type="text" class="input col-md-4"> -->
+                        <q-input clearable v-model="department" type="text" label="Department" class=" col-md-8 col-lg-3"
+                            outlined />
+                        <!-- <p class="my-1">Designation</p>
+                        <input v-model="designation" type="text" class="input col-md-4"> -->
+                        <q-input clearable v-model="designation" type="text" label="Designation" class=" col-md-8 col-lg-3"
+                            outlined />
+
+
+                        <q-input clearable class=" col-md-8 col-lg-3" filled label="Date" v-model="date" mask="date"
+                            :rules="['date']">
                             <template v-slot:append>
                                 <q-icon name="event" class="cursor-pointer">
                                     <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -44,73 +48,72 @@
                                 </q-icon>
                             </template>
                         </q-input>
-                        <p class="my-1">Signatory</p>
-                        <div>
-                            <select v-model="selectedSignatory" class="input dropdown">
-                                <option disabled value="">Select a signatory</option>
-                                <option v-for="(item, i) in signatory" :key="item.id" :value="item.id">
-                                    {{ i + 1 }}. {{ item.name }} {{ item.designation }}
-                                </option>
-                            </select>
-                           
-                        </div>
+                       
+                        <select v-model="selectedSignatory" class="input dropdown col-md-8 col-lg-3">
+                            <option disabled value="">Select a signatory</option>
+                            <option v-for="(item, i) in signatory" :key="item.id" :value="item.id">
+                                {{ i + 1 }}. {{ item.name }} {{ item.designation }}
+                            </option>
+                        </select>
+                        <!-- <p class="my-1">Signatory</p> -->
 
                     </div>
-                    <!-- <div>
-                    <p class="my-1">Amount</p> 
-                    <input v-model="amount" type="text" class="input"> 
-                    <p class="my-1">Status</p> 
-                    <input v-model="status" type="text" class="input"> 
-                   
-                </div> -->
+
+
                 </div>
                 <br><br>
-                
-                <div class="container">
-                    <h4>Individual Info</h4>
-                    <div class="header">
-                        <p>Name</p>
-                        <p>Designation</p>
-                        <p>GPF Account</p>
-                        <p>Amount</p>
-                        <p>Mobile</p>
-                        <p>Status</p>
-                    </div>
-
-                    <div class="individual-info-container">
-                     
-                        <div v-for="(individualInfo, index) in individualInfoLines" :key="index"
-                            class="individual-info-line">
-                           
-                            <input v-model="individualInfo.name" type="text" class="input" placeholder="Enter Name">
-                            <input v-model="individualInfo.designation" type="text" class="input"
-                                placeholder="Enter Designation">
-                            <input v-model="individualInfo.account" type="text" class="input"
-                                placeholder="Enter GPF Account">
-                            <input v-model="individualInfo.amount" type="text" class="input" placeholder="Enter Amount">
-                            <input v-model="individualInfo.mobile" type="text" class="input" placeholder="Enter Mobile">
-                            
-                            <select v-model="individualInfo.status" class="input">
-                                <option value="" disabled selected>Select Status</option>
-                                <option value="Approved">Approved</option>
-                                <option value="Rejected">Rejected</option>
-                                <option value="Pending">Pending</option>
-                            </select>
-                            <button class="remove-button" @click="removeIndividualInfoLine(index)">Remove</button>
-                        </div>
-                    </div>
-
-                    <div class="button-container">
-                        <button class="add-button" @click="addNewIndividualInfoLine">Add New Individual</button>
-                    </div>
-                </div>
-                
 
             </div>
 
-            <div class="card__header" style="margin-top: 40px;">
+            <div>
+                <q-card flat bordered class="my-card">
+                    <q-card-section>
+                        <div class="text-h6">Individual Informations</div>
+                    </q-card-section>
+                    
+                    <q-card-section class="q-pt-none">
+                        <div v-for="(individualInfo, index) in individualInfoLines" :key="index"
+                            class="flex flex-wrap row q-gutter-md">
+                            <!-- Loop through individualInfoLines and render each line -->
+
+                            <!-- Individual info input fields -->
+                            <q-input clearable filled v-model="individualInfo.name" label="Name"
+                                class=" col-md-8 col-lg-3" />
+
+                            <q-input clearable filled v-model="individualInfo.designation" label="Designation"
+                                class=" col-md-8 col-lg-3" />
+
+                            <q-input clearable filled v-model="individualInfo.account" label="GPF Account"
+                                class=" col-md-8 col-lg-3" />
+
+                            <q-input clearable filled v-model="individualInfo.amount" label="Amount"
+                                class=" col-md-8 col-lg-3" />
+
+                            <q-input clearable filled v-model="individualInfo.mobile" label="Mobile"
+                                class=" col-md-8 col-lg-3" />
+
+                            <q-select v-model="individualInfo.status" :options="statusOptions" label="Select Status"
+                                emit-value map-options use-input input-debounce="0" clearable filled
+                                class=" col-md-8 col-lg-3" />
+                            <!-- Delete Individual Info -->
+                            <q-btn class="remove-button col-md-4 col-lg-3 mb-7"
+                                @click="removeIndividualInfoLine(index)">Remove</q-btn>
+                        
+                        </div>
+                        
+                    </q-card-section>
+
+                    <q-separator inset />
+
+                    <q-card-section>
+                        <button class="add-button" @click="addNewIndividualInfoLine">Add New Individual</button>
+                    </q-card-section>
+                </q-card>
+            </div>
+
+            <div class="text-center" style="margin-top: 40px;">
                 <div>
-                    <q-btn color="white" text-color="black" label="Create GPF Account" @click="saveEntry()" class="ml-8" />
+                    <q-btn label="Save" color="primary" @click="saveEntry()" class="" style="width:200px" />
                 </div>
             </div>
 
@@ -142,7 +145,7 @@ let name = ref('');
 let individualInfoLines = ref([]);
 
 let selectedSignatory = ref('');
-
+const statusOptions = ['Approved', 'Rejected', 'Pending']
 // Define reactive variables
 const showError = ref(false); // Controls the visibility of the error message
 const errorMessage = ref(''); // Stores the error message text
@@ -199,7 +202,7 @@ const saveEntry = async () => {
             // Handle validation errors
             showError.value = true; // Show the error message
             errorMessage.value = response.data.error.message;
-            console.log( response.data.error.message); // Set the error message text
+            console.log(response.data.error.message); // Set the error message text
             return;
         }
         // Redirect to the desired route after successful save
@@ -246,7 +249,6 @@ const getsignatory = async () => {
 <style scoped>
 .container {
     max-width: 1200px;
-    margin: 0 auto;
 }
 
 .header {
@@ -279,7 +281,7 @@ const getsignatory = async () => {
     background-color: #ff5555;
     color: white;
     border: none;
-    padding: 8px 12px;
+    /* padding: 8px 12px; */
     border-radius: 5px;
     cursor: pointer;
 }

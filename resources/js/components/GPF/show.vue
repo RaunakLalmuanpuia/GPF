@@ -1,34 +1,20 @@
 <template>
     <QuasarLayout>
-    <div>
+    <div class="container">
              <!--==================== SHOW GPF ====================-->
+             
         <div>
+            <h3>GPF Account</h3>
             <!-- {{ form.signatory}} -->
-            <div>
-                <div>
-                    <h3>GPF Account</h3>
-                </div>
-                <div>
-                    
-                </div>
-            </div>
-            <div>
-                <div>
-                    <h4 class="px-2 pt-2">File Number: {{ form.file_number }}</h4>
-                </div>
                     <div>
+                        <p class="px-2 pt-2">File Number: {{ form.file_number }}</p>
                         <p style="padding-left: 10px;">Date: {{ form.date }} </p>
                         <p style="padding-left: 10px;">Name: {{ form.gpf_name }} </p>
                         <p style="padding-left: 10px;">Department: {{ form.from_deparment }} </p>
                         <p style="padding-left: 10px;">Designation: {{ form.from_designation }} </p>
                         <p style="padding-left: 10px;" v-if="form.signatory">Signatory: {{ form.signatory.name }} / {{ form.signatory.designation }}</p>
-
                     </div>
-                <div>
-                  
-                   
-                </div>
-            </div>
+                
             <!-- Change table design -->
             <div class="table invoice">
                 <table style="padding-top: 20px; margin-right: 20px;">
@@ -173,6 +159,12 @@ const deleteGpf = (id) => {
 </script>
 
 <style>
+.container {
+    display: flex;
+    justify-content: center; /* Horizontal centering */
+    align-items: center; /* Vertical centering */
+    /* height: 100vh; Full viewport height */
+}
     /* Table styles */
     table {
         width: 100%;
