@@ -1,7 +1,7 @@
 <template>
     <QuasarLayout>
         <!-- <p>Individuals</p> -->
-        <div class="mt-2 ml-10 mr-10">
+        <div class=" q-ma-lg q-pa-md">
             <!-- <input v-model="searchGpf" @keyup="search()" class="table--search--input" type="text" placeholder="Search GPF"> -->
             <q-input clearable outlined v-model="searchIndividuals" @keyup="search()" type="text" placeholder="Search Individual" />
         </div>  
@@ -9,12 +9,12 @@
             :rows="individuals"
             :columns="columns"
             row-key="id"
-            class="q-mt-md"
+            class="q-ma-md"
             >
             
 
             <template v-slot:body="props">
-                <q-tr :props="props">
+                <q-tr :props="props" @click="onShow(props.row.entry_info.id)" class="cursor-pointer">
                 <q-td key="id">
                     <a href="#" @click="onShow(props.row.entry_info.id)"> {{ props.rowIndex+1 }}</a></q-td>
                 <q-td key="name">{{ props.row.name }}</q-td>

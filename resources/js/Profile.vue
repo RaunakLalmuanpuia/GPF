@@ -1,9 +1,9 @@
 <template>
     <QuasarLayout>
 
-        <div class="flex items-center justify-center q-h-full" style="max-width: 1000px">
+        <div class="flex items-center justify-center q-h-full q-ma-md q-pt-lg" style="max-width: 1000px">
             <div>
-                <h4 class="ml-4">Update Profile</h4>
+                <h4 class="ml-4 text-weight-bold">Update Profile</h4>
 
             
                 <div class="q-pa-md">

@@ -10,14 +10,14 @@
 
             <div>
                 <div>
-                    <h4 class="invoice__title q-ma-md">New GPF</h4>
+                    <h4 class="text-center invoice__title q-ma-md">New GPF</h4>
                 </div>
 
             </div>
 
             <div class="card__content q-pa-md">
                 <div class="card__content--header">
-                    <div class="flex flex-wrap row q-gutter-md">
+                    <div class="flex flex-wrap justify-center row q-gutter-md">
                         <!-- <p class="my-1">Name of Fund</p> -->
                         <q-input clearable v-model="name" type="text" label="Name of Fund" class=" col-md-8 col-lg-3" outlined />
                         <!-- <p class="my-1">File Number</p> -->
@@ -68,12 +68,12 @@
             <div>
                 <q-card flat bordered class="my-card">
                     <q-card-section>
-                        <div class="text-h6">Individual Informations</div>
+                        <div class="text-center text-h6">Individual Informations</div>
                     </q-card-section>
                     
                     <q-card-section class="q-pt-none">
                         <div v-for="(individualInfo, index) in individualInfoLines" :key="index"
-                            class="flex flex-wrap row q-gutter-md">
+                            class="flex flex-wrap justify-center row q-gutter-md">
                             <!-- Loop through individualInfoLines and render each line -->
 
                             <!-- Individual info input fields -->
@@ -86,10 +86,10 @@
                             <q-input clearable filled v-model="individualInfo.account" label="GPF Account"
                                 class=" col-md-8 col-lg-3" />
 
-                            <q-input clearable filled v-model="individualInfo.amount" label="Amount"
+                            <q-input clearable filled v-model="individualInfo.amount" type="number" label="Amount"
                                 class=" col-md-8 col-lg-3" />
 
-                            <q-input clearable filled v-model="individualInfo.mobile" label="Mobile"
+                            <q-input clearable filled v-model="individualInfo.mobile" type="number" label="Mobile"
                                 class=" col-md-8 col-lg-3" />
 
                             <q-select v-model="individualInfo.status" :options="statusOptions" label="Select Status"
@@ -106,14 +106,14 @@
                     <q-separator inset />
 
                     <q-card-section>
-                        <button class="add-button" @click="addNewIndividualInfoLine">Add New Individual</button>
+                        <button class="text-center add-button float-center" @click="addNewIndividualInfoLine">Add New Individual</button>
                     </q-card-section>
                 </q-card>
             </div>
 
             <div class="text-center" style="margin-top: 40px;">
                 <div>
-                    <q-btn label="Save" color="primary" @click="saveEntry()" class="" style="width:200px" />
+                    <q-btn label="Save" color="primary" @click="confirm = true" class="" style="width:200px" />
                 </div>
             </div>
 
@@ -122,7 +122,19 @@
 
 
         <br><br><br>
+        <q-dialog v-model="confirm" persistent>
+      <q-card>
+        <q-card-section class="items-center row">
+          <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="white" /> -->
+          <span class="q-ml-sm">Are you sure you want to save?</span>
+        </q-card-section>
 
+        <q-card-actions align="right">
+          <q-btn flat label="Cancel" color="primary" v-close-popup />
+          <q-btn flat label="Confirm" color="primary" v-close-popup @click="saveEntry()" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
     </QuasarLayout>
 
 </template>
@@ -132,7 +144,7 @@ import QuasarLayout from "@/Layout/Layout.vue";
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
-
+const confirm = ref(false);
 // let form = ref([]);
 let fileNumber = ref('');
 let date = ref('');

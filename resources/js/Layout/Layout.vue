@@ -56,7 +56,7 @@
       </q-page-container>
       
       
-      <div class="flex items-center justify-center">
+      <div class="flex items-center justify-center bg-primary">
         <q-footer elevated class="text-white bg-primary">
         <q-toolbar>
           <q-toolbar-title>

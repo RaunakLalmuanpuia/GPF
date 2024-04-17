@@ -1,8 +1,9 @@
 <template>
     <QuasarLayout>
-    <div>
+    <div class="q-ma-lg">
         <div class="mb-2 ml-4">
             <div>
+                <q-btn label="back" icon="arrow_back" unelevated class="q-py-md" @click="router.go(-1)"></q-btn>
                 <h4 class="invoice__title">Edit GPF</h4>
             </div>
            
@@ -122,6 +123,8 @@
             </div>
         </div>
     </div>
+
+    
 </QuasarLayout>
 </template>
 

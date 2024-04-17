@@ -1,10 +1,12 @@
 <template>
     <QuasarLayout>
-    <div class="container">
+    <div class="container q-ma-md">
              <!--==================== SHOW GPF ====================-->
              
         <div>
-            <h3>GPF Account</h3>
+            <q-btn label="back" icon="arrow_back" unelevated class="q-py-md" @click="router.go(-1)"></q-btn>
+
+            <h4 class="text-weight-bold q-pb-lg">GPF Account</h4>
             <!-- {{ form.signatory}} -->
                     <div>
                         <p class="px-2 pt-2">File Number: {{ form.file_number }}</p>
@@ -20,7 +22,7 @@
                 <table style="padding-top: 20px; margin-right: 20px;">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>S.No</th>
                             <th>Name</th>
                             <th>Designation</th>
                             <th>Phone</th>
@@ -53,7 +55,8 @@
                         label="Delete"
                         color="primary"
                         class="q-mt-md"
-                        @click="deleteGpf(form.id)"
+                        @click="confirm = true"
+                        
                     />
                 
             </div>
@@ -61,6 +64,19 @@
         </div>
 
     </div>
+    <q-dialog v-model="confirm" persistent>
+      <q-card>
+        <q-card-section class="items-center row">
+          <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="white" /> -->
+          <span class="q-ml-sm">You are sure you want to delete.</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Cancel" color="primary" v-close-popup />
+          <q-btn flat label="Confirm" color="primary" v-close-popup @click="deleteGpf(form.id)" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
 </QuasarLayout>
 </template>
 
@@ -70,7 +86,7 @@ import { onMounted,ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-
+const confirm = ref(false);
 let form = ref({id:''})
 
 const props = defineProps({

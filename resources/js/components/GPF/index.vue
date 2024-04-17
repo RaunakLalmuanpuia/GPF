@@ -1,6 +1,6 @@
 <template>
     <QuasarLayout>
-    <div>
+    <div class="q-pa-md">
         
         <div>
             <div>
@@ -30,7 +30,7 @@
             
 
             <template v-slot:body="props">
-                <q-tr :props="props">
+                <q-tr :props="props" @click="onShow(props.row.id)" class="cursor-pointer">
                 <q-td key="id">
                     <a href="#" @click="onShow(props.row.id)"> {{ props.rowIndex+1 }}</a></q-td>
                 <q-td key="file_number">{{ props.row.file_number }}</q-td>
