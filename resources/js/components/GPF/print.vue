@@ -4,6 +4,7 @@
       <h4>GPF Approval  Template</h4>
 
       <q-editor v-model="editorContent" :style="{ width: editorWidth, height: editorHeight }" min-height="5rem"
+      
       :toolbar="[
           [
             {
@@ -485,3 +486,13 @@ function numberToWords(num) {
     return result;
 }
 </script>
+<style scoped>
+/* Hide the header and footer of the Quasar editor */
+.q-editor__header {
+  display: none;
+}
+
+.q-editor__footer {
+  display: none;
+}
+</style>

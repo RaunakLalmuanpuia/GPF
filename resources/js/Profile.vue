@@ -89,7 +89,7 @@ const getUser = async () => {
         // Make API request to fetch GPF data
         let response = await axios.get('/api/user/', config);
         form.value = response.data.user;
-        console.log(form.value);
+        // console.log(form.value);
     } catch (error) {
         console.error('Error:', error);
         // Handle error here, such as redirecting the user to the login page

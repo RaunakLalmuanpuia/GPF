@@ -28,13 +28,15 @@ class IndividualController extends Controller
                 ->where(function ($query) use ($search) {
                     $query->where('name', 'LIKE', "%$search%")
                         ->orWhere('account', 'LIKE', "%$search%")
+                        ->orWhere('amount', 'LIKE', "%$search%")
                         ->orWhere('designation', 'LIKE', "%$search%")
                         ->orWhere('phone', 'LIKE', "%$search%")
                         ->orWhere('status', 'LIKE', "%$search%");
                 })
                 ->orWhereHas('entryInfo', function ($query) use ($search) {
                     $query->where('file_number', 'LIKE', "%$search%")
-                        ->orWhere('from_deparment', 'LIKE', "%$search%");
+                        ->orWhere('from_deparment', 'LIKE', "%$search%")
+                        ->orWhere('date', 'LIKE', "%$search%");
                 })
                 ->get();
             } catch (\Throwable $th) {

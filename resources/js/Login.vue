@@ -71,7 +71,7 @@ const router = useRouter();
 const LoginData = () => {
   const response = axios.post("/api/login", dealing.value)
     .then(({ data }) => {
-      console.log(data);
+      // console.log(data);
       try {
         const { status, message, access_token, token_type } = data;
         if (status === 200) {

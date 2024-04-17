@@ -11,25 +11,6 @@
             </q-avatar>
             Finance Department (EC)
           </q-toolbar-title>
-          <q-btn-dropdown
-                    color="primary"
-                    class="ml-4"
-                    label="Dealing"
-                >
-                    <q-list>
-                        <q-item clickable v-close-popup @click="profie()">
-                            <q-item-section>
-                                <q-item-label>Profile</q-item-label>
-                            </q-item-section>
-                        </q-item>
-
-                        <q-item clickable v-close-popup @click="logout()">
-                            <q-item-section>
-                                <q-item-label>Logout</q-item-label>
-                            </q-item-section>
-                        </q-item>
-                    </q-list>
-                </q-btn-dropdown>
         </q-toolbar>
   
         <q-tabs align="left">
@@ -37,10 +18,7 @@
           <!-- <q-route-tab to="/page2" label="Page Two" /> -->
           <!-- <q-route-tab to="/logout" label="Logout" />
            -->
-          <q-route-tab v-if="isLoggedIn" @click="gpf()" :class="{ 'bg-green-500': $route.path === '/gpf' }" label="GPF"/>
-          <q-route-tab v-if="isLoggedIn" @click="individual()" :class="{ 'bg-green-500': $route.path === '/individual' }" label="Individuals"/>
-          <!-- <q-route-tab v-if="isLoggedIn" @click="profie()" :class="{ 'bg-green-500': $route.path === '/profile' }" label="Profile"/>
-          <q-route-tab v-if="isLoggedIn" @click="logout()" label="Logout"/> -->
+         
          
          
           
@@ -136,7 +114,7 @@ const profie = async () => {
 
         const response = await axios.get(`/api/user/`, config);
         userId.value = response.data.id;
-        // console.log('userID' +userId.value)
+        console.log('userID' +userId.value)
         // If token is found, navigate to the edit page with the ID
         router.push('/profile',config);
     } catch (error) {

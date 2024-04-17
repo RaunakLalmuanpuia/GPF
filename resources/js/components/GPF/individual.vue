@@ -88,7 +88,7 @@ const getIndividuals = async () => {
 
         const response = await axios.get("/api/individuals", config);
         individuals.value = response.data.individual_info;
-        console.log(individuals)
+        // console.log(individuals)
     } catch (error) {
         console.error('Error fetching data:', error);
     }

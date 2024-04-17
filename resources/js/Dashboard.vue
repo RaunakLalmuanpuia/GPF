@@ -1,5 +1,5 @@
 <template>
-  <QuasarLayout>
+  <GuestLayout>
 
     <!-- <p>Dashboard</p> -->
     <!-- <q-btn
@@ -150,11 +150,11 @@
 
 
 
-  </QuasarLayout>
+  </GuestLayout>
 
 </template>
 <script setup>
-import QuasarLayout from "@/Layout/Layout.vue";
+import GuestLayout from "@/Layout/GuestLayout.vue";
 import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar';
@@ -282,5 +282,10 @@ const searchNew = () => {
   phoneNumber.value = '',
   otp.value = ''
   showTable.value = false;
+  showOTP.value=false;
+  showSendButton.value = true;
+  showResendButton.value=false;
+  showSearchButton.value=false;
+  // showSendButton.value=false;
 };
 </script>
