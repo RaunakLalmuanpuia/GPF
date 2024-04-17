@@ -32,7 +32,7 @@
     "src": "node_modules/@quasar/extras/roboto-font/web-font/KFOmCnqEu92Fr1Mu4mxM.woff"
   },
   "node_modules/canvg/lib/index.es.js": {
-    "file": "assets/index.es-6wXXl4jI.js",
+    "file": "assets/index.es-CjN9ISGV.js",
     "name": "index.es",
     "src": "node_modules/canvg/lib/index.es.js",
     "isDynamicEntry": true,
@@ -47,7 +47,7 @@
     "isDynamicEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-enZlU-XQ.js",
+    "file": "assets/app-D64xB9pr.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,

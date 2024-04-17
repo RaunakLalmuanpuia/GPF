@@ -56,7 +56,7 @@
                 <!-- <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
                                 </q-img> -->
                 <div class="px-3 text-h6">
-                  Check Gpf Status
+                  Check Gpf Statusss
                 </div>
                 <q-card-section>
                   <q-input rounded filled v-model="phoneNumber" label="Phone Number" />
