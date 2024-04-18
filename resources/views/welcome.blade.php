@@ -14,8 +14,9 @@
     </head>
     <body>
         <div id="app">
-            
+         
             @vite('resources/js/app.js')
+            @vite('resources/css/app.css')
         </div>
     </body>
 </html>
