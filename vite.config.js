@@ -4,10 +4,9 @@ import vue from '@vitejs/plugin-vue';
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
 export default defineConfig({
-    mode: 'production',
     plugins: [
         laravel({
-            input: ["resources/js/app.js", "resources/css/app.css"],
+            input: ["resources/css/app.css", "resources/js/app.js" ],
             refresh: true,
             template: { transformAssetUrls },
         }),
