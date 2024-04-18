@@ -46,11 +46,6 @@
     "src": "node_modules/dompurify/dist/purify.es.js",
     "isDynamicEntry": true
   },
-  "resources/css/app.css": {
-    "file": "assets/app-CfDMhJbw.css",
-    "src": "resources/css/app.css",
-    "isEntry": true
-  },
   "resources/js/app.js": {
     "file": "assets/app-D64xB9pr.js",
     "name": "app",
