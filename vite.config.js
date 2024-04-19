@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
-import { splitVendorChunkPlugin } from 'vite'
+
 
 export default defineConfig({
     plugins: [
@@ -11,29 +11,32 @@ export default defineConfig({
             refresh: true,
             // template: { transformAssetUrls },
         }),
+        // vue({
+        //     template: {
+        //         transformAssetUrls: {
+        //             base: null,
+        //             includeAbsolute: false,
+        //         },
+        //     },
+        // }),
         vue({
-            template: {
-                transformAssetUrls: {
-                    base: null,
-                    includeAbsolute: false,
-                },
-            },
-        }),
+            template: { transformAssetUrls }
+          }),
         quasar({
             sassVariables: "resources/css/quasar-variables.sass",
         }),
-        splitVendorChunkPlugin(),
+        // splitVendorChunkPlugin(),
     ],
-    build: {
-        rollupOptions: {
-          output: {
-            manualChunks: {
-              // Define manual chunks here
-              // For example:
-              'vendor': ['vue', 'quasar'],
-            //   'customChunk': ['src/custom-module']
-            },
-          },
-        },
-      },
+    // build: {
+    //     rollupOptions: {
+    //       output: {
+    //         manualChunks: {
+    //           // Define manual chunks here
+    //           // For example:
+    //           'vendor': ['vue','quasar'],
+    //         //   'customChunk': ['src/custom-module']
+    //         },
+    //       },
+    //     },
+    //   },
 });
