@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
+import { splitVendorChunkPlugin } from 'vite'
 
 export default defineConfig({
     plugins: [
@@ -21,5 +22,18 @@ export default defineConfig({
         quasar({
             sassVariables: "resources/css/quasar-variables.sass",
         }),
+        splitVendorChunkPlugin(),
     ],
+    build: {
+        rollupOptions: {
+          output: {
+            manualChunks: {
+              // Define manual chunks here
+              // For example:
+              'vendor': ['vue', 'quasar'],
+            //   'customChunk': ['src/custom-module']
+            },
+          },
+        },
+      },
 });
