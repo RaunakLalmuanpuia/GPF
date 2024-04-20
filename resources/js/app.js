@@ -12,6 +12,6 @@ import router from './router/index.js';
 
 
 
-createApp(app).use(plugin).use(router).use(Quasar, {
+createApp(app).use(router).use(Quasar, {
   plugins:[Notify,Loading,Dialog], // import Quasar plugins and add here
   }).mount('#app')
