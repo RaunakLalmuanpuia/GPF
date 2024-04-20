@@ -16,7 +16,7 @@
     "src": "node_modules/@quasar/extras/material-icons/web-font/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2"
   },
   "node_modules/canvg/lib/index.es.js": {
-    "file": "assets/index.es-CUrG2Sk1.js",
+    "file": "assets/index.es-BiC55bAj.js",
     "name": "index.es",
     "src": "node_modules/canvg/lib/index.es.js",
     "isDynamicEntry": true,
@@ -24,7 +24,7 @@
       "resources/js/app.js"
     ],
     "css": [
-      "assets/app-CfDMhJbw.css"
+      "assets/app-C9hSeOsr.css"
     ]
   },
   "node_modules/dompurify/dist/purify.es.js": {
@@ -34,12 +34,12 @@
     "isDynamicEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-CfDMhJbw.css",
+    "file": "assets/app-C9hSeOsr.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-Cbh1XeYw.js",
+    "file": "assets/app-BvEJCr7q.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -48,8 +48,8 @@
       "node_modules/canvg/lib/index.es.js"
     ],
     "css": [
-      "assets/app-CXf7DFlO.css",
-      "assets/app-CfDMhJbw.css"
+      "assets/app-B9USmj6i.css",
+      "assets/app-C9hSeOsr.css"
     ],
     "assets": [
       "assets/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ-D-x-0Q06.woff2",

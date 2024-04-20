@@ -31,14 +31,14 @@ return [
     |
     */
 
-    'lifetime' => env('SESSION_LIFETIME', 120),
+    // 'lifetime' => env('SESSION_LIFETIME', 120),
 
-    // 'lifetime' => null, // minutes
+    'lifetime' => 120, // minutes
 
 
-    'expire_on_close' => false,
+    // 'expire_on_close' => false,
 
-    // 'expire_on_close' => true,
+    'expire_on_close' => true,
 
     /*
     |--------------------------------------------------------------------------

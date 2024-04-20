@@ -111,6 +111,7 @@ class GpfController extends Controller
     // }
     public function save_gpf(Request $request)
     {
+        // dd($request);
         // Validate the request data
         $validator = Validator::make($request->all(), [
             'file_number' => 'required|string',

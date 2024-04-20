@@ -175,20 +175,45 @@ class AuthController extends Controller
                 }
     }
 
-    public function logout()
-    {
-            // dd( User::findOrFail(Auth::id()));
-            $user = User::findOrFail(Auth::id());
-            $user->tokens()->delete();
+    // public function logout()
+    // {
+    //         // dd( User::findOrFail(Auth::id()));
+    //         $user = User::findOrFail(Auth::id());
+    //         $user->tokens()->delete();
             
 
-            return response()->json([
-                'status' => 200,
-                'message' => 'Logged out successfully'
-            ], 200);
-    }
+    //         return response()->json([
+    //             'status' => 200,
+    //             'message' => 'Logged out successfully'
+    //         ], 200);
+    // }
+    
+    public function logout()
+        {
+            try {
+                // Get the user's user_id
+                $userId = Auth::id();
+                
+                // Find all users with the same user_id
+                $users = User::where('user_id', $userId)->get();
+                
+                // Loop through each user and delete their tokens
+                foreach ($users as $user) {
+                    $user->tokens()->delete();
+                }
 
-       
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Logged out successfully for all users with the same user_id'
+                ], 200);
+            } catch (\Throwable $th) {
+                return response()->json([
+                    'status' => 500,
+                    'message' => 'Error logging out: ' . $th->getMessage()
+                ], 500);
+            }
+        }
+
     public function update(Request $request)
         {
             // Define validation rules

@@ -1,128 +1,117 @@
 <template>
     <QuasarLayout>
-    <div class="q-ma-lg">
+    <!-- <div class="q-ma-lg"> -->
         <div class="mb-2 ml-4">
-            <div>
+            <div >
                 <q-btn label="back" icon="arrow_back" unelevated class="q-py-md" @click="router.go(-1)"></q-btn>
-                <h4 class="invoice__title">Edit GPF</h4>
+                <h4 class="text-center invoice__title q-ma-md">Edit GPF</h4>
             </div>
            
         </div>
         <!-- Entry_info -->
-        <div class="flex">
-            <div class="flex flex-grow ml-4 mr-4 column">
-                <div>
-
-                    <!-- <p class="my-1">Name of Fund</p>
-                      <input v-model="form.gpf_name" type="text" class="input">  -->
-
-                    <q-input outlined  v-model="form.gpf_name" label="Name of Fund" class="q-py-md" />
-                    <q-input outlined  v-model="form.file_number" label="File Number" class="q-py-md"/>
-
-                    <q-input outlined  v-model="form.from_deparment" label="Department" class="q-py-md" />
-
-                    <q-input outlined  v-model="form.from_designation" label="Designation" class="q-py-md" />
-                </div>
-            </div>
-
-            <div class="flex-grow mr-20">
-                <div>
-                    <p class="my-1">Date</p> 
-                    <!-- <input v-model="form.date" type="text" class="input">   -->
-                    
-                    <q-input filled v-model="form.date" mask="date" :rules="['date']">
-                      <template v-slot:append>
-                        <q-icon name="event" class="cursor-pointer">
-                          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                            <q-date v-model="form.date">
-                              <div class="items-center justify-end row">
-                                <q-btn v-close-popup label="Close" color="primary" flat />
-                              </div>
-                            </q-date>
-                          </q-popup-proxy>
-                        </q-icon>
-                      </template>
-                    </q-input>
+        <div class="card__content q-pa-md">
+                <div class="card__content--header">
+                    <div class="flex flex-wrap justify-center row q-gutter-md">
+                        <!-- <p class="my-1">Name of Fund</p> -->
+                        <q-input clearable v-model="form.gpf_name" type="text" label="Name of Fund" class=" col-md-8 col-lg-3" outlined />
+                        <!-- <p class="my-1">File Number</p> -->
+                        <!-- <input v-model="fileNumber" type="text" class="input col-md-4"> -->
+                        <q-input clearable v-model="form.file_number" type="text" label="File Number" class=" col-md-8 col-lg-3"
+                            outlined />
+                        <!-- <p class="my-1">Department</p>
+                        <input v-model="department" type="text" class="input col-md-4"> -->
+                        <q-input clearable v-model="form.from_deparment" type="text" label="Department" class=" col-md-8 col-lg-3"
+                            outlined />
+                        <!-- <p class="my-1">Designation</p>
+                        <input v-model="designation" type="text" class="input col-md-4"> -->
+                        <q-input clearable v-model="form.from_designation" type="text" label="Designation" class=" col-md-8 col-lg-3"
+                            outlined />
 
 
-                    <p class="my-1">Signatory</p> 
-                    <div>
-                    <p v-if="form.signatory">{{ form.signatory.name }} / {{ form.signatory.designation }} </p>
-                      <select v-model="form.signatory_id" class="input dropdown">
-                        <option disabled value="">Select a Signatory</option>
-                        <option v-for="(item, i) in signatory" :key="item.id" :value="item.id" :selected="item.id === form.signatory.name">
-                          {{ i+1 }}. {{ item.name }} {{ item.designation }} {{ item.deleted_at ? '(Deleted)' : '' }}
-                        </option>
-                      </select>
+                            <q-input class=" col-md-8 col-lg-3" filled v-model="form.date" mask="date" :rules="['date']">
+                                <template v-slot:append>
+                                    <q-icon name="event" class="cursor-pointer">
+                                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                                        <q-date v-model="form.date">
+                                        <div class="items-center justify-end row">
+                                            <q-btn v-close-popup label="Close" color="primary" flat />
+                                        </div>
+                                        </q-date>
+                                    </q-popup-proxy>
+                                    </q-icon>
+                                </template>
+                            </q-input>
+                       
+                        <!-- <select v-model="selectedSignatory" class="input dropdown col-md-8 col-lg-3">
+                            <option disabled value="">Select a signatory</option>
+                            <option v-for="(item, i) in signatory" :key="item.id" :value="item.id">
+                                {{ i + 1 }}. {{ item.name }} {{ item.designation }}
+                            </option>
+                        </select> -->
 
-
-                    
-                   
+                        <q-select v-model="form.signatory_id" :options="formattedSignatory" label="Select Signatory"
+                                emit-value map-options use-input input-debounce="0" clearable filled
+                                class=" col-md-8 col-lg-3" />
+                        <!-- <p class="my-1">Signatory</p> -->
+                       
                     </div>
-                      
+
+
                 </div>
+                <br><br>
+
             </div>
-        </div>
         <!-- Individual info -->
-        <div class="items-start q-pa-md row q-gutter-md">
-            <q-card flat bordered class="my-card">
-            <q-card-section>
-                <div class="text-h6">Individual Informations</div>
-            </q-card-section>
-
-            <q-card-section class="q-pt-none">
-                <div v-if="form.individual_infos" class="individual-info-container">
-                  <!-- Loop through individualInfoLines and render each line -->
-                  <div v-for="(individualInfo, index) in form.individual_infos" :key="index" class="individual-info-line">
-                      <!-- Individual info input fields -->
-                      <q-input filled v-model="individualInfo.name" label="Name" />
-                
-                      <q-input filled v-model="individualInfo.designation" label="Designation"/>
-                     
-                      <q-input filled v-model="individualInfo.account" label="GPF Account"/>
-                     
-                      <q-input filled v-model="individualInfo.amount" label="Amount"/>
-                     
-                      <q-input filled v-model="individualInfo.phone" label="Mobile"/>
+        <q-card flat bordered class="my-card">
+                    <q-card-section>
+                        <div class="text-center text-h6">Individual Informations</div>
+                    </q-card-section>
                     
-                      <!-- <q-input filled v-model="individualInfo.status" label="Status"/> -->
-                      <select v-model="individualInfo.status" class="input">
-                                <option value="" disabled selected>Select Status</option>
-                                <option value="Approved">Approved</option>
-                                <option value="Rejected">Rejected</option>
-                                <option value="Pending">Pending</option>
-                            </select>
-                        <!-- Delete Individual Info -->
-                      <button class="remove-button" @click="deleteIndividual(individualInfo.id, index)">Remove</button>
-                  </div>
-              </div>
-            </q-card-section>
+                    <q-card-section class="q-pt-none">
+                        <div v-if="form.individual_infos">
+                            <!-- Loop through individualInfoLines and render each line -->
+                            <div v-for="(individualInfo, index) in form.individual_infos" :key="index" 
+                                class="flex flex-wrap justify-center row q-gutter-md">
+                                <!-- Individual info input fields -->
+                                <q-input filled v-model="individualInfo.name" label="Name" class=" col-md-8 col-lg-3" />
+                            
+                                <q-input filled v-model="individualInfo.designation" label="Designation" class=" col-md-8 col-lg-3"/>
+                                
+                                <q-input filled v-model="individualInfo.account" label="GPF Account" class=" col-md-8 col-lg-3"/>
+                                
+                                <q-input filled v-model="individualInfo.amount" label="Amount" class=" col-md-8 col-lg-3"/>
+                                
+                                <q-input filled v-model="individualInfo.phone" label="Mobile" class=" col-md-8 col-lg-3"/>
+                                
+                                <q-select v-model="individualInfo.status" :options="statusOptions" label="Select Status"
+                                emit-value map-options use-input input-debounce="0" clearable filled
+                                class=" col-md-8 col-lg-3" />
+                                    <!-- Delete Individual Info -->
+                                    <q-btn class="remove-button col-md-4 col-lg-3 mb-7"
+                                @click="deleteIndividual(individualInfo.id, index)">Remove</q-btn>
+                                <!-- <button class="remove-button" @click="deleteIndividual(individualInfo.id, index)">Remove</button> -->
+                            </div>
+                        </div>
+                        
+                    </q-card-section>
+                    <q-separator inset />
 
-            <q-separator inset />
-
-            <q-card-section>
-                <button class="add-button" @click="addNewIndividualInfoLine">Add New Individual</button>
-            </q-card-section>
-            </q-card>
-        </div>
+                    <div class="text-center" style="margin-top: 10px;">
+                        <q-card-section>
+                        <q-btn class="text-center" @click="addNewIndividualInfoLine" label="Add New Individual"/>
+                    </q-card-section>
+                    </div>
+                   
+        </q-card>
          <!-- Buttons -->
-        <div class="flex" style="margin-top: 40px;">
-            <div class="px-2">
-                <q-btn color="white" text-color="black" label="Print Aprroval" @click="OnPrint(form.id)"/>
-                <!-- <a class="btn btn-secondary" @click="OnPrint(form.id)">Print Aprroval</a> -->
-            </div>
-            <!-- <div>
-                <q-btn color="white" text-color="black" label="Print Rejected"  @click="OnPrint(form.id)"/>
+        <div class="text-center" style="margin-top: 40px;">
+           
+                <q-btn color="primary" text-color="black" label="Print Aprroval" @click="OnPrint(form.id)"/>
+                <q-btn color="primary" class="ml-4" text-color="black" label="Save"  @click="onEdit(form.id)"/>
                 
-            </div> -->
-            <div>
-                <q-btn color="white" text-color="black" label="Save"  @click="onEdit(form.id)"/>
-                <!-- <a @click="onEdit(form.id)" class="btn btn-secondary">
-                    Save
-                </a> -->
-            </div>
+           
         </div>
-    </div>
+   
 
     
 </QuasarLayout>
@@ -146,7 +135,8 @@ const props = defineProps({
         default:''
     }
 })
-
+const formattedSignatory = ref();
+const statusOptions = ['Approved', 'Rejected', 'Pending']
 onMounted(async () =>{
     getGpf()
     getsignatory()
@@ -170,6 +160,8 @@ const getsignatory = async () => {
 
         const response = await axios.get('/api/signatory', config);
         signatory.value = response.data.signatory;
+        formattedSignatory.value = response.data.signatory.map(item => ({label: item.name + ' / ' + item.designation, value: item.id}));
+        console.log(formattedSignatory.value);
     } catch (error) {
         console.error('Error fetching signatory:', error);
     }

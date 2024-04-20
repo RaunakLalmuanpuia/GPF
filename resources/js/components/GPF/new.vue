@@ -18,18 +18,16 @@
             <div class="card__content q-pa-md">
                 <div class="card__content--header">
                     <div class="flex flex-wrap justify-center row q-gutter-md">
-                        <!-- <p class="my-1">Name of Fund</p> -->
+                      
                         <q-input clearable v-model="name" type="text" label="Name of Fund" class=" col-md-8 col-lg-3" outlined />
-                        <!-- <p class="my-1">File Number</p> -->
-                        <!-- <input v-model="fileNumber" type="text" class="input col-md-4"> -->
+                       
+                       
                         <q-input clearable v-model="fileNumber" type="text" label="File Number" class=" col-md-8 col-lg-3"
                             outlined />
-                        <!-- <p class="my-1">Department</p>
-                        <input v-model="department" type="text" class="input col-md-4"> -->
+                       
                         <q-input clearable v-model="department" type="text" label="Department" class=" col-md-8 col-lg-3"
                             outlined />
-                        <!-- <p class="my-1">Designation</p>
-                        <input v-model="designation" type="text" class="input col-md-4"> -->
+                        
                         <q-input clearable v-model="designation" type="text" label="Designation" class=" col-md-8 col-lg-3"
                             outlined />
 
@@ -49,13 +47,12 @@
                             </template>
                         </q-input>
                        
-                        <select v-model="selectedSignatory" class="input dropdown col-md-8 col-lg-3">
-                            <option disabled value="">Select a signatory</option>
-                            <option v-for="(item, i) in signatory" :key="item.id" :value="item.id">
-                                {{ i + 1 }}. {{ item.name }} {{ item.designation }}
-                            </option>
-                        </select>
-                        <!-- <p class="my-1">Signatory</p> -->
+                       
+
+                        <q-select v-model="selectedSignatory" :options="formattedSignatory" label="Select Signatory"
+                                emit-value map-options use-input input-debounce="0" clearable filled
+                                class=" col-md-8 col-lg-3" />
+                       
 
                     </div>
 
@@ -155,7 +152,7 @@ let department = ref('');
 let designation = ref('');
 let name = ref('');
 let individualInfoLines = ref([]);
-
+const formattedSignatory = ref();
 let entryInfoId = ref('');
 
 let selectedSignatory = ref('');
@@ -253,6 +250,9 @@ const getsignatory = async () => {
 
         const response = await axios.get('/api/signatory', config);
         signatory.value = response.data.signatory;
+        console.log(signatory.value);
+        formattedSignatory.value = response.data.signatory.map(item => ({label: item.name + ' / ' + item.designation, value: item.id}));
+        console.log(formattedSignatory.value);
     } catch (error) {
         console.error('Error fetching signatory:', error);
     }
