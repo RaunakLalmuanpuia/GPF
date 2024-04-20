@@ -20,23 +20,19 @@ export default defineConfig({
         //     },
         // }),
         vue({
-            template: { transformAssetUrls }
-          }),
+            template: {
+                transformAssetUrls: {
+                    base: null,
+                    includeAbsolute: false,
+                },
+            },
+        }),
+        // vue({
+        //     template: { transformAssetUrls }
+        //   }),
         quasar({
             sassVariables: "resources/css/quasar-variables.sass",
-        }),
-        // splitVendorChunkPlugin(),
+        })
     ],
-    // build: {
-    //     rollupOptions: {
-    //       output: {
-    //         manualChunks: {
-    //           // Define manual chunks here
-    //           // For example:
-    //           'vendor': ['vue','quasar'],
-    //         //   'customChunk': ['src/custom-module']
-    //         },
-    //       },
-    //     },
-    //   },
+  
 });
