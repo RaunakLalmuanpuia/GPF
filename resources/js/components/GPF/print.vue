@@ -1,6 +1,8 @@
 <template>
    <QuasarLayout>
+    <q-btn label="back" icon="arrow_back" unelevated class="q-py-md" @click="router.go(-1)"></q-btn>
     <div class="items-center justify-center q-pa-md q-gutter-sm column q-my-md">
+     
       <h4>GPF Approval  Template</h4>
 
       <q-editor v-model="editorContent" :style="{ width: editorWidth, height: editorHeight }" min-height="5rem"
@@ -100,14 +102,22 @@
             @click="saveTemplate()"
           />
       </div>
-      <div class="row q-gutter-md">
+      <!-- <div class="row q-gutter-md">
         <q-select
         v-model="selectedFormat"
         :options="formatOptions"
         label="Select Paper Size"
         outlined
         class=" q-mt-md" style="width: 200px;"
-      />
+      /> -->
+      <div class="row  q-gutter-md">
+      <q-select
+      v-model="selectedFormat"
+      :options="formatOptions"
+      label="Select Paper Size"
+      outlined
+      class=" q-mt-md " style="width: 200px;"
+    />
 
 
       <q-btn
@@ -128,6 +138,7 @@ import { onMounted,ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import html2canvas from 'html2canvas';
 import jspdf from 'jspdf';
+import { Notify } from 'quasar';
 
 const router = useRouter();
 const format = ref('A4');
@@ -137,22 +148,34 @@ const temp_id = ref('');
 const new_template = ref(false);
 
 // console.log('New Template'+new_template.value);
+const selectedFormat = ref('A4');
 
 const formatOptions = [
-  { label: 'A4', value: 'A4', width: 210, height: 297 }, // A4 size is 210mm x 297mm
-  { label: 'Legal', value: 'Legal', width: 216, height: 356 }, // Legal size is 216mm x 356mm
+  { label: 'A4', value: 'A4', width: '210mm', height: '297mm' }, // A4 size is 210mm x 297mm
+  { label: 'Legal', value: 'Legal', width: '216mm', height: '356mm' } // Legal size is 216mm x 356mm
 ];
-const selectedFormat = ref('A4');
 const editorWidth = ref('210mm'); // Default to A4 width
 const editorHeight = ref('297mm'); // Default to A4 height
 
-
+// watch(selectedFormat, (newValue) => {
+//   const selectedOption = formatOptions.find((option) => option.value === newValue);
+//   if (selectedOption) {
+//     editorWidth.value = `${selectedOption.width}mm`;
+//     editorHeight.value = `${selectedOption.height}mm`;
+//   }
+// });
 watch(selectedFormat, (newValue) => {
-  const selectedOption = formatOptions.find((option) => option.value === newValue);
-  if (selectedOption) {
-    editorWidth.value = `${selectedOption.width}mm`;
-    editorHeight.value = `${selectedOption.height}mm`;
+  console.log("Selected format changed to: ", newValue);
+  const selectedOption = formatOptions.find(option => option.value === newValue.value);
+  console.log("Selected option: ", selectedOption);
+  if (!selectedOption) {
+    console.error("No matching option found for value: ", newValue);
+    return;
   }
+  editorWidth.value = selectedOption.width;
+  editorHeight.value = selectedOption.height;
+  console.log("Updated editorWidth: ", editorWidth.value);
+  console.log("Updated editorHeight: ", editorHeight.value);
 });
 
 
@@ -168,17 +191,13 @@ const props = defineProps({
     }
 })
 
+
 const printData = async () => {
   try {
-    // Get the dimensions of the editor content
-    const editorElement = document.querySelector('.q-editor__content');
-    const width = editorElement.offsetWidth;
-    const height = editorElement.offsetHeight;
-
     // Convert the editor content to a canvas element
-    const canvas = await html2canvas(editorElement, {
-      width: width,
-      height: height,
+    const canvas = await html2canvas(document.querySelector('.q-editor__content'), {
+      width: 800,
+      height: 900,
       useCORS: true,
     });
 
@@ -186,8 +205,40 @@ const printData = async () => {
     const doc = new jspdf('p', 'mm', 'a4');
 
     // Add the canvas content to the PDF document
-    doc.addImage(canvas.toDataURL('image/jpeg'), 'JPEG', 0, 0, 210, 297);
-    doc.save(`routine_sheet.pdf`);
+    // const width = doc.internal.pageSize.getWidth();
+    // const height = doc.internal.pageSize.getHeight();
+    const width = editorWidth.value.width;
+    const height = editorHeight.value.height;
+    doc.addImage(canvas, 'JPEG', 0, 0, width, height);
+            doc.save(`gpf_file.pdf`);
+
+            Notify.create({
+          type: 'secondary',
+
+          message: 'Routine Sheet Downloaded!',
+        });
+    // Open a dialog box with the print preview
+    // const printDialog = await Notify.request({
+    //   type: 'information',
+    //   message: 'Print preview',
+    //   actions: [
+    //     {
+    //       label: 'Print',
+    //       color: 'positive',
+    //       handler: () => {
+    //         // Print the PDF document
+    //         doc.save('template.pdf');
+    //       },
+    //     },
+    //     {
+    //       label: 'Cancel',
+    //       color: 'negative',
+    //       handler: () => {
+    //         /* ... */
+    //       },
+    //     },
+    //   ],
+    // });
   } catch (error) {
     console.error('Error printing data:', error);
   }

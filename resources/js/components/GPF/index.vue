@@ -1,58 +1,67 @@
 <template>
     <QuasarLayout>
-    <div class="q-pa-md">
         
-        <div>
+            <div class="q-pa-md">
+            
             <div>
-                <h4 class="ml-4 text-gray-800">Welcome!</h4>
+                <div>
+                    <h4 class="ml-4 text-gray-800">Welcome!</h4>
+                </div>
+                
+                <div style="display: flex; justify-content: flex-end; margin-right: 20px; margin-bottom:5px;">
+                    <q-btn @click="openModal()" color="white" text-color="black" label="New Signatory"/>
+                </div>
+                
+            </div>
+
+            <div class="mt-2 ml-10 mr-10">
+                <!-- <input v-model="searchGpf" @keyup="search()" class="table--search--input" type="text" placeholder="Search GPF"> -->
+                <q-input outlined v-model="searchGpf" @keyup="search()" type="text" placeholder="Search GPF" />
+            </div>
+
+            <div class="flex mt-10 ml-4 justify-content:flex-start">
+                        <q-btn @click="newGpf()" label="Create New" color="primary" />
             </div>
             
-            <div style="display: flex; justify-content: flex-end; margin-right: 20px; margin-bottom:5px;">
-                 <q-btn @click="openModal()" color="white" text-color="black" label="New Signatory"/>
+                <div class="q-pa-md">
+                <q-table
+                :rows="gpf"
+                :columns="columns"
+                row-key="id"
+                class="q-mt-md"
+                title = "GPF List"
+                flat bordered
+                separator="cell"
+                virtual-scroll
+                >
+                <template v-slot:body="props">
+                    <q-tr :props="props" @click="onShow(props.row.id)" class="cursor-pointer">
+                    <q-td key="id">
+                        <a href="#" @click="onShow(props.row.id)"> {{ props.rowIndex+1 }}</a></q-td>
+                    <q-td key="file_number">{{ props.row.file_number }}</q-td>
+                    <q-td key="gpf_name">{{ props.row.gpf_name }}</q-td>
+                    <q-td key="from_deparment">{{ props.row.from_deparment }}</q-td>
+                    <q-td key="from_designation">{{ props.row.from_designation }}</q-td>
+                    <!-- <q-td key="status">{{ props.row.status }}</q-td> -->
+                    <q-td key="signatory">{{ props.row.signatory.name }} / {{ props.row.signatory.designation }}</q-td>
+                    <!-- <q-td key="amount">$ {{ props.row.amount }}</q-td> -->
+                    <q-td key="date">{{ props.row.date }}</q-td>
+                    </q-tr>
+                </template>
+
+                <template v-slot:no-data>
+                    <q-td colspan="9" class="text-center">No GPF Found</q-td>
+                </template>
+            </q-table>
             </div>
             
-        </div>
-
-        <div class="mt-2 ml-10 mr-10">
-            <!-- <input v-model="searchGpf" @keyup="search()" class="table--search--input" type="text" placeholder="Search GPF"> -->
-            <q-input outlined v-model="searchGpf" @keyup="search()" type="text" placeholder="Search GPF" />
-        </div>
-
-        <div class="flex mt-10 ml-4 justify-content:flex-start">
-                     <q-btn @click="newGpf()" label="Create New" color="primary" />
-        </div>
-        <q-table
-            :rows="gpf"
-            :columns="columns"
-            row-key="id"
-            class="q-mt-md"
-            >
-            
-
-            <template v-slot:body="props">
-                <q-tr :props="props" @click="onShow(props.row.id)" class="cursor-pointer">
-                <q-td key="id">
-                    <a href="#" @click="onShow(props.row.id)"> {{ props.rowIndex+1 }}</a></q-td>
-                <q-td key="file_number">{{ props.row.file_number }}</q-td>
-                <q-td key="gpf_name">{{ props.row.gpf_name }}</q-td>
-                <q-td key="from_deparment">{{ props.row.from_deparment }}</q-td>
-                <q-td key="from_designation">{{ props.row.from_designation }}</q-td>
-                <!-- <q-td key="status">{{ props.row.status }}</q-td> -->
-                <q-td key="signatory">{{ props.row.signatory.name }} / {{ props.row.signatory.designation }}</q-td>
-                <!-- <q-td key="amount">$ {{ props.row.amount }}</q-td> -->
-                <q-td key="date">{{ props.row.date }}</q-td>
-                </q-tr>
-            </template>
-
-            <template v-slot:no-data>
-                <q-td colspan="9" class="text-center">No GPF Found</q-td>
-            </template>
-        </q-table>
-
         
-    </div>
-     <!--==================== add modal items ====================-->
+            
 
+            
+            </div>
+     <!--==================== add modal items ====================-->
+        
      <q-dialog v-model="showModal">
       <q-card class="my-card">
         <q-card-section>
@@ -142,6 +151,7 @@ const getGpf = async () => {
             headers: {
                 Authorization: `Bearer ${token}` // Include the token in the request headers
             }
+            
         };
 
         const response = await axios.get("/api/get_entry_info", config);

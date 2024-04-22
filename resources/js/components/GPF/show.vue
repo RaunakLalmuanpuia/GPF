@@ -4,7 +4,7 @@
              <!--==================== SHOW GPF ====================-->
              
         <div>
-            <q-btn label="back" icon="arrow_back" unelevated class="q-py-md" @click="router.push('/gpf')"></q-btn>
+            <q-btn label="back" icon="arrow_back" unelevated class="q-py-md" @click="router.go(-1)"></q-btn>
 
             <h4 class="text-weight-bold q-pb-lg">GPF Account</h4>
             <!-- {{ form.signatory}} -->

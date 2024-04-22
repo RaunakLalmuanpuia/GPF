@@ -36,9 +36,9 @@ return [
     'lifetime' => 120, // minutes
 
 
-    // 'expire_on_close' => false,
+    'expire_on_close' => false,
 
-    'expire_on_close' => true,
+    // 'expire_on_close' => true,
 
     /*
     |--------------------------------------------------------------------------

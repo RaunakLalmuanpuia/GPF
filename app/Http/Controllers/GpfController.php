@@ -18,7 +18,8 @@ class GpfController extends Controller
             $query->withTrashed();
         }])
         ->orderBy('id', 'DESC')
-        ->get();
+        // ->get();
+        ->paginate();
         return response()->json([
             'entry_info' => $entry_info
         ],200);

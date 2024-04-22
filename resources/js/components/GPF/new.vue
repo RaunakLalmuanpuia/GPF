@@ -101,16 +101,17 @@
                     </q-card-section>
 
                     <q-separator inset />
-
+                    <div class="text-center" style="margin-top: 10px;">
                     <q-card-section>
                         <button class="text-center add-button float-center" @click="addNewIndividualInfoLine">Add New Individual</button>
                     </q-card-section>
+                    </div>
                 </q-card>
             </div>
 
             <div class="text-center" style="margin-top: 40px;">
                 <div>
-                    <q-btn label="Save" color="primary" @click="confirm = true" class="" style="width:200px" />
+                    <q-btn label="Create GPF" color="primary" @click="confirm = true" class="" style="width:200px" />
                 </div>
             </div>
 

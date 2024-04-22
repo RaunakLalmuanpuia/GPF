@@ -10,6 +10,10 @@
             :columns="columns"
             row-key="id"
             class="q-ma-md"
+            title = "Individuals"
+            flat bordered
+            separator="cell"
+            virtual-scroll
             >
             
 
