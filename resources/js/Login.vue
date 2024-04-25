@@ -55,6 +55,9 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { useQuasar } from 'quasar';
+
+const q = useQuasar()
 
 onMounted(() => {
   document.title = 'GPF - Login';
@@ -78,12 +81,18 @@ const LoginData = () => {
           localStorage.setItem('token', `${token_type} ${access_token}`)
           // alert("Login Successfully:" + message);
           router.push('/gpf');
-        } else {
-          alert("Login failed" + message);
         }
+        
       } catch (err) {
         alert("Error, please try again" + err);
       }
+    })
+    .catch(error => {
+      q.notify({
+        type: 'negative',
+        message: error.response.data.message
+      });
     });
+    
 };
 </script>
