@@ -9,6 +9,9 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link rel="preconnect" href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+        <link rel=icon type=image/ico href="/public/favicon.ico"> 
+        <!-- <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"> -->
+
         @vite('resources/css/app.css') 
         @vite(['resources/js/app.js'])
        

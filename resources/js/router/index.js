@@ -10,6 +10,7 @@ import Dashboard from "../Dashboard.vue";
 import Login from "../Login.vue";
 import Profile from "../Profile.vue";
 import Departments from "../Departments.vue";
+import Reports from "../Report.vue";
 import { isAuthenticated } from '../auth/auth';
 
 const routes = [
@@ -62,12 +63,18 @@ const routes = [
     {
         path:'/departments',
         component: Departments,
-        props:true,
+        // props:true,
         meta: { requiresAuth: true }
     },
     {
         path:'/individual',
         component:Individual,
+        // props:true,
+        meta: { requiresAuth: true }
+    },
+    {
+        path:'/report',
+        component:Reports,
         // props:true,
         meta: { requiresAuth: true }
     },

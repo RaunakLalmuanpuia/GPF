@@ -40,6 +40,7 @@
           <q-route-tab v-if="isLoggedIn" @click="gpf()" :class="{ 'bg-green-500': $route.path === '/gpf' }" label="GPF"/>
           <q-route-tab v-if="isLoggedIn" @click="individual()" :class="{ 'bg-green-500': $route.path === '/individual' }" label="Individuals"/>
           <q-route-tab v-if="isLoggedIn" @click="departments()" :class="{ 'bg-green-500': $route.path === '/departments' }" label="Departments"/>
+          <q-route-tab v-if="isLoggedIn" @click="reports()" :class="{ 'bg-green-500': $route.path === '/report' }" label="Report"/>
           <!-- <q-route-tab v-if="isLoggedIn" @click="profie()" :class="{ 'bg-green-500': $route.path === '/profile' }" label="Profile"/>
           <q-route-tab v-if="isLoggedIn" @click="logout()" label="Logout"/> -->
          
@@ -154,6 +155,9 @@ const individual = async () => {
 }
 const departments = async () => {
   router.push('/departments')
+}
+const reports = async () => {
+  router.push('/report')
 }
 const isAuthenticated = () => {
 
