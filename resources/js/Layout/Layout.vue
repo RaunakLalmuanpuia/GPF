@@ -39,6 +39,7 @@
            -->
           <q-route-tab v-if="isLoggedIn" @click="gpf()" :class="{ 'bg-green-500': $route.path === '/gpf' }" label="GPF"/>
           <q-route-tab v-if="isLoggedIn" @click="individual()" :class="{ 'bg-green-500': $route.path === '/individual' }" label="Individuals"/>
+          <q-route-tab v-if="isLoggedIn" @click="departments()" :class="{ 'bg-green-500': $route.path === '/departments' }" label="Departments"/>
           <!-- <q-route-tab v-if="isLoggedIn" @click="profie()" :class="{ 'bg-green-500': $route.path === '/profile' }" label="Profile"/>
           <q-route-tab v-if="isLoggedIn" @click="logout()" label="Logout"/> -->
          
@@ -89,7 +90,7 @@
 
 <script setup>
   import axios from 'axios';
-import { ref, onMounted  } from 'vue'
+  import { ref, onMounted  } from 'vue'
   import { useRouter } from 'vue-router';
   const leftDrawerOpen = ref(false)
   const router = useRouter();
@@ -150,6 +151,9 @@ const gpf = async () => {
 }
 const individual = async () => {
   router.push('/individual')
+}
+const departments = async () => {
+  router.push('/departments')
 }
 const isAuthenticated = () => {
 

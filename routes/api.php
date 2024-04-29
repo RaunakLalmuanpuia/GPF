@@ -70,5 +70,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/individuals', [IndividualController::class , 'index']);
     Route::get('/search_individuals', [IndividualController::class , 'search_individual']);
+
+    Route::get('/department', [GpfController::class , 'department']);
 });
 

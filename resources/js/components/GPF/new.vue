@@ -25,8 +25,11 @@
                         <q-input clearable v-model="fileNumber" type="text" label="File Number" class=" col-md-8 col-lg-3"
                             outlined />
                        
-                        <q-input clearable v-model="department" type="text" label="Department" class=" col-md-8 col-lg-3"
-                            outlined />
+                        <!-- <q-input clearable v-model="department" type="text" label="Department" class=" col-md-8 col-lg-3"
+                            outlined /> -->
+                            <q-select v-model="selectedDepartment" :options="options" label="Department"
+                                emit-value map-options use-input input-debounce="0" clearable filled
+                                class=" col-md-8 col-lg-3"  @filter="filterFn"   @update:model-value="selectDepartment"/>
                         
                         <q-input clearable v-model="designation" type="text" label="Designation" class=" col-md-8 col-lg-3"
                             outlined />
@@ -143,18 +146,19 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 const confirm = ref(false);
-// let form = ref([]);
+
 let fileNumber = ref('');
 let date = ref('');
 let signatory = ref([]);
 let amount = ref('');
 let status = ref('');
-let department = ref('');
+let selectedDepartment = ref('');
 let designation = ref('');
 let name = ref('');
 let individualInfoLines = ref([]);
 const formattedSignatory = ref();
-let entryInfoId = ref('');
+const department = ref([]);
+
 
 let selectedSignatory = ref('');
 const statusOptions = ['Approved', 'Rejected', 'Pending']
@@ -164,6 +168,7 @@ const errorMessage = ref(''); // Stores the error message text
 
 onMounted(async () => {
     getsignatory()
+    getDepartment()
     document.title = 'GPF - New'
 })
 
@@ -202,7 +207,7 @@ const saveEntry = async () => {
             status: status.value,
             individual_infos: individualInfoLines.value,
             selectedSignatory: selectedSignatory.value,
-            department: department.value,
+            department:  selectedDepartmentId.value,
             designation: designation.value,
             name: name.value
         };
@@ -227,7 +232,7 @@ const saveEntry = async () => {
         selectedSignatory.value = '';
         amount.value = '';
         status.value = '';
-        department.value = '';
+        selectedDepartment.value = '';
         name.value = '';
         individualInfoLines.value = [];
     } catch (error) {
@@ -259,6 +264,54 @@ const getsignatory = async () => {
     }
 };
 
+const getDepartment = async () => {
+    try {
+        const token = localStorage.getItem('token'); // Get the token from local storage
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}` // Include the token in the request headers
+            }
+        };
+
+        const response = await axios.get('/api/department', config);
+        department.value = response.data.department;
+        console.log(department.value);
+        // formattedSignatory.value = response.data.signatory.map(item => ({label: item.name + ' / ' + item.designation, value: item.id}));
+        // console.log(formattedSignatory.value);
+    } catch (error) {
+        console.error('Error fetching signatory:', error);
+    }
+};
+
+const options = ref(department.value.map(department => department.name));
+const selectedDepartmentId = ref(null);
+
+const filterFn = (val, update) => {
+  if (val === '') {
+    update(() => {
+      options.value = department.value.map(department => department.name);
+    });
+    return;
+  }
+
+  update(() => {
+    const needle = val.toLowerCase();
+    options.value = department.value.filter(department => department.name.toLowerCase().includes(needle)).map(department => department.name);
+  });
+};
+
+const selectDepartment = (name) => {
+  const selectedDepartment = department.value.find(department => department.name === name);
+  if (selectedDepartment) {
+    selectedDepartmentId.value = selectedDepartment.id;
+  } else {
+    selectedDepartmentId.value = null;
+  }
+};
 
 </script>
 

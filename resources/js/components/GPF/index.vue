@@ -40,7 +40,7 @@
                         <a href="#" @click="onShow(props.row.id)"> {{ props.rowIndex+1 }}</a></q-td>
                     <q-td key="file_number">{{ props.row.file_number }}</q-td>
                     <q-td key="gpf_name">{{ props.row.gpf_name }}</q-td>
-                    <q-td key="from_deparment">{{ props.row.from_deparment }}</q-td>
+                    <q-td key="from_deparment">{{ props.row.departments.name }}</q-td>
                     <q-td key="from_designation">{{ props.row.from_designation }}</q-td>
                     <!-- <q-td key="status">{{ props.row.status }}</q-td> -->
                     <q-td key="signatory">{{ props.row.signatory.name }} / {{ props.row.signatory.designation }}</q-td>

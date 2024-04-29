@@ -9,6 +9,7 @@ import Individual from "../components/GPF/individual.vue";
 import Dashboard from "../Dashboard.vue";
 import Login from "../Login.vue";
 import Profile from "../Profile.vue";
+import Departments from "../Departments.vue";
 import { isAuthenticated } from '../auth/auth';
 
 const routes = [
@@ -55,6 +56,12 @@ const routes = [
     {
         path:'/profile',
         component:Profile,
+        props:true,
+        meta: { requiresAuth: true }
+    },
+    {
+        path:'/departments',
+        component: Departments,
         props:true,
         meta: { requiresAuth: true }
     },

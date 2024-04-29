@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class IndividualController extends Controller
 {
     public function index(){
-        $individual_info = IndividualInfo::with(['entryInfo.signatory', 'template' => function ($query) {
+        $individual_info = IndividualInfo::with(['entryInfo.signatory', 'template',  'entryInfo.departments' => function ($query) {
             $query->withTrashed();
         }])
         ->orderBy('id', 'DESC')
@@ -22,7 +22,7 @@ class IndividualController extends Controller
         $search = $request->get('s');
         if ($search != null) {
             try {
-                $individual_info = IndividualInfo::with(['entryInfo.signatory', 'template' => function ($query) {
+                $individual_info = IndividualInfo::with(['entryInfo.signatory', 'template', 'entryInfo.departments' => function ($query) {
                     $query->withTrashed();
                 }])
                 ->where(function ($query) use ($search) {
@@ -35,8 +35,10 @@ class IndividualController extends Controller
                 })
                 ->orWhereHas('entryInfo', function ($query) use ($search) {
                     $query->where('file_number', 'LIKE', "%$search%")
-                        ->orWhere('from_deparment', 'LIKE', "%$search%")
+                        // ->orWhere('from_deparment', 'LIKE', "%$search%")
                         ->orWhere('date', 'LIKE', "%$search%");
+                })->orWhereHas('entryInfo.departments', function ($query) use ($search) {
+                    $query->where('name', 'LIKE', "%$search%");
                 })
                 ->get();
             } catch (\Throwable $th) {

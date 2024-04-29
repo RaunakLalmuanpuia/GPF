@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('entry_infos', function (Blueprint $table) {
-            $table->string('from_designation')->nullable();
-            $table->string('gpf_name')->nullable();
+            //
+            $table->unsignedBigInteger('department_id')->nullable();
+            $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
         });
     }
 
@@ -23,9 +24,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('entry_infos', function (Blueprint $table) {
-            $table->dropColumn('from_designation');
-            $table->dropColumn('gpf_name');
-            
+            //
+            $table->dropColumn('department_id');
         });
     }
 };

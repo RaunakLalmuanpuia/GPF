@@ -26,7 +26,7 @@
                 <q-td key="amount">{{ props.row.amount }}</q-td>
                 <q-td key="designation">{{ props.row.designation }}</q-td>
                 
-                <q-td key="from_deparment">{{ props.row.entry_info.from_deparment }}</q-td>
+                <q-td key="from_deparment">{{ props.row.entry_info.departments.name }}</q-td>
                 <q-td key="file_number">{{ props.row.entry_info.file_number }}</q-td>
                 <q-td key="phone">{{ props.row.phone }}</q-td>
                 <q-td :class="getStatusColor(props.row.status)" key="status">{{ props.row.status }}</q-td>

@@ -110,13 +110,13 @@
         outlined
         class=" q-mt-md" style="width: 200px;"
       /> -->
-      <div class="row  q-gutter-md">
+      <div class="row q-gutter-md">
       <q-select
       v-model="selectedFormat"
       :options="formatOptions"
       label="Select Paper Size"
       outlined
-      class=" q-mt-md " style="width: 200px;"
+      class=" q-mt-md" style="width: 200px;"
     />
 
 
@@ -406,7 +406,7 @@ const getGpftemplate = () => {
         status: form.value.status,
         individual_infos: approvedIndividualInfos,
         selectedSignatory: form.value.signatory_id,
-        department: form.value.from_deparment,
+        department: form.value.department_id,
         designation: form.value.from_designation,
         name: form.value.gpf_name
       };
@@ -446,8 +446,8 @@ const getGpftemplate = () => {
           <br><br>
           To,<br>
           <div style="padding-left: 100px;">
-              ${entryInfoData.designation},<br>
-              ${entryInfoData.department},
+              ${entryInfoData.designation} to the Govt. of Mizoram,<br>
+              ${form.value.departments.name},
           </div>
           <br><br>
 

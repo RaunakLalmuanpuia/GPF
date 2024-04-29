@@ -7,12 +7,12 @@
             <q-btn label="back" icon="arrow_back" unelevated class="q-py-md" @click="router.go(-1)"></q-btn>
 
             <h4 class="text-weight-bold q-pb-lg">GPF Account</h4>
-            <!-- {{ form.signatory}} -->
+            <!-- {{ form}} -->
                     <div>
                         <p class="px-2 pt-2">File Number: {{ form.file_number }}</p>
                         <p style="padding-left: 10px;">Date: {{ form.date }} </p>
                         <p style="padding-left: 10px;">Name: {{ form.gpf_name }} </p>
-                        <p style="padding-left: 10px;">Department: {{ form.from_deparment }} </p>
+                        <p style="padding-left: 10px;" v-if="form.departments">Department: {{ form.departments.name }} </p>
                         <p style="padding-left: 10px;">Designation: {{ form.from_designation }} </p>
                         <p style="padding-left: 10px;" v-if="form.signatory">Signatory: {{ form.signatory.name }} / {{ form.signatory.designation }}</p>
                     </div>
