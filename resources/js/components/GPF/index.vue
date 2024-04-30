@@ -4,8 +4,8 @@
             <div class="q-pa-md">
             
             <div>
-                <div>
-                    <h4 class="ml-4 text-gray-800">Welcome!</h4>
+                <div class="ml-10">
+                    <p class="text-weight-bold text-h4"> Welcome!</p>
                 </div>
                 
                 <div style="display: flex; justify-content: flex-end; margin-right: 20px; margin-bottom:5px;">
@@ -20,7 +20,7 @@
             </div>
 
             <div class="flex mt-10 ml-4 justify-content:flex-start">
-                        <q-btn @click="newGpf()" label="Create New" color="primary" />
+                        <q-btn @click="newGpf()" label="Create New GPF" color="primary" />
             </div>
             
                 <div class="q-pa-md">

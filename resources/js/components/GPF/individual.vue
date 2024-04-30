@@ -2,6 +2,7 @@
     <QuasarLayout>
         <!-- <p>Individuals</p> -->
         <div class=" q-ma-lg q-pa-md">
+            <p class="text-weight-bold text-h4"> Individuals</p>
             <!-- <input v-model="searchGpf" @keyup="search()" class="table--search--input" type="text" placeholder="Search GPF"> -->
             <q-input clearable outlined v-model="searchIndividuals" @keyup="search()" type="text" placeholder="Search Individual" />
         </div>  

@@ -18,6 +18,7 @@ use App\Http\Controllers\GpfController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\IndividualController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\DepartmentController;
 
 // Route::middleware('auth:sanctum')->get('/user/{$id}', function (Request $request) {
 //     return dd($request->user());
@@ -76,5 +77,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/filter-reports', [ReportController::class, 'getReport']);
     Route::post('/download-reports', [ReportController::class, 'downloadReport']);
+
+    Route::post('/departments', [DepartmentController::class, 'store']);
+    // Route::get('departments/{department}', [DepartmentController::class, 'show']);
+    Route::post('/departments/{department}', [DepartmentController::class, 'update']);
+    Route::delete('/departments/{department}', [DepartmentController::class, 'destroy']);
+    Route::get('/search_department', [DepartmentController::class , 'search_department']);
+
 });
 

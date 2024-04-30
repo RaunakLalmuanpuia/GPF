@@ -3,7 +3,7 @@
   
       <q-header elevated class="text-white bg-primary" height-hint="98">
         <q-toolbar>
-          <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
+          <!-- <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" /> -->
             
           <q-toolbar-title>
             <q-avatar>

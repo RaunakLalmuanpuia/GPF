@@ -9,7 +9,9 @@ class Department extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable = ['name','address', 'phone'];
+
+    protected $fillable = ['name','address', 'number'];
+
     public function entry_info(){
         return $this->hasMany(EntryInfo::class);
     }
