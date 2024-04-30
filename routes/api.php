@@ -75,5 +75,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/department', [GpfController::class , 'department']);
 
     Route::post('/filter-reports', [ReportController::class, 'getReport']);
+    Route::post('/download-reports', [ReportController::class, 'downloadReport']);
 });
 

@@ -3,7 +3,7 @@
     <!-- <p>
         Reports
     </p> -->
-    <div class="q-pa-md column flex-wrap q-gutter-md "  >
+    <div class="flex-wrap q-pa-md column q-gutter-md"  >
     <h4 class="text-weight-bold">Generate Reports</h4>
 
 
@@ -16,7 +16,7 @@
             <q-icon name="event" class="cursor-pointer">
             <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                 <q-date v-model="start_date">
-                <div class="row items-center justify-end">
+                <div class="items-center justify-end row">
                     <q-btn v-close-popup label="Close" color="primary" flat />
                 </div>
                 </q-date>
@@ -31,7 +31,7 @@
         <q-icon name="event" class="cursor-pointer">
           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
             <q-date v-model="end_date">
-              <div class="row items-center justify-end">
+              <div class="items-center justify-end row">
                 <q-btn v-close-popup label="Close" color="primary" flat />
               </div>
             </q-date>
@@ -40,17 +40,11 @@
       </template>
     </q-input>
   </div>
-  <!-- :rules="['date']" -->
-      <!-- <q-date v-model="start_date" label="Start Date" @focus="showDateSelector('start_date')" outlined /> -->
-      <!-- <q-date v-model="end_date" label="End Date" @focus="showDateSelector('end_date')" outlined /> -->
-      <!-- <q-date-picker v-if="showDateSelectorFlag" v-model="selectedDate" @input="updateDate" /> -->
     </div>
 
-    <!-- COMMON -->
-    <div class="row flex-wrap q-gutter-md ">
-      <!-- <q-input v-model="ID_FIN" label="File Number" outlined class="col-4 col-lg-4 col-md-9"/> -->
-      <!-- <q-input v-model="work_name" label="WORK NAME" outlined class="col-4 col-lg-4 col-md-9"/> -->
-      <!-- <q-select v-model="department" label="Department" :options="departmentOptions" outlined class="col-4 col-lg-4 col-md-9"/> -->
+  
+    <div class="flex-wrap row q-gutter-md ">
+      
       <q-select  v-model="selectedDepartment" :options="options" label="Department"
                                 emit-value map-options use-input input-debounce="0" clearable filled
                                 class=" col-md-8 col-lg-3"  @filter="filterFn"    @update:model-value="updateDepartment"/>
@@ -61,12 +55,12 @@
 
 
 
-    <div class="row flex-wrap q-gutter-md justify-center items-center fit content-center " style="max-width: 50vw;">
+    <div class="flex-wrap items-center content-center justify-center row q-gutter-md fit " style="max-width: 50vw;">
       <q-btn label="Reset" color="grey" @click="resetFilter" />
 
     <!-- Generate Report button -->
     <q-btn @click="getFilteredReports()" label="Generate Report"  color="primary" class="col-lg-2 col-md-8"/>
-    <!-- <q-btn @click="downloadReport" label="Download Report"  color="secondary" class="col-lg-2 col-md-4"/> -->
+    <q-btn @click="generateExcel()" label="Download Report"  color="secondary" class="col-lg-2 col-md-4"/>
 
 
     </div>
@@ -83,9 +77,9 @@
 
     </q-card>
     <!-- <div >
-        <h4 class="text-weight-bold text-center">Statistical Reports</h4>
-        <div class="column q-gutter-md items-center">
-        <div class="row flex-wrap q-gutter-md">
+        <h4 class="text-center text-weight-bold">Statistical Reports</h4>
+        <div class="items-center column q-gutter-md">
+        <div class="flex-wrap row q-gutter-md">
 
 
         <q-card class="container q-pa-md " style="width: 200px;">
@@ -104,7 +98,7 @@
         </div>
 
        
-        <div class="row flex-wrap q-gutter-md">
+        <div class="flex-wrap row q-gutter-md">
 
         <q-card class="container q-pa-md " style="width: 200px;">
             <p class="text-body">Number of Proposals</p>
@@ -130,6 +124,8 @@
 <script setup>
 import QuasarLayout from "@/Layout/Layout.vue";
 import { ref,computed ,onMounted} from 'vue';
+import exportFromJSON from 'export-from-json'
+
 let gpf = ref([]);
 const  start_date= ref(null);
 const  end_date=  ref(null);
@@ -140,7 +136,7 @@ const departmentOptions = ref([]);
 let department = ref([]);
 const reports = ref([]);
 const statuses = ['In Process', 'Approved', 'Rejected'];
-
+const jsonData = ref([]);
 
 const resetFilter = () => {
       start_date.value = null;
@@ -220,11 +216,95 @@ const getFilteredReports = async () => {
     if (status.value && status.value.length > 0) payload.status = status.value;
     
     const response = await axios.post('/api/filter-reports', payload); // Adjust the endpoint URL as per your backend setup
-    reports.value = response.data;
+    jsonData.value  = response.data;
     
 
   } catch (error) {
     console.error('Error fetching reports:', error);
   }
 };
+
+// const generateExcel = () => {
+//   // Prepare data
+//   const data = jsonData.value.map(item => {
+//     // Keep only specific columns
+//     return {
+//       id: item.id,
+//       file_number: item.file_number,
+//       date: item.date,
+//       department: item.departments.name,
+//       signatory:item.signatory.name
+//       // Add more columns as needed
+//     };
+//   });
+
+//   // Define the filename for the Excel file
+//   const fileName = 'report';
+
+//   // Call exportFromJSON function
+//   exportFromJSON({ data, fileName, exportType: 'xls' });
+// };
+// const generateExcel = () => {
+//   // Prepare data
+//   const data = jsonData.value.map(item => {
+//     // Map individual details for each file number
+//     const individuals = item.individual_infos.map(individual => ({
+//       name: individual.name,
+//       phone: individual.phone,
+//       designation: individual.designation,
+//       // entry_info_id: individual.entry_info_id,
+//       account: individual.account,
+//       amount: individual.amount,
+//       status: individual.status
+//     }));
+
+//     // Return data object with file number, date, department, signatory, and individuals
+//     return {
+//       file_number: item.file_number,
+//       date: item.date,
+//       department: item.departments.name,
+//       signatory: item.signatory.name,
+//       individuals: individuals
+//     };
+//   });
+
+//   // Define the filename for the Excel file
+//   const fileName = 'report';
+
+//   // Call exportFromJSON function
+//   exportFromJSON({ data, fileName, exportType: 'xls' });
+// };
+const generateExcel = () => {
+  // Prepare data
+  const data = [];
+  jsonData.value.forEach(item => {
+    // Extract file number, date, department, and signatory
+    const { file_number, date, departments, signatory } = item;
+    
+    // Iterate over individual infos
+    item.individual_infos.forEach(individual => {
+      // Push individual info as a new row
+      data.push({
+        file_number,
+        date,
+        department: departments.name,
+        signatory: signatory.name,
+        name: individual.name,
+        phone: individual.phone,
+        designation: individual.designation,
+        // entry_info_id: individual.entry_info_id,
+        account: individual.account,
+        amount: individual.amount,
+        status: individual.status
+      });
+    });
+  });
+
+  // Define the filename for the Excel file
+  const fileName = 'report';
+
+  // Call exportFromJSON function
+  exportFromJSON({ data, fileName, exportType: 'xls' });
+};
+
 </script>
