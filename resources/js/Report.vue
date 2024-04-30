@@ -65,21 +65,8 @@
 
     </div>
 
-    <!-- Show reports -->
-    <q-card v-if="data.length>0" class="q-mt-md">
-      <p class="text-weight-bold q-pl-md q-pt-md text-h5"> Reports </p>
-      <q-card-section>
-        <!-- <q-table :rows="reports" :columns="columns" row-key="id" /> -->
-        <q-table
-          :rows="data"
-          :columns="columns"
-        />
-      </q-card-section>
-
-
-
-
-    </q-card>
+    
+  
     <!-- <div >
         <h4 class="text-center text-weight-bold">Statistical Reports</h4>
         <div class="items-center column q-gutter-md">
@@ -123,6 +110,27 @@
 
 
   </div>
+  <!-- Show reports -->
+  <q-card v-if="data.length>0" >
+      <p class="text-weight-bold q-pl-md q-pt-md text-h5"> Reports </p>
+      <q-card-section>
+        
+        <q-table
+          :rows="data"
+          :columns="columns"
+          class="q-ma-md"
+          flat bordered
+          separator="cell"
+          virtual-scroll
+        />
+      </q-card-section>
+    
+
+
+
+
+    </q-card>
+ 
 </QuasarLayout>
 </template>
 <script setup>
