@@ -106,7 +106,7 @@
                 </div>
     </div> -->
             
-    <div v-if="showTable" style="padding-top: 20px; margin-right: 20px; margin-left: 20px;">
+    <div v-if="showTable" style="padding-top: 20px; margin-right: 20px; margin-left: 20px; margin-bottom: 20px;">
       <table border="1">
         <thead>
           <tr>
