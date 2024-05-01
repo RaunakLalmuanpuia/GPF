@@ -55,7 +55,7 @@
       <q-drawer v-if="isLoggedIn" show-if-above v-model="leftDrawerOpen" side="left" bordered>
       <!-- drawer content -->
       <q-scroll-area class="fit">
-        <div class="ml-3  mt-3">
+        <div class="mt-3 ml-3">
 
           <q-list>
            
@@ -103,7 +103,21 @@
                   label="System"
                   caption=""
                   >
-    
+                  <q-item clickable @click ='sign()' v-ripple class="no-padding" :class="{ 'bg-green-500': $route.path === '/sign' }" >
+                    
+                    <div class="mt-3 ml-5 row">
+                      <q-item-section avatar>
+                      <i class="q-icon material-icons-outlined">
+                        draw
+                      </i>
+                      </q-item-section>
+                      <q-item-section>
+                        Signatory
+                  </q-item-section>
+                    </div>
+                
+                  </q-item>
+                  
                   <q-item clickable @click ='reports()' v-ripple class="no-padding" :class="{ 'bg-green-500': $route.path === '/report' }" >
                     
                       <div class="mt-3 ml-5 row">
@@ -164,7 +178,7 @@
 
             <q-item clickable @click="profie()" v-ripple class="no-padding">
               
-                  <div class="row mt-3 ml-5">
+                  <div class="mt-3 ml-5 row">
                     <q-item-section avatar>
                     <i class="q-icon material-icons-outlined">
                       manage_accounts
@@ -177,9 +191,9 @@
                 
               </q-item>
               
-              <q-item clickable  @click="logout()" v-ripple class="no-padding mb-10">
+              <q-item clickable  @click="logout()" v-ripple class="mb-10 no-padding">
               
-                <div class="row mt-3 ml-5">
+                <div class="mt-3 ml-5 row">
                   <q-item-section avatar>
                   <i class="q-icon material-icons-outlined">
                     logout
@@ -211,14 +225,14 @@
           
             
           
-          <div class="flex column flex-wrap q-pa-md bg-primary text-white" >
+          <div class="flex flex-wrap text-white column q-pa-md bg-primary" >
             
-            <p class=" text-h4 text-weight-bold ">Finance Department (EC) GPF</p>
+            <p class=" text-h4 text-weight-bold">Finance Department (EC) GPF</p>
 
 
             <div>
               <div
-                  class="flex row q-mt-md footer-small-font justify-between q-pb-md"
+                  class="flex justify-between row q-mt-md footer-small-font q-pb-md"
                 >
                   <div>
                     <span
@@ -325,7 +339,7 @@
 
             </div>
              
-              <div class="copyright text-center">
+              <div class="text-center copyright">
                 <q-separator class="q-mb-sm" color="white"></q-separator>
                   <p>&copy; {{ new Date().getFullYear() }} Finance Department, Mizoram. All rights reserved.</p>
                   
@@ -409,6 +423,9 @@ const departments = async () => {
 }
 const reports = async () => {
   router.push('/report')
+}
+const sign = async () => {
+  router.push('/sign')
 }
 const isAuthenticated = () => {
 

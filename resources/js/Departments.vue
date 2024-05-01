@@ -20,7 +20,7 @@
             virtual-scroll
       >
       <template v-slot:body-cell-actions="{row}">
-        <div class="row justify-center">
+        <div class="justify-center row">
           <q-td key="edit">
       <q-btn icon="edit" @click="editDepartment(row)"  unelevated  size="12px"/>
     </q-td>
@@ -36,9 +36,9 @@
   
       <q-dialog v-model="createDialogVisible" >
         <q-card>
-          <p class="text-weight-bold text-h6 text-center q-pt-md"> Add Department</p>
+          <p class="text-center text-weight-bold text-h6 q-pt-md"> Add Department</p>
           <q-card-section>
-            <div class="column flex-wrap q-gutter-md">
+            <div class="flex-wrap column q-gutter-md">
               <q-input v-model="newDepartment.name" label="Department Name"  outlined/>
               <q-input v-model="newDepartment.address" label="Address"  outlined type="textarea"/>
               <q-checkbox v-model="newDepartment.is_active" label="Is Active" />
@@ -52,9 +52,9 @@
   
       <q-dialog v-model="dialogVisible" >
         <q-card>
-          <p class="text-weight-bold text-h6 text-center q-pt-md"> Edit Department</p>
+          <p class="text-center text-weight-bold text-h6 q-pt-md"> Edit Department</p>
           <q-card-section>
-            <div class="column flex-wrap q-gutter-md">
+            <div class="flex-wrap column q-gutter-md">
               <q-input v-model="editedDepartment.name" label="Department Name"  outlined/>
               <q-input v-model="editedDepartment.address" label="Address"  outlined type="textarea"/>
               <q-input v-model="editedDepartment.number" label="Phone"  outlined/>
@@ -217,7 +217,7 @@ const getDepartment = async () => {
         };
     await axios.delete(`/api/departments/${selectedDepartment.id}`, config);
     confirmDeleteVisible.value = false;
-    fetchDepartments();
+    getDepartment();
   };
   
   const confirmDelete = (row) => {

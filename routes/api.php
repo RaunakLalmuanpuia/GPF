@@ -19,6 +19,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\IndividualController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\SignatoryController;
 
 // Route::middleware('auth:sanctum')->get('/user/{$id}', function (Request $request) {
 //     return dd($request->user());
@@ -46,7 +47,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Route::get('/create_gpf', [GpfController::class , 'create_gpf']);
     Route::post('/save_gpf', [GPFController::class, 'save_gpf']);
     
-    Route::get('/signatory', [GpfController::class , 'signatory']);
+    
     
     Route::get('/show_gpf/{id}', [GpfController::class , 'show_gpf']);
     
@@ -57,10 +58,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     
     Route::get('/delete_gpf/{id}', [GpfController::class , 'delete_gpf']);
     
-    
-    Route::post('/save_signatory', [GPFController::class, 'save_signatory']);
-    
-    Route::get('/delete_signatory/{id}', [GpfController::class , 'delete_signatory']);
+    Route::get('/signatory', [SignatoryController::class , 'signatory']);
+    Route::post('/save_signatory', [SignatoryController::class, 'save_signatory']);
+    Route::delete('/delete_signatory/{signatory}', [SignatoryController::class , 'delete_signatory']);
+    Route::post('/signatory/{signatory}', [SignatoryController::class, 'update']);
+    Route::get('/search_signatory', [SignatoryController::class , 'search_signatory']);
+
     
     Route::post('/save_approval_template/{id}', [GPFController::class, 'save_approval_template']);
     

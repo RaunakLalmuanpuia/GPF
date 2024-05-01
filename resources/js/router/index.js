@@ -11,6 +11,7 @@ import Login from "../Login.vue";
 import Profile from "../Profile.vue";
 import Departments from "../Departments.vue";
 import Reports from "../Report.vue";
+import Sign from "../Signatory.vue";
 import { isAuthenticated } from '../auth/auth';
 
 const routes = [
@@ -75,6 +76,12 @@ const routes = [
     {
         path:'/report',
         component:Reports,
+        // props:true,
+        meta: { requiresAuth: true }
+    },
+    {
+        path:'/sign',
+        component:Sign,
         // props:true,
         meta: { requiresAuth: true }
     },

@@ -280,27 +280,7 @@ class GpfController extends Controller
         $entry_info->delete();
     }
 
-    public function signatory(){
-        $signatory = Signatory::orderBy('id', 'DESC')->get();
-        return response()->json([
-            'signatory' => $signatory
-        ],200);
-    }
-
-    public function delete_signatory($id){
-        $signatory = Signatory::findOrfail($id);
-        $signatory->delete();
-
-    }
-    public function save_signatory(Request $request){
-        // dd('save');
-        $signatory = Signatory::create([
-            'name' => $request->name,
-            'designation' => $request->designation,
-        ]);
-        $signatory->save();
-
-    }
+   
     
     public function save_approval_template(Request $request, $id)
     {

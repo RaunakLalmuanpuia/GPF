@@ -7,10 +7,7 @@
                 <div class="ml-10">
                     <p class="text-weight-bold text-h4"> Welcome!</p>
                 </div>
-                
-                <div style="display: flex; justify-content: flex-end; margin-right: 20px; margin-bottom:5px;">
-                    <q-btn @click="openModal()" color="white" text-color="black" label="New Signatory"/>
-                </div>
+              
                 
             </div>
 
@@ -60,42 +57,9 @@
 
             
             </div>
-     <!--==================== add modal items ====================-->
+     
         
-     <q-dialog v-model="showModal">
-      <q-card class="my-card">
-        <q-card-section>
-            <div>
-            <q-btn  @click="closeModal()" v-close-popup flat color="primary" round icon="close" />
-            
-            <h3 class="modal__title">Add New Signatory</h3>
-            <hr><br>
-            <div class="modal__items">
-                <q-input outlined  v-model="name" label="Name" class="q-py-md" />
-                <q-input outlined  v-model="designation" label="Designation" class="q-py-md" />
-            </div>
-            <br><hr>
-            <ul>
-            <li  class="py-2" v-for="(item, i) in signatory" :key="item.id" :value="item.id">
-                {{ i+1 }}. {{ item.name }} /{{ item.designation }}
-                <q-btn style="margin-left: 10px;" color="primary" @click="deletesignatory(item.id)">Delete</q-btn>
-            </li>
-            </ul>
-            <div class="mt-5">
-                <q-btn @click="closeModal()" class="mr-2 btn btn-light btn__close--modal">
-                    Cancel
-                </q-btn>
-                <q-btn class="btn btn-light btn__close--modal" @click="addSignatory()">Save</q-btn>
-            </div>
-        </div>
-        </q-card-section>
-
-
-        <q-separator />
-
-      </q-card>
-    </q-dialog>
-
+    
  
 </QuasarLayout>
 </template>
@@ -113,15 +77,7 @@ let searchGpf = ref([]);
 let name = ref('');
 let designation = ref('');
 
-let signatory = ref([]);
-const showModal = ref(false)
 
-const openModal = () => {
-  showModal.value = true
-}
-const closeModal = () => {
-    showModal.value = false
-}
 
 const columns = [
   { name: 'id', label: 'ID', align: 'left', field: 'id' },
@@ -136,7 +92,7 @@ const columns = [
 
 onMounted(async () => {
     getGpf()
-    getsignatory()
+
     document.title = 'GPF - Index';
 })
 
@@ -215,78 +171,7 @@ const onShow = async (id) => {
 };
 
 
-const getsignatory = async () => {
-    try {
-        const token = localStorage.getItem('token'); // Get the token from local storage
-        if (!token) {
-            throw new Error('No token found');
-        }
 
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}` // Include the token in the request headers
-            }
-        };
-
-        const response = await axios.get('/api/signatory', config);
-        signatory.value = response.data.signatory;
-    } catch (error) {
-        console.error('Error fetching signatory:', error);
-    }
-};
-
-
-
-const deletesignatory = async (id) => {
-    try {
-        const token = localStorage.getItem('token'); // Get the token from local storage
-        if (!token) {
-            throw new Error('No token found');
-        }
-
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}` // Include the token in the request headers
-            }
-        };
-
-        await axios.get(`/api/delete_signatory/${id}`, config); // Include the config object in the request
-
-        // After successful deletion, update the signatory array in the Vue component
-        signatory.value = signatory.value.filter(item => item.id !== id);
-    } catch (error) {
-        console.error('Error deleting signatory:', error);
-    }
-};
-
-
-const addSignatory = async () => {
-    try {
-        const token = localStorage.getItem('token'); // Get the token from local storage
-        if (!token) {
-            throw new Error('No token found');
-        }
-
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}` // Include the token in the request headers
-            }
-        };
-
-        await axios.post('/api/save_signatory', {
-            name: name.value,
-            designation: designation.value
-        }, config); // Include the config object in the request
-
-        name.value = ''; // Clear the fields after successful save
-        designation.value = '';
-        getsignatory(); // Fetch signatories after saving
-        // closeModal(); // Close modal after successful save
-    } catch (error) {
-        console.error('Error saving signatory:', error);
-        // Handle error here
-    }
-};
 
 
 
