@@ -13,7 +13,7 @@
 
       <!-- div 1 -->
       <div class="flex-grow q-pa-md">
-
+<!-- 
         <q-carousel v-model="slide" transition-prev="slide-right" transition-next="slide-left" swipeable animated
           control-color="amber" navigation padding arrows height="300px" class="bg-grey-9 shadow-2 rounded-borders">
           <q-carousel-slide :name="1" class="column no-wrap">
@@ -40,7 +40,7 @@
               <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/donuts.png" />
             </div>
           </q-carousel-slide>
-        </q-carousel>
+        </q-carousel> -->
 
       </div>
 
@@ -55,57 +55,30 @@
               <q-card class="my-card">
                 <!-- <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
                                 </q-img> -->
-                <div class="px-3 text-h6">
-                  Check Gpf Statusss
+                <div class="px-3 py-2 text-h6">
+                  Check GPF Statuss
                 </div>
                 <q-card-section>
-                  <q-input rounded filled v-model="phoneNumber" label="Phone Number" />
+                  <q-input  filled v-model="phoneNumber" label="Phone Number" />
 
 
                 </q-card-section>
                 <q-card-section v-if="showOTP">
 
-                  <q-input rounded filled v-model="otp" label="OTP" />
+                  <q-input  filled v-model="otp" label="OTP" />
                 </q-card-section>
 
                 <q-card-actions>
-                  <q-btn flat v-if="showResendButton" @click="resendOTP">Resend OTP</q-btn>
-                  <q-btn flat v-if="showSendButton" @click="sendOTP">Send OTP</q-btn>
-                  <q-btn flat v-if="showSearchButton" @click="search">Search</q-btn>
+                  <q-btn outlined class="text-white bg-green-7" flat  v-if="showResendButton" @click="resendOTP">Resend OTP</q-btn>
+                  <q-btn outline class="ml-2 text-white bg-green-7" flat  v-if="showSendButton" @click="sendOTP">Send OTP</q-btn>
+                  <q-btn outline class="text-white bg-green-7" flat v-if="showSearchButton" @click="search">Search</q-btn>
                 </q-card-actions>
               </q-card>
             </div>
           </div>
         </div>
       </div> 
-
-    <!-- <div v-if="showOtpCard" class="flex flex-col items-center w-screen h-auto md:justify-center md:flex-row md:h-75 lg:h-auto z-5 bg-green">
-                <div class="flex flex-col items-center justify-center w-4/5 my-2 bg-white rounded-lg md:w-1/3 lg:w-2/6 xl:w-1/3 md:my-4 lg:my-6 md:ml-12 lg:ml-20 sm:h-38 md:h-52 xl:h-62">
-                    <div class="px-5 py-2 text-xl font-bold text-textblue"> Track GPF </div>
-                    
-                    <div class="w-4/5 border rounded-lg mb-7">
-                        <label class="absolute px-2 py-2 text-xs font-bold text-blue-500">Phone No</label>
-                        <input rounded filled v-model="phoneNumber" class="w-full px-2 pt-6 pb-1 text-gray-900 rounded-lg focus:outlined "/>
-                    </div>
-                    <div v-if="showOTP" class="w-4/5 border rounded-lg mb-7">
-                        <label class="absolute px-2 py-2 text-xs font-bold text-blue-500">OTP</label>
-                        <input rounded filled v-model="otp" class="w-full px-2 pt-6 pb-1 text-gray-900 rounded-lg focus:outlined "/>
-                    </div>
-                    
-                    <div class="flex-col items-center justify-center w-full">
-                        <button v-if="showSendButton" @click="sendOTP" type="submit">
-                            <label class="px-5 py-2 text-white rounded-lg bg-blue hover:bg-red-500 hover:outline-none focus:outline-none">Send OTP</label>
-                        </button>
-                        <button  v-if="showResendButton" @click="resendOTP" type="submit" class="px-2" >
-                            <label class="px-5 py-2 text-white rounded-lg bg-blue hover:bg-red-500 hover:outline-none focus:outline-none">Resend OTP</label>
-                        </button>
-                        <button  v-if="showSearchButton" @click="search" type="submit">
-                            <label class="px-5 py-2 text-white rounded-lg bg-blue hover:bg-red-500 hover:outline-none focus:outline-none">Search</label>
-                        </button>
-                    </div>
-                </div>
-    </div> -->
-            
+     
     <div v-if="showTable" style="padding-top: 20px; margin-right: 20px; margin-left: 20px; margin-bottom: 20px;">
       <table border="1">
         <thead>
@@ -120,7 +93,7 @@
             <th>Amount</th>
             <th>Date</th>
             <th>Department</th>
-            <!-- <th>From Designation</th> -->
+
             <th>Signatory Name</th>
             <th>Signatory Designation</th>
           </tr>
@@ -137,14 +110,14 @@
             <td>{{ info.status }}</td>
             <td>{{ info.amount }}</td>
             <td>{{ info.entry_info.date }}</td>
-            <td>{{ info.entry_info.from_deparment }}</td>
+            <td>{{ info.entry_info.departments.name }}</td>
             <td>{{ info.entry_info.signatory.name }}</td>
             <td>{{ info.entry_info.signatory.designation }}</td>
           </tr>
         </tbody>
       </table>
       <div>
-        <q-btn class="mt-4 ml-8 bg-green-5" flat @click="searchNew()">Search New</q-btn>
+        <q-btn class="mt-4 ml-8 text-white bg-green-7" flat @click="searchNew()">Search New</q-btn>
       </div>
     </div>
 

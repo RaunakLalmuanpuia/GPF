@@ -78,7 +78,7 @@ class AuthController extends Controller
         // Find or Individual info and the entry info the user based on the phone number
         $individualInfos = IndividualInfo::where('phone', $request->phone_number)
         // Eager load the relations with EntryInfo and Template models
-        ->with('entryInfo.signatory', 'template')
+        ->with('entryInfo.signatory', 'template', 'entryInfo.departments')
         ->get();
 
         return response()->json([

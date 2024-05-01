@@ -1,5 +1,5 @@
 <template>
-    <q-layout view="hHh LpR fFf">
+    <q-layout view="lHh Lpr lff">
   
       <q-header elevated class="text-white bg-primary" height-hint="98">
         <q-toolbar>
@@ -34,13 +34,11 @@
       </q-page-container>
       
       
-      <div class="flex items-center justify-center">
-        <q-footer elevated class="text-white bg-primary">
-        <q-toolbar>
+      
+        <q-footer>
+        <!-- <q-toolbar>
           <q-toolbar-title>
-            <!-- <q-avatar>
-              <img src="https://upload.wikimedia.org/wikipedia/commons/c/c6/Ashok_Emblem_svg.svg">
-            </q-avatar> -->
+            
             <div class="flex items-center justify-center">
             <span>
               Copyright © {{ new Date().getFullYear() }} Created by
@@ -49,16 +47,123 @@
           </div>
             
           </q-toolbar-title>
-        </q-toolbar>
+        </q-toolbar> -->
           <!-- <div class="flex items-center justify-center">
             <span>
               Copyright © {{ new Date().getFullYear() }} Created by
               <a href="https://msegs.mizoram.gov.in/" target="_blank" title="Colorlib">MSeGS</a>. All rights reserved.
             </span>
           </div> -->
+          <div class="flex flex-wrap text-white column q-pa-md bg-primary" >
+            
+            <p class=" text-h4 text-weight-bold">Finance Department (EC) GPF</p>
+
+
+            <div>
+              <div
+                  class="flex justify-between row q-mt-md footer-small-font q-pb-md"
+                >
+                  <div>
+                    <span
+                      style="
+                        /* font-family: 'Poppins'; */
+                        font-size: 16px;
+                        font-weight: 600;
+                        color: #fdffff;
+                      "
+                      >SERVICES</span
+                    >
+                    <br />
+
+                    
+
+                    <div class="q-mt-sm" style="font-size: 14px">
+                      <router-link
+                        style="text-decoration: none; color: #fdffff"
+                        to="/reports/"
+                        > Reports</router-link
+                      >
+                    </div>
+                  </div>
+                  <div>
+                    <span
+                      style="
+                        /* font-family: 'Poppins'; */
+                        font-size: 16px;
+                        font-weight: 600;
+                        color: #fdffff;
+                      "
+                      >About</span
+                    >
+
+                    <br />
+
+                    <div class="q-mt-sm column" style="font-size: 14px">
+
+                      <router-link
+                        style="text-decoration: none; color: #fdffff"
+                        to="/pages/about"
+                        >GPF</router-link
+                      >
+                      <a
+                        style="text-decoration: none; color: #fdffff"
+                        href="https://finance.mizoram.gov.in/"
+                        target="_blank"
+
+                        >Finance Department</a
+                      >
+
+                    </div>
+                  </div>
+                  <div>
+                    <span
+                      style="
+                        /* font-family: 'Poppins'; */
+                        font-size: 16px;
+                        font-weight: 600;
+                        color: #fdffff;
+                      "
+                      >LEGAL</span
+                    >
+                    <br />
+                    <div class="q-mt-sm" style="font-size: 14px">
+                      <router-link
+                        style="text-decoration: none; color: #fdffff"
+                        to="/pages/terms"
+                        >Terms and Condition</router-link
+                      >
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <div class="footerRows q-gutter-md">
+
+              <!-- <div class="col-xs-2 col-sm-2 col-md-4">
+                <q-avatar>
+                   <img src="https://upload.wikimedia.org/wikipedia/commons/c/c6/Ashok_Emblem_svg.svg">
+                </q-avatar>
+              </div> -->
+
+              <div style="display: flex; justify-content: flex-end; margin-bottom: 4px;" class=" col-xs-2 col-sm-2 col-md-4" >
+               
+                  <!-- <img src="/public/msegs.svg" alt="asd"/> -->
+                 
+                  <img :src="'/msegs.svg'"  alt="msegs">
+                
+              </div>
+
+            </div>
+             
+              <div class="text-center copyright">
+                <q-separator class="q-mb-sm" color="white"></q-separator>
+                  <p>&copy; {{ new Date().getFullYear() }} Finance Department, Mizoram. All rights reserved.</p>
+                  
+              </div>
+          </div>
       </q-footer>
   
-      </div>
+     
       
       
     </q-layout>

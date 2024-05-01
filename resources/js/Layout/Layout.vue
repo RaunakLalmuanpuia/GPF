@@ -246,20 +246,7 @@
                     >
                     <br />
 
-                    <div
-                      class="q-mt-sm"
-                      style="font-size: 14px; font-weight: normal !important"
-                    >
-                    <a
-                        style="text-decoration: none; color: #fdffff"
-                        href="https://gpf.msegs.in/"
-                        target="_blank"
-
-                        >GPF Online</a
-                      >
-
-                      <br />
-                    </div>
+                    
 
                     <div class="q-mt-sm" style="font-size: 14px">
                       <router-link
