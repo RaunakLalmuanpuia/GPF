@@ -113,12 +113,10 @@
                    
         </q-card>
          <!-- Buttons -->
-        <div class="text-center" style="margin-top: 40px;">
+        <div class="text-center" style="margin-top: 40px; margin: 20px;">
            
                 <q-btn color="primary" text-color="black" label="Print Aprroval" @click="OnPrint(form.id)"/>
                 <q-btn color="primary" class="ml-4" text-color="black" label="Save"  @click="onEdit(form.id)"/>
-                
-           
         </div>
    
 

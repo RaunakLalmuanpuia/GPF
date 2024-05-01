@@ -120,12 +120,12 @@
     />
 
 
-      <q-btn
+      <!-- <q-btn
       @click="printData()"
       label="Print"
       color="grey"
       class="q-mt-md"
-    />
+    /> -->
       </div>
       
   </div>
